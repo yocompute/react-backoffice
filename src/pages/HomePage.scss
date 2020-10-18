@@ -1,0 +1,10 @@
+@import '../base';
+
+.page{
+    height: 100%;
+}
+
+.product-list-area{
+    height: calc(100% - #{$bottom-bar-h});
+    overflow-y: scroll;
+}

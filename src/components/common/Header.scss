@@ -1,0 +1,11 @@
+@import '../../base';
+
+.header-bar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .header-bar-title {
+        font-size: large;
+    }
+}
