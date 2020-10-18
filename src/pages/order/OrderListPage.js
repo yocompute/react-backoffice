@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import { CartItemList } from '../../components/cart/CartItemList';
 import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect'
 
-import Header from '../../components/common/Header'
+// import Header from '../../components/common/Header'
 
 const OrderListPage = ({cart}) => {
     const handlePaymentMethodSelect = () => {

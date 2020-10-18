@@ -11,6 +11,12 @@ import NavMenuItem from './NavMenuItem';
 
 const menus = [
   {
+    path: '/',
+    text: 'Dashbord',
+    icon: <DashboardIcon />,
+    tip: 'Dashbord',
+  },
+  {
     path: '/users',
     text: 'Manage Users',
     icon: <PeopleIcon />,

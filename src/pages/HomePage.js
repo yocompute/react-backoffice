@@ -26,7 +26,7 @@ import { mainListItems, secondaryListItems } from '../components/layout/NavMenuL
 
 import ProductList from '../components/product/ProductList';
 import ProductGrid from '../components/product/ProductGrid';
-import Header from '../components/common/Header'
+// import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
 
 import {setMerchant} from '../redux/merchant/merchant.actions'

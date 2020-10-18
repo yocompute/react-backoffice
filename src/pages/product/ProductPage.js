@@ -8,7 +8,7 @@ import { QuantityInput } from '../../components/common/QuantityInput'
 
 import { updateCart } from '../../redux/cart/cart.actions'
 
-import Header from '../../components/common/Header'
+// import Header from '../../components/common/Header'
 
 
 const ProductPage = ({merchant, product, updateCart}) => {
@@ -34,7 +34,7 @@ const ProductPage = ({merchant, product, updateCart}) => {
 
     return (
         <div>
-            <Header title={'Product Detail'}></Header>            
+            {/* <Header title={'Product Detail'}></Header>             */}
             {
                 product &&
                 <div>

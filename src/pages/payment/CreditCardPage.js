@@ -8,7 +8,7 @@ import { QuantityInput } from '../../components/common/QuantityInput'
 import { updateCart } from '../../redux/cart/cart.actions'
 // import {createPaymentAsync} from '../../redux/payment/payment.actions'
 
-import Header from '../../components/common/Header'
+// import Header from '../../components/common/Header'
 
 const CreditCardPage = ({merchant, product, updateCart}) => {
 
@@ -39,7 +39,7 @@ const CreditCardPage = ({merchant, product, updateCart}) => {
 
     return (
         <div>
-            <Header title={'Credit Card'}></Header>
+            {/* <Header title={'Credit Card'}></Header> */}
                 {/* <Link style={{ textDecoration: 'none' }} to={{ pathname: `/order-history` }} > */}
                     <Button onClick={handlePlaceOrder}>Place Order</Button>
                 {/* </Link> */}

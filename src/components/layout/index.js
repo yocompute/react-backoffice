@@ -92,9 +92,9 @@ export default function Layout() {
 
             <div className={classes.content} >
                 <div className={classes.appBarSpacer} />
-                <Container maxWidth="lg" className={fixedHeightPaper}>
+                <div className={fixedHeightPaper}>
                     <Routes />
-                </Container>
+                </div>
             </div>
 
         </div>

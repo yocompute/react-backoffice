@@ -11,8 +11,10 @@ import PaymentHistoryPage from './pages/payment/PaymentHistoryPage';
 import LoginSelectPage from './pages/auth/LoginSelectPage'
 import LocalLoginPage from './pages/auth/LocalLoginPage'
 
-import UserListPage from './pages/user/UserListPage';
-import OrderListPage from './pages/order/OrderListPage';
+
+import DashbordPage from './pages/dashbord/index'
+import UserListPage from './pages/user/UserListPage'
+import OrderListPage from './pages/order/OrderListPage'
 
 
 const Routes = () => {
@@ -29,7 +31,7 @@ const Routes = () => {
             <Route path="/payments" component={PaymentHistoryPage} />
             <Route path="/users" component={UserListPage} />
             <Route path="/orders" component={OrderListPage} />
-            <Route exact path="/" component={HomePage} />
+            <Route exact path="/" component={DashbordPage} />
         </Switch>
     )
 }
