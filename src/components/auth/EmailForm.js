@@ -60,7 +60,7 @@ const EmailForm = ({ onSubmit, btnText }) => {
 
       <TextField
         fullWidth
-        id="email-input"
+        name="email"
         label="Email"
         variant="outlined"
         margin="normal"
@@ -69,7 +69,7 @@ const EmailForm = ({ onSubmit, btnText }) => {
 
       <TextField
         fullWidth
-        id="password-input"
+        name="password"
         label="Password"
         variant="outlined"
         margin="normal"

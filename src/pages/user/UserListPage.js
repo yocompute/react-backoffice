@@ -9,24 +9,38 @@ import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect
 
 // import Header from '../../components/common/Header'
 import ListTable from '../../components/table/ListTable'
+import UserDialog from './UserDialog'
 
-import { fetchUsers } from '../../redux/user/user.actions'
+import { fetchUsers, createUser, updateUser } from '../../redux/user/user.actions'
 
 const columns = [
     { field: "created", label: "Created Date" },
     { field: "imageurl", label: "Portrait", type: 'image' },
     { field: "username", label: "Username" },
-    { field: "type", label: "Type" },
+    { field: "email", label: "Email" },
     { field: "phone", label: "Phone" },
+    { field: "type", label: "Type" },
     { field: "balance", label: "Balance" },
     { field: "status", label: "Status" },
-    { field: "attribute", label: "Attribute" },
+    // { field: "attribute", label: "Attribute" },
     { field: "actions", label: "Actions" },
 ];
 
 const defaultSort = ['created', -1];
 
-const UserListPage = ({ fetchUsers, users }) => {
+const DEFAULT_USER = {
+    _id: '',
+    username:'',
+    email:'',
+    phone:'',
+    password:''
+}
+
+const UserListPage = ({ fetchUsers, createUser, updateUser, users }) => {
+
+    const [dialogOpened, setDialogOpen] = useState(false);
+    const [data, setData] = useState(DEFAULT_USER);
+
     useEffect(() => {
         fetchUsers();
     }, [fetchUsers]);
@@ -35,16 +49,41 @@ const UserListPage = ({ fetchUsers, users }) => {
 
     }
 
+    const handleOpenUserDialog = () => {
+        setData(DEFAULT_USER);
+        setDialogOpen(true);
+    }
+
+    const handleSave = (data) => {
+        if(data && data._id){
+            updateUser(data);
+        }else{
+            createUser(data);
+        }
+    }
+
+    const handleEditRow = (row) => {
+        setData(row);
+        setDialogOpen(true);
+    }
+
     return (
         <div>
+            <Button variant="contained" color="primary" onClick={handleOpenUserDialog}>Add</Button>
+            <UserDialog
+                data={data}
+                opened={dialogOpened}
+                onClose={setDialogOpen}
+                onSubmit={handleSave}
+            />
             {
                 users &&
-
                 <ListTable
                     label="user"
                     defaultSort={defaultSort}
                     columns={columns}
                     rows={users}
+                    onEditRow={handleEditRow}
                 />
             }
             {/* <Header title={'User Page'}></Header>
@@ -61,5 +100,9 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { fetchUsers }
+    { 
+        fetchUsers,
+        createUser,
+        updateUser
+    }
 )(UserListPage);

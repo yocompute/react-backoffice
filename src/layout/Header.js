@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux';
 import clsx from 'clsx'
+
 import Drawer from '@material-ui/core/Drawer'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
@@ -7,7 +9,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar'
 import MenuIcon from '@material-ui/icons/Menu'
 import IconButton from '@material-ui/core/IconButton'
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
+import { setAuth } from '../redux/auth/auth.actions'
+import { Redirect } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -64,43 +71,98 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
+    iconButton: {
+        marginLeft: 'auto',
+        order: 2
+    }
 }))
 
-const Header = ({sidebarExpanded, onToggle}) => {
+const Header = ({ loggedIn, setAuth, sidebarExpanded, onToggle }) => {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     // const [sidebarExpanded, setSidebarExpanded] = useState(true);
-
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
     const handleExpand = () => {
         onToggle(true);
     }
 
+    const handleChange = (event) => {
+        setAuth(event.target.checked);
+      };
+    
+      const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+    
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
+
+      const handleLogout = () => {
+        setAuth(false);
+      }
     return (
         <AppBar
             position="absolute"
             className={clsx(classes.appBar, sidebarExpanded && classes.appBarShift)}
         >
-                <Toolbar className={classes.toolbar}>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleExpand}
-                        className={clsx(classes.menuButton, sidebarExpanded && classes.menuButtonHidden)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                Dashboard
-            </Typography>
-            <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-                </Badge>
-            </IconButton> */}
-                </Toolbar>
-            </AppBar>
+            <Toolbar className={classes.toolbar}>
+                <IconButton
+                    edge="start"
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleExpand}
+                    className={clsx(classes.menuButton, sidebarExpanded && classes.menuButtonHidden)}
+                >
+                    <MenuIcon />
+                </IconButton>
+
+
+                {loggedIn
+                    ? <div className={classes.iconButton}>
+                        <IconButton
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleMenu}
+                            color="inherit"
+                        >
+                            <AccountCircle />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={open}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={handleClose}>My account</MenuItem>
+                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                        </Menu>
+                    </div>
+                    : <Redirect to={'local-login'} />
+                }
+            </Toolbar>
+        </AppBar>
     )
 }
 
-export default Header;
+
+const mapStateToProps = state => ({
+    loggedIn: state.auth
+  });
+  
+  export default connect(
+    mapStateToProps,
+    {setAuth}
+  )(Header);

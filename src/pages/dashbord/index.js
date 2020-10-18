@@ -51,7 +51,7 @@ const DashbordPage = () => {
                 {
                     tiles &&
                     tiles.map(tile => (
-                        <Tile data={tile} />
+                        <Tile key={tile.name} data={tile} />
                     ))
                 }
             </div>

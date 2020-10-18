@@ -8,6 +8,18 @@ import { CartItemList } from '../../components/cart/CartItemList';
 import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect'
 
 // import Header from '../../components/common/Header'
+// import SwaggerUI from 'swagger-ui'
+// import 'swagger-ui/dist/swagger-ui.css';
+
+// const spec = require('./swagger.json');
+
+// const ui = SwaggerUI({
+//     spec,
+//     dom_id: '#swagger',
+//   });
+
+// import SwaggerUI from "swagger-ui-react"
+// import "swagger-ui-react/swagger-ui.css"
 
 const OrderListPage = ({cart}) => {
     const handlePaymentMethodSelect = () => {
@@ -16,6 +28,9 @@ const OrderListPage = ({cart}) => {
 
     return (
         <div>Order List
+             {/* <div id="swagger"></div>
+              */}
+              {/* <SwaggerUI url="/swagger.json" /> */}
             {/* <Header title={'Order Page'}></Header>
             <CartItemList items={cart.items}/>
             <div className="label payment-label">Payment Method</div>

@@ -4,8 +4,8 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const ProductApi = {
 
-    getProducts(query = null) {
-        const url = process.env.REACT_APP_LOCAL_DATA ? `/products.json` : Api.buildUrl(API_URL, 'products', query);
+    getProducts(query=null) {
+        const url = process.env.REACT_APP_MODE === 'local'? `/products.json` : Api.buildUrl(API_URL, 'products', query);
 
         return new Promise(resolve => {
             Api.get(url).then(res => {

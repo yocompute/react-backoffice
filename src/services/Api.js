@@ -11,6 +11,24 @@ const Api = {
   },
 
   /**
+   * 
+   * @param {*} url 
+   * @param {*} data 
+   */
+  post(url, data) {
+    return axios.post(url, data);
+  },
+
+  /**
+   * 
+   * @param {*} url 
+   * @param {*} data 
+   */
+  put(url, data) {
+    return axios.put(url, data);
+  },
+
+  /**
    * @param {*} rootUrl
    * @param {*} path 
    * @param {*} params string or js object, support path/:id and path?q=x&p=y
