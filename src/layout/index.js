@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Sidebar from './Sidebar'
 import Header from './Header'
-import Routes from '../../Routes'
+import Routes from '../Routes'
 
 const drawerWidth = 240;
 

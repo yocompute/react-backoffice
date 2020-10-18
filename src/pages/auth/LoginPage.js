@@ -39,7 +39,4 @@ const LoginPage = () => {
         </div>
       </form>
     )
-
-  
-
 }

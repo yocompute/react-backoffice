@@ -2,7 +2,6 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
-import LocalSignupPage from './pages/auth/LocalSignupPage';
 import VerificationCodePage from './pages/auth/VerificationCodePage';
 import ProductPage from './pages/product/ProductPage';
 import OrderPage from './pages/order/OrderPage';
@@ -10,6 +9,7 @@ import CreditCardPage from './pages/payment/CreditCardPage';
 import PaymentHistoryPage from './pages/payment/PaymentHistoryPage';
 import LoginSelectPage from './pages/auth/LoginSelectPage'
 import LocalLoginPage from './pages/auth/LocalLoginPage'
+import LocalSignupPage from './pages/auth/LocalSignupPage';
 
 
 import DashbordPage from './pages/dashbord/index'
@@ -18,8 +18,7 @@ import OrderListPage from './pages/order/OrderListPage'
 
 
 const Routes = () => {
-    return (
-        <Switch>
+    return (<Switch>
             <Route path="/merchants/:id" component={HomePage} />
             <Route path="/order" component={OrderPage} />
             <Route path="/products/:id" component={ProductPage} />
@@ -33,6 +32,7 @@ const Routes = () => {
             <Route path="/orders" component={OrderListPage} />
             <Route exact path="/" component={DashbordPage} />
         </Switch>
+        
     )
 }
 

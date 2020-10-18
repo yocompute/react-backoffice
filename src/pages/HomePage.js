@@ -21,7 +21,7 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from '../components/layout/NavMenuList';
+import { mainListItems, secondaryListItems } from '../layout/NavMenuList';
 
 
 import ProductList from '../components/product/ProductList';
@@ -33,7 +33,7 @@ import {setMerchant} from '../redux/merchant/merchant.actions'
 import {fetchProducts} from '../redux/product/product.actions'
 
 import './HomePage.scss'
-import {NavMenuList} from '../components/layout/NavMenuList'
+import {NavMenuList} from '../layout/NavMenuList'
 
 
 const DEFAULT_MERCHANT_ID = '5c9542ce0851a5096e044d16';
