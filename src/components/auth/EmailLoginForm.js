@@ -30,10 +30,11 @@ const useStyles = makeStyles((theme) => ({
   },
   btnWrap: {
     textDecoration: 'none',
+    marginBottom: '25px'
   }
 }));
 
-const EmailForm = ({ onSubmit, btnText }) => {
+const EmailLoginForm = ({ onSubmit, btnText }) => {
   const classes = useStyles();
   const { register, handleSubmit, watch, errors } = useForm();
 
@@ -93,8 +94,21 @@ const EmailForm = ({ onSubmit, btnText }) => {
           {btnText}
         </Button>
       </div>
+
+        <Grid container>
+          <Grid item xs>
+            <Link href="#" variant="body2">
+              Forgot password?
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link variant="body2" to={"/local-signup"}>
+              {"Don't have an account? Sign Up"}
+            </Link>
+          </Grid>
+        </Grid>
     </form>
   )
 }
 
-export default EmailForm;
+export default EmailLoginForm;

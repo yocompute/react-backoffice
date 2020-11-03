@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import {connect} from 'react-redux'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
-// import logo from './logo.svg';
 import './App.css';
 
 import LoginSelectPage from './pages/auth/LoginSelectPage'
@@ -12,7 +11,7 @@ import LocalSignupPage from './pages/auth/LocalSignupPage'
 import Layout from './layout/index'
 import { fetchAuth } from './redux/auth/auth.sagas'
 
-function App({loggedIn}) {
+function App({isLoggedIn}) {
   // const loggedIn = false;
   useEffect(() => {
     fetchAuth();
@@ -21,7 +20,7 @@ function App({loggedIn}) {
   return (
     <Router>
       {
-      loggedIn
+      isLoggedIn
       ? <Layout />
       : <Switch>
             <Route path="/login-select" component={LoginSelectPage} />
@@ -35,19 +34,8 @@ function App({loggedIn}) {
   );
 }
 
-// export default App;
-
-// HomePage.propTypes = {
-//   match: PropTypes.shape({
-//       params: PropTypes.shape({
-//       id: PropTypes.string
-//       })
-//   }),
-//   history: PropTypes.object
-// };
-
 const mapStateToProps = state => ({
-  loggedIn: state.auth
+  isLoggedIn: state.tokenId
 });
 
 export default connect(

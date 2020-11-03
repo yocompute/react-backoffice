@@ -13,7 +13,7 @@ import { merchantReducer } from './merchant/merchant.reducers';
 const sagaMiddleware = createSagaMiddleware()
 
 export const rootReducer = combineReducers({
-  auth: authReducer,
+  tokenId: authReducer,
   users: usersReducer,
   user: userReducer,
   products: productsReducer,

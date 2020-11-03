@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import clsx from 'clsx'
 
 import Drawer from '@material-ui/core/Drawer'
@@ -13,8 +14,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
-import { setAuth } from '../redux/auth/auth.actions'
-import { Redirect } from 'react-router-dom';
+import { logout } from '../redux/auth/auth.actions';
 
 const drawerWidth = 240;
 
@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const Header = ({ loggedIn, setAuth, sidebarExpanded, onToggle }) => {
+const Header = ({ loggedIn, logout, sidebarExpanded, onToggle }) => {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     // const [sidebarExpanded, setSidebarExpanded] = useState(true);
@@ -88,20 +88,21 @@ const Header = ({ loggedIn, setAuth, sidebarExpanded, onToggle }) => {
     }
 
     const handleChange = (event) => {
-        setAuth(event.target.checked);
-      };
-    
-      const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-      };
-    
-      const handleClose = () => {
-        setAnchorEl(null);
-      };
+        // setAuth(event.target.checked);
+    };
 
-      const handleLogout = () => {
-        setAuth(false);
-      }
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        logout();
+        setAnchorEl(null);
+    }
     return (
         <AppBar
             position="absolute"
@@ -159,10 +160,12 @@ const Header = ({ loggedIn, setAuth, sidebarExpanded, onToggle }) => {
 
 
 const mapStateToProps = state => ({
-    loggedIn: state.auth
-  });
-  
-  export default connect(
+    isLoggedIn: state.tokenId,
+});
+
+export default connect(
     mapStateToProps,
-    {setAuth}
-  )(Header);
+    {
+        logout
+    }
+)(Header);

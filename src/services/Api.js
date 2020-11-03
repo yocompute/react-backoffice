@@ -10,22 +10,8 @@ const Api = {
     return axios.get(url);
   },
 
-  /**
-   * 
-   * @param {*} url 
-   * @param {*} data 
-   */
   post(url, data) {
     return axios.post(url, data);
-  },
-
-  /**
-   * 
-   * @param {*} url 
-   * @param {*} data 
-   */
-  put(url, data) {
-    return axios.put(url, data);
   },
 
   /**
