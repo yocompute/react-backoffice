@@ -10,7 +10,6 @@
 // import DefaultImage from '../../assets/Default-Image.jpg'
 
 // import {Product} from './Product'
-// import './ProductList.scss'
 
 
 // const ProductList = ({ list, setProduct }) => {

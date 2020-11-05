@@ -6,7 +6,8 @@ import rootSaga from './sagas';
 
 import { authReducer } from './auth/auth.reducers'
 import { usersReducer, userReducer } from './user/user.reducers'
-import { productsReducer, productReducer } from './product/product.reduces';
+import { brandsReducer, brandReducer } from './brand/brand.reducers';
+import { productsReducer, productReducer } from './product/product.reducers';
 import { cartReducer } from './cart/cart.reducers';
 import { merchantReducer } from './merchant/merchant.reducers';
 
@@ -16,6 +17,8 @@ export const rootReducer = combineReducers({
   tokenId: authReducer,
   users: usersReducer,
   user: userReducer,
+  brands: brandsReducer,
+  brand: brandReducer,
   products: productsReducer,
   product: productReducer,
   cart: cartReducer,

@@ -1,5 +1,4 @@
 import React from 'react';
-import './Login.scss';
 import { AccountAPI } from './API';
 
 const LoginPage = () => {

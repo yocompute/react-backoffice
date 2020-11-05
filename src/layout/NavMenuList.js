@@ -1,6 +1,10 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
+
+import ViewListIcon from '@material-ui/icons/ViewList';
+import StoreIcon from '@material-ui/icons/Store';
+import BrandingWatermarkIcon from '@material-ui/icons/BrandingWatermark';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
@@ -21,6 +25,18 @@ const menus = [
     text: 'Manage Users',
     icon: <PeopleIcon />,
     tip: 'Manage Users',
+  },
+  {
+    path: '/brands',
+    text: 'Manage Brands',
+    icon: <BrandingWatermarkIcon />,
+    tip: 'Manage Brands',
+  },
+  {
+    path: '/products',
+    text: 'Manage Products',
+    icon: <ViewListIcon />,
+    tip: 'Manage Products',
   },
   {
     path: '/orders',

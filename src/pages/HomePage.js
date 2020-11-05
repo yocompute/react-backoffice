@@ -32,7 +32,6 @@ import Footer from '../components/common/Footer'
 import {setMerchant} from '../redux/merchant/merchant.actions'
 import {fetchProducts} from '../redux/product/product.actions'
 
-import './HomePage.scss'
 import {NavMenuList} from '../layout/NavMenuList'
 
 

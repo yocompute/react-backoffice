@@ -1,5 +1,29 @@
+import { makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import './QuantityInput.scss';
+
+const useStyles = makeStyles((theme) => ({
+  quantityCtrl: {
+    width: '150px'
+  },
+  increaseBtn: {
+    width: '30px',
+    height: '30px',
+    float: 'left'
+  },
+  decreasebtn: {
+    width: '30px',
+    height: '30px',
+    float: 'left'
+  },
+  quantityInput: {
+    width: 'calc(100% - 80px)',
+    float: 'left',
+    height: '30px',
+    border: '1px solid #888'
+  }
+}))
+
 
 export const QuantityInput = ({val, onChange}) => {
     // const inputRef = React.createRef();

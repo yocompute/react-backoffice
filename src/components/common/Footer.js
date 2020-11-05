@@ -14,7 +14,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 
 import { selectQuantity } from '../../redux/cart/cart.selectors';
 
-import './Footer.scss';
 
 const Menu = {
   HOME: 'Home',
