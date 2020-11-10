@@ -17,8 +17,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { fetchUsers } from '../../redux/user/user.actions';
 
 function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
-    const { register, handleSubmit, setValue, watch, errors } = useForm();
-    // const [model, setModel] = useState(data);
+    const { control, handleSubmit } = useForm();
     const handleClose = () => {
         onClose(false);
     };
@@ -39,49 +38,48 @@ function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                 <DialogContent>
                     <DialogContentText>
                         To add a brand, please enter the name and description here.
-          </DialogContentText>
+                    </DialogContentText>
 
-                    <TextField
-                        autoFocus
-                        margin="dense"
+                    <Controller
+                        control={control}
                         name="name"
-                        label="name"
-                        type="text"
                         defaultValue={data.name}
-                        fullWidth
-                        inputRef={register}
+                        as={<TextField
+                            autoFocus
+                            margin="dense"
+                            label="name"
+                            type="text"
+                            fullWidth
+                        />}
                     />
 
-                    <TextField
-                        autoFocus
-                        margin="dense"
+                    <Controller
+                        control={control}
                         name="description"
-                        label="Description"
-                        type="text"
-                        // value={model.brandname}
-                        fullWidth
-                        inputRef={register}
+                        as={<TextField
+                            autoFocus
+                            margin="dense"
+                            label="Description"
+                            type="text"
+                            fullWidth
+                        />}
                     />
 
                     <FormControl >
                         <InputLabel id="brand-owner-select-label">Owner</InputLabel>
                         <Controller
-                            // control={control}
+                            control={control}
                             name="ownerId"
+                            rules={{ required: true }}
                             as={
-                                <Select
-                                labelId="brand-owner-select-label"
-                                id="brand-owner-select"
-                                // value={age}
-                                // onChange={handleChange}
-                            >
-                                {
-                                    users &&
-                                    users.map(user => 
-                                    <MenuItem key={user._id} value={user._id}>{user.username}</MenuItem>
+                                <Select id="brand-owner-select">
+                                    {
+                                        users &&
+                                        users.map(user =>
+                                            <MenuItem key={user._id} value={user._id}>{user.username}</MenuItem>
                                         )
-                                }
-                            </Select>
+                                    }
+                                </Select>
                             }
                         />
                     </FormControl>
@@ -108,9 +106,7 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { 
-        fetchUsers,
-        // createBrand,
-        // updateBrand
+    {
+        fetchUsers
     }
 )(BrandDialog);

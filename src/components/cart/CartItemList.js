@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import './CartItemList.scss';
+// import './CartItemList.scss';
 
 export const CartItemList = ({items}) => {
 
