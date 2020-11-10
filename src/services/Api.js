@@ -6,12 +6,41 @@ const Api = {
    *
    * @param {*} url
    */
-  get(url) {
-    return axios.get(url);
+  async get(url) {
+    const { data, status, statusText } = await axios.get(url);
+
+    if (status === 200) {
+      return data.data;
+    }
+
+    // redirect to error page and log error message
+    console.log(statusText);
+    return null;
   },
 
-  post(url, data) {
-    return axios.post(url, data);
+  async post(url, entity) {
+    const { data, status, statusText } = await axios.post(url, entity);
+
+    if (status === 200) {
+      return data.data;
+    }
+
+    // redirect to error page and log error message
+    console.log(statusText);
+    return null;
+  },
+
+
+  async put(url, entity) {
+    const { data, status, statusText } = await axios.put(url, entity);
+
+    if (status === 200) {
+      return data.data;
+    }
+
+    // redirect to error page and log error message
+    console.log(statusText);
+    return null;
   },
 
   /**

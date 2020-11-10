@@ -15,14 +15,9 @@ import { fetchBrands, createBrand, updateBrand } from '../../redux/brand/brand.a
 
 const columns = [
     { field: "created", label: "Created Date" },
-    { field: "imageurl", label: "Portrait", type: 'image' },
-    { field: "brandname", label: "Brandname" },
-    { field: "email", label: "Email" },
-    { field: "phone", label: "Phone" },
-    { field: "type", label: "Type" },
-    { field: "balance", label: "Balance" },
-    { field: "status", label: "Status" },
-    // { field: "attribute", label: "Attribute" },
+    // { field: "imageurl", label: "Portrait", type: 'image' },
+    { field: "name", label: "Brand name" },
+    { field: "description", label: "Description" },
     { field: "actions", label: "Actions" },
 ];
 
@@ -86,10 +81,6 @@ const BrandListPage = ({ fetchBrands, createBrand, updateBrand, brands }) => {
                     onEditRow={handleEditRow}
                 />
             }
-            {/* <Header title={'Brand Page'}></Header>
-            <CartItemList items={cart.items}/>
-            <div className="label payment-label">Payment Method</div>
-            <PaymentMethodSelect onSelect={handlePaymentMethodSelect}></PaymentMethodSelect> */}
         </div>
     )
 }

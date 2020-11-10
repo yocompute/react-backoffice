@@ -5,9 +5,9 @@ import { FETCH_AUTH, LOGIN, SIGNUP,
 // import { setACL } from '../ACL/ACL.actions'
 // import { selectACL } from '../ACL/ACL.selectors'
 
-export function* fetchAuth(query) {
+export function* fetchAuth(action) {
     try {
-        const auth = yield call(AuthApi.get, query);
+        const auth = yield call(AuthApi.get, action.query);
         yield put(fetchAuthSuccess(auth));
         // const { authId, role, permissions } = yield select(selectACL);
         // const auth = auths[0];

@@ -38,7 +38,7 @@ function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                 <DialogContent>
                     <DialogContentText>
                         To add a brand, please enter the name and description here.
-          </DialogContentText>
+                    </DialogContentText>
 
                     <Controller
                         control={control}
@@ -107,8 +107,6 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     {
-        fetchUsers,
-        // createBrand,
-        // updateBrand
+        fetchUsers
     }
 )(BrandDialog);

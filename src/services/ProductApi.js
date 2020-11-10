@@ -7,40 +7,19 @@ const ProductApi = {
   async get(query) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, 'products', query);
 
-    const res = await Api.get(url);
-
-    if (res && res.status === 200) {
-      return res.data.data;
-    }
-    // redirect to error page and log error message
-    console.log(res.statusText);
-    return [];
+    return await Api.get(url);
   },
 
-  async create(data) {
+  async create(entity) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, 'products');
 
-    const res = await Api.post(url, data);
-
-    if (res && res.status === 200) {
-      return res.data.data;
-    }
-    // redirect to error page and log error message
-    console.log(res.statusText);
-    return [];
+    return await Api.post(url, entity);
   },
 
-  async update(data) {
+  async update(entity) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, 'products');
 
-    const res = await Api.put(url, data);
-
-    if (res && res.status === 200) {
-      return res.data.data;
-    }
-    // redirect to error page and log error message
-    console.log(res.statusText);
-    return [];
+    return await Api.put(url, entity);
   },
 };
 

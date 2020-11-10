@@ -7,40 +7,20 @@ const BrandApi = {
   async get(query) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/brands.json' : Api.buildUrl(API_URL, 'brands', query);
 
-    const res = await Api.get(url);
+    return await Api.get(url);
 
-    if (res && res.status === 200) {
-      return res.data.data;
-    }
-    // redirect to error page and log error message
-    console.log(res.statusText);
-    return [];
   },
 
-  async create(data) {
+  async create(entity) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/brands.json' : Api.buildUrl(API_URL, 'brands');
 
-    const res = await Api.post(url, data);
-
-    if (res && res.status === 200) {
-      return res.data.data;
-    }
-    // redirect to error page and log error message
-    console.log(res.statusText);
-    return [];
+    return await Api.post(url, entity);
   },
 
   async update(data) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/brands.json' : Api.buildUrl(API_URL, 'brands');
 
-    const res = await Api.put(url, data);
-
-    if (res && res.status === 200) {
-      return res.data.data;
-    }
-    // redirect to error page and log error message
-    console.log(res.statusText);
-    return [];
+    return await Api.put(url, data);
   },
 };
 

@@ -7,40 +7,19 @@ const AuthApi = {
   async get(query = null) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/auth.json' : Api.buildUrl(API_URL, 'auth', query);
 
-    const { data, status, statusText } = await Api.get(url);
-
-    if (status === 200) {
-      return data.data;
-    }
-    // redirect to error page and log error message
-    console.log(statusText);
-    return [];
+    return await Api.get(url);
   },
 
   async login(credential = null) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/auth.json' : Api.buildUrl(API_URL, 'auth/login');
 
-    const { data, status, statusText } = await Api.post(url, credential);
-
-    if (status === 200) {
-      return data.data;
-    }
-    // redirect to error page and log error message
-    console.log(statusText);
-    return null;
+    return await Api.post(url, credential);
   },
 
   async signup(entity = null) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/auth.json' : Api.buildUrl(API_URL, 'auth/signup');
 
-    const { data, status, statusText } = await Api.post(url, entity);
-
-    if (status === 200) {
-      return data.data;
-    }
-    // redirect to error page and log error message
-    console.log(statusText);
-    return null;
+    return await Api.post(url, entity);
   },
 };
 

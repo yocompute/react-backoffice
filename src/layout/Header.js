@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Header = ({
-  loggedIn, logout, sidebarExpanded, onToggle,
+  isLoggedIn, logout, sidebarExpanded, onToggle,
 }) => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -121,7 +121,7 @@ const Header = ({
           <MenuIcon />
         </IconButton>
 
-        {loggedIn
+        {isLoggedIn
           ? (
             <div className={classes.iconButton}>
               <IconButton

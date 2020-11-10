@@ -27,7 +27,7 @@ export function* fetchUsers(action) {
 
 export function* createUser(action) {
     try {
-        const users = yield call(UserApi.post, action.data);
+        const users = yield call(UserApi.create, action.data);
         yield put(createUserSuccess(users));
     } catch (error) {
         // yield put(addError({
@@ -38,7 +38,7 @@ export function* createUser(action) {
 
 export function* updateUser(action) {
     try {
-        const users = yield call(UserApi.put, action.data);
+        const users = yield call(UserApi.update, action.data);
         yield put(updateUserSuccess(users));
 
     } catch (error) {

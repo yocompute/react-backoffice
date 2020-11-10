@@ -5,9 +5,9 @@ import { FETCH_PRODUCTS, CREATE_PRODUCT, UPDATE_PRODUCT,
 
 import ProductApi from '../../services/ProductApi';
 
-export function* fetchProducts(query){
+export function* fetchProducts(action){
     try{
-        const products = yield call(ProductApi.get, query);
+        const products = yield call(ProductApi.get, action.query);
         yield put(fetchProductsSuccess(products));
     }catch(error){
         yield put(fetchProductsFail(error));
@@ -16,7 +16,7 @@ export function* fetchProducts(query){
 
 export function* createProduct(action) {
     try {
-        const products = yield call(ProductApi.post, action.data);
+        const products = yield call(ProductApi.create, action.data);
         yield put(createProductSuccess(products));
     } catch (error) {
         // yield put(addError({
@@ -27,7 +27,7 @@ export function* createProduct(action) {
 
 export function* updateProduct(action) {
     try {
-        const products = yield call(ProductApi.put, action.data);
+        const products = yield call(ProductApi.update, action.data);
         yield put(updateProductSuccess(products));
 
     } catch (error) {
