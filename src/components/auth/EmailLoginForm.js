@@ -72,6 +72,7 @@ const EmailLoginForm = ({ onSubmit, btnText }) => {
         fullWidth
         name="password"
         label="Password"
+        type="password"
         variant="outlined"
         margin="normal"
         inputRef={register}
