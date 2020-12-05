@@ -11,7 +11,7 @@ import Tab from '@material-ui/core/Tab';
 import PhoneForm from '../../components/auth/PhoneForm';
 import EmailLoginForm from '../../components/auth/EmailLoginForm';
 
-import { logout, login } from '../../redux/auth/auth.actions'
+import { login } from '../../redux/auth/auth.actions';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -24,16 +24,15 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(6),
     }
 }));
-const LocalLoginPage = ({ isLoggedIn, logout, login }) => {
+
+const LocalLoginPage = ({ isLoggedIn, login }) => {
     const classes = useStyles();
     const [type, setType] = useState("email");
-
     const handleChange = (event, v) => {
         setType(v);
     }
 
     const handleSignIn = (data) => {
-        // logout(true);
         login(data);
     }
 
@@ -72,13 +71,12 @@ const LocalLoginPage = ({ isLoggedIn, logout, login }) => {
 }
 
 const mapStateToProps = state => ({
-    isLoggedIn: state.tokenId,
+    isLoggedIn: state.tokenId
 });
 
 export default connect(
     mapStateToProps,
     {
-        // logout,
         login
     }
 )(LocalLoginPage);

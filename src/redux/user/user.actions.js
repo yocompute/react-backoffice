@@ -3,6 +3,10 @@ export const FETCH_USERS = 'user/FETCH_USERS';
 export const FETCH_USERS_SUCCESS = 'user/FETCH_USERS_SUCCESS';
 export const FETCH_USERS_FAIL = 'user/FETCH_USERS_FAIL';
 
+export const FETCH_USER_BY_TOKEN_ID = 'user/FETCH_USER_BY_TOKEN_ID';
+export const FETCH_USER_BY_TOKEN_ID_SUCCESS = 'user/FETCH_USER_BY_TOKEN_ID_SUCCESS';
+export const FETCH_USER_BY_TOKEN_ID_FAIL = 'user/FETCH_USER_BY_TOKEN_ID_FAIL';
+
 export const CREATE_USER = 'user/CREATE_USER';
 export const CREATE_USER_SUCCESS = 'user/CREATE_USER_SUCCESS';
 export const CREATE_USER_FAIL = 'user/CREATE_USER_FAIL';
@@ -29,6 +33,22 @@ export const fetchUsersFail = error => ({
     type: FETCH_USERS_FAIL,
     error
 })
+
+export const fetchUserByTokenId = (tokenId) => ({
+    type: FETCH_USER_BY_TOKEN_ID,
+    tokenId
+})
+
+export const fetchUserByTokenIdSuccess = (user = null) => ({
+    type: FETCH_USER_BY_TOKEN_ID_SUCCESS,
+    user
+})
+
+export const fetchUserByTokenIdFail = error => ({
+    type: FETCH_USER_BY_TOKEN_ID_FAIL,
+    error
+})
+
 
 export const createUser = (data) => ({
     type: CREATE_USER,
@@ -60,7 +80,7 @@ export const updateUserFail = error => ({
     error
 })
 
-export const setUser = (payload) => ({
+export const setUser = (user) => ({
     type: SET_USER,
-    payload
+    user
 })

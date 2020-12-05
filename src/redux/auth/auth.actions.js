@@ -13,15 +13,16 @@ export const SIGNUP_SUCCESS = 'auth/SIGNUP_SUCCESS';
 export const SIGNUP_FAIL = 'auth/SIGNUP_FAIL';
 
 export const LOGOUT = 'auth/LOGOUT';
+export const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
 
 // action creators
 export const fetchAuth = () => ({
     type: FETCH_AUTH
 })
 
-export const fetchAuthSuccess = (auths = []) => ({
+export const fetchAuthSuccess = (tokenId) => ({
     type: FETCH_AUTH_SUCCESS,
-    auths
+    tokenId
 })
 
 export const fetchAuthFail = error => ({
@@ -31,6 +32,10 @@ export const fetchAuthFail = error => ({
 
 export const logout = () => ({
     type: LOGOUT
+})
+
+export const logoutSuccess = () => ({
+    type: LOGOUT_SUCCESS
 })
 
 export const login = (data) => ({
