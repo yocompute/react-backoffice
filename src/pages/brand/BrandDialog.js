@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form'
 import { connect } from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles';
 
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -15,8 +16,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { fetchUsers } from '../../redux/user/user.actions';
-
+const useStyles = makeStyles((theme) => ({
+    formCtrl: {
+      width: '100%'
+    },
+}));
 function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
+    const classes = useStyles();
     const { control, handleSubmit } = useForm();
     const handleClose = () => {
         onClose(false);
@@ -65,11 +71,26 @@ function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                         />}
                     />
 
-                    <FormControl >
+                    <FormControl className={classes.formCtrl}>
+                        <InputLabel id="product-status-select-label">Status</InputLabel>
+                        <Controller
+                            control={control}
+                            name="status"
+                            rules={{ required: true }}
+                            as={
+                                <Select id="product-status-select">
+                                    <MenuItem key={"A"} value={"A"}>Active</MenuItem>
+                                    <MenuItem key={"I"} value={"I"}>Inactive</MenuItem>
+                                </Select>
+                            }
+                        />
+                    </FormControl>
+
+                    <FormControl className={classes.formCtrl}>
                         <InputLabel id="brand-owner-select-label">Owner</InputLabel>
                         <Controller
                             control={control}
-                            name="ownerId"
+                            name="owner"
                             rules={{ required: true }}
                             as={
                                 <Select id="brand-owner-select">
