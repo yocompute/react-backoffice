@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form'
+import React, { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form'
 import { connect } from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles';
 
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -13,11 +14,18 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { fetchBrands } from '../../redux/brand/brand.sagas';
+import { fetchBrands } from '../../redux/brand/brand.actions';
+
+
+const useStyles = makeStyles((theme) => ({
+    formCtrl: {
+      width: '100%'
+    },
+}));
 
 function ProductDialog({ brands,fetchBrands, data, opened, onClose, onSubmit }) {
-    const { register, handleSubmit, setValue, watch, errors } = useForm();
-    // const [model, setModel] = useState(data);
+    const classes = useStyles();
+    const { control, handleSubmit } = useForm();
     const handleClose = () => {
         onClose(false);
     };
@@ -38,48 +46,103 @@ function ProductDialog({ brands,fetchBrands, data, opened, onClose, onSubmit }) 
                 <DialogContent>
                     <DialogContentText>
                         To add a product, please enter the name and description here.
-          </DialogContentText>
+                    </DialogContentText>
 
-                    <TextField
-                        autoFocus
-                        margin="dense"
+                    <Controller
+                        control={control}
                         name="name"
-                        label="name"
-                        type="text"
                         defaultValue={data.name}
-                        fullWidth
-                        inputRef={register}
+                        as={<TextField
+                            autoFocus
+                            margin="dense"
+                            label="name"
+                            type="text"
+                            fullWidth
+                        />}
                     />
 
-                    <TextField
-                        autoFocus
-                        margin="dense"
+                    <Controller
+                        control={control}
                         name="description"
-                        label="Description"
-                        type="text"
-                        // value={model.productname}
-                        fullWidth
-                        inputRef={register}
+                        as={<TextField
+                            autoFocus
+                            margin="dense"
+                            label="Description"
+                            type="text"
+                            fullWidth
+                        />}
+                    />
+                    <Controller
+                        control={control}
+                        name="price"
+                        type="number"
+                        as={<TextField
+                            autoFocus
+                            margin="dense"
+                            label="Price"
+                            type="text"
+                            fullWidth
+                        />}
                     />
 
-                    <FormControl >
-                        <InputLabel id="product-owner-select-label">Owner</InputLabel>
-                        <Select
-                            labelId="product-owner-select-label"
-                            id="product-owner-select"
-                            name="ownerId"
-                            // value={age}
-                            // onChange={handleChange}
-                            inputRef={register}
-                        >
-                            {
-                                brands &&
-                                brands.map(brand => 
-                                    <MenuItem key={brand._id} value={brand._id}>{brand.name}</MenuItem>
-                                )
+                    <Controller
+                        control={control}
+                        name="cost"
+                        type="number"
+                        as={<TextField
+                            autoFocus
+                            margin="dense"
+                            label="Cost"
+                            type="text"
+                            fullWidth
+                        />}
+                    />
+
+                    <Controller
+                        control={control}
+                        name="taxRate"
+                        type="number"
+                        as={<TextField
+                            autoFocus
+                            margin="dense"
+                            label="tax Rate"
+                            type="text"
+                            fullWidth
+                        />}
+                    />
+
+                    <FormControl className={classes.formCtrl}>
+                        <InputLabel id="product-status-select-label">Status</InputLabel>
+                        <Controller
+                            control={control}
+                            name="status"
+                            rules={{ required: true }}
+                            as={
+                                <Select id="product-status-select">
+                                    <MenuItem key={"A"} value={"A"}>Active</MenuItem>
+                                    <MenuItem key={"I"} value={"I"}>Inactive</MenuItem>
+                                </Select>
                             }
-                           
-                        </Select>
+                        />
+                    </FormControl>
+
+                    <FormControl className={classes.formCtrl}>
+                        <InputLabel id="product-brand-select-label">Owner</InputLabel>
+                        <Controller
+                            control={control}
+                            name="brand"
+                            rules={{ required: true }}
+                            as={
+                                <Select id="product-brand-select">
+                                    {
+                                        brands &&
+                                        brands.map(brand =>
+                                            <MenuItem key={brand._id} value={brand._id}>{brand.name}</MenuItem>
+                                        )
+                                    }
+                                </Select>
+                            }
+                        />
                     </FormControl>
 
                 </DialogContent>

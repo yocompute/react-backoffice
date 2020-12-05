@@ -16,8 +16,10 @@ export function* fetchProducts(action){
 
 export function* createProduct(action) {
     try {
-        const products = yield call(ProductApi.create, action.data);
-        yield put(createProductSuccess(products));
+        const product = yield call(ProductApi.create, action.data);
+        yield put(createProductSuccess(product));
+        const products = yield call(ProductApi.get, null);
+        yield put(fetchProductsSuccess(products));
     } catch (error) {
         // yield put(addError({
         //     ...error

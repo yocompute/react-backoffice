@@ -38,7 +38,7 @@ const ListTable = ({ label, defaultSort, columns, rows, onEditRow }) => {
                                     <Avatar
                                     variant="square"
                                     alt="user"
-                                    src={`${row.imageurl ? row.imageurl : "#"}`}
+                                    // src={`${row[col.field] ? row[col.field] : "#"}`}
                                     >
                                     </Avatar>
                                     </TableCell>
@@ -48,7 +48,13 @@ const ListTable = ({ label, defaultSort, columns, rows, onEditRow }) => {
                                             <EditIcon />
                                         </IconButton>
                                     </TableCell>
-                                    :<TableCell key={col.field}>{row[col.field]}</TableCell>)
+                                    :(col.type === 'object'
+                                        ? <TableCell key={col.field}>
+                                            {row[col.field][col.property]}
+                                        </TableCell>
+                                        : <TableCell key={col.field}>
+                                            {row[col.field]? row[col.field] : ''}
+                                        </TableCell>))
                             ))
                         }
                     </TableRow>
