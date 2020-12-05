@@ -10,6 +10,11 @@ const AuthApi = {
     return await Api.get(url);
   },
 
+  async getUserByTokenId(tokenId) {
+    const url = process.env.REACT_APP_MODE === 'local' ? '/auth.json' : `${API_URL}/auth/${tokenId}`;
+    return await Api.get(url);
+  },
+
   async login(credential = null) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/auth.json' : Api.buildUrl(API_URL, 'auth/login');
 

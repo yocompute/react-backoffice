@@ -6,7 +6,8 @@ import { watchProducts } from './product/product.sagas';
 // import { watchCreatePayment } from "./payment/payment.sagas";
 
 export default function* rootSaga() {
-  const [auth, users, products, brands] = yield all([
+  // const [auth, users, products, brands] = 
+  yield all([
     watchAuth(),
     watchUser(),
     watchBrands(),

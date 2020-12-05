@@ -2,6 +2,7 @@
 
 import {
     FETCH_USERS_SUCCESS,
+    FETCH_USER_BY_TOKEN_ID_SUCCESS,
     CREATE_USER_SUCCESS,
     UPDATE_USER_SUCCESS,
     SET_USER
@@ -19,6 +20,10 @@ export const userReducer = (state=null, action) => {
         return { ...action.user};
     }
     
+    if(action && action.type === FETCH_USER_BY_TOKEN_ID_SUCCESS){
+        return { ...action.user};
+    }
+
     if(action && action.type === CREATE_USER_SUCCESS){
         return {...action.user };
     }
