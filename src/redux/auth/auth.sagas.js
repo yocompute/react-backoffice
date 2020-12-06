@@ -13,7 +13,7 @@ export function* fetchAuth() {
     try {
         const tokenId = Cookies.get(JWT_COOKIE);
         const user = yield call(AuthApi.getUserByTokenId, tokenId);
-        yield put(setUser(user));
+        yield put(setUser(user && user._id ? user : null));
         yield put(fetchAuthSuccess(user? tokenId : null));
         yield put(setLoading(false));
     } catch (error) {
