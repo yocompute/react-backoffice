@@ -9,8 +9,6 @@ import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-// import './Login.scss';
-import UserApi from '../../services/UserApi';
 import AgreementLink from './AgreementLink';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,25 +34,8 @@ const useStyles = makeStyles((theme) => ({
 
 const EmailLoginForm = ({ onSubmit, btnText }) => {
   const classes = useStyles();
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit } = useForm();
 
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
-  const [bSubmit, setSubmit] = useState();
-  function handleChange(e) {
-    // const name = e.target.name;
-    // this.setState({ [name]: e.target.value });
-  }
-
-  // const handleSubmit = (e) => {
-  // e.preventDefault();
-  // this.setState({ bSubmitted: true });
-  // this.accountSvc.login(this.state.username, this.state.password).then(tokenId => {
-  //   this.accountSvc.setAccessTokenId(tokenId);
-  //   // this.setState({bSubmitted: false});
-  //   this.props.history.push('/order/detail');
-  // });
-  // }
 
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
@@ -72,6 +53,7 @@ const EmailLoginForm = ({ onSubmit, btnText }) => {
         fullWidth
         name="password"
         label="Password"
+        type="password"
         variant="outlined"
         margin="normal"
         inputRef={register}
@@ -97,7 +79,7 @@ const EmailLoginForm = ({ onSubmit, btnText }) => {
 
         <Grid container>
           <Grid item xs>
-            <Link href="#" variant="body2">
+            <Link to={"/"} variant="body2">
               Forgot password?
             </Link>
           </Grid>

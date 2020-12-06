@@ -5,9 +5,9 @@ import { FETCH_BRANDS, CREATE_BRAND, UPDATE_BRAND,
 
 import BrandApi from '../../services/BrandApi';
 
-export function* fetchBrands(query){
+export function* fetchBrands(action){
     try{
-        const brands = yield call(BrandApi.get, query);
+        const brands = yield call(BrandApi.get, action.query);
         yield put(fetchBrandsSuccess(brands));
     }catch(error){
         yield put(fetchBrandsFail(error));
@@ -16,8 +16,10 @@ export function* fetchBrands(query){
 
 export function* createBrand(action) {
     try {
-        const brands = yield call(BrandApi.post, action.data);
-        yield put(createBrandSuccess(brands));
+        const brand = yield call(BrandApi.create, action.data);
+        yield put(createBrandSuccess(brand));
+        const brands = yield call(BrandApi.get, null);
+        yield put(fetchBrandsSuccess(brands));
     } catch (error) {
         // yield put(addError({
         //     ...error
@@ -27,7 +29,7 @@ export function* createBrand(action) {
 
 export function* updateBrand(action) {
     try {
-        const brands = yield call(BrandApi.put, action.data);
+        const brands = yield call(BrandApi.update, action.data);
         yield put(updateBrandSuccess(brands));
 
     } catch (error) {

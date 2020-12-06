@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import {PaymentMethod} from '../../services/PaymentApi'
 
-import './PaymentMethodSelect.scss';
+// import './PaymentMethodSelect.scss';
 
 
 export const PaymentMethodSelect = ({onSelect}) => {

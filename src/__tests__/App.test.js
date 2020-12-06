@@ -7,11 +7,11 @@ import configureStore from 'redux-mock-store';
 
 import App from '../App';
 
-const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware();
 
 const mockStore = configureStore([sagaMiddleware]);
 
-it("renders App with empty store", async () => {
+it('renders App with empty store', async () => {
   // const store = mockStore({});
   // await act( async () => {
   //   render(
@@ -21,4 +21,4 @@ it("renders App with empty store", async () => {
   //   )
   // });
   // expect(screen.getByTestId('test-app').className).toBe('App');
-})
+});

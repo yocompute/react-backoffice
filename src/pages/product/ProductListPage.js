@@ -14,32 +14,38 @@ import ProductDialog from './ProductDialog'
 import { fetchProducts, createProduct, updateProduct } from '../../redux/product/product.actions'
 
 const columns = [
-    { field: "created", label: "Created Date" },
-    { field: "imageurl", label: "Portrait", type: 'image' },
-    { field: "productname", label: "Productname" },
-    { field: "email", label: "Email" },
-    { field: "phone", label: "Phone" },
-    { field: "type", label: "Type" },
-    { field: "balance", label: "Balance" },
+    { field: "createUTC", label: "Created Date" },
+    { field: "imageUrl", label: "Picture", type: 'image' },
+    { field: "name", label: "Product Name" },
+    { field: "description", label: "Description" },
+    { field: "price", label: "Price" },
+    { field: "cost", label: "Cost" },
+    { field: "purchaseTaxRate", label: "Purchase Tax Rate" },
+    { field: "saleTaxRate", label: "Sale Tax Rate" },
     { field: "status", label: "Status" },
+    { field: "brand", label: "Brand", type:'object', property: 'name' },
     // { field: "attribute", label: "Attribute" },
     { field: "actions", label: "Actions" },
 ];
 
-const defaultSort = ['created', -1];
+const defaultSort = ['createUTC', -1];
 
-const DEFAULT_USER = {
+const DEFAULT_PRODUCT = {
     _id: '',
-    productname:'',
-    email:'',
-    phone:'',
-    password:''
+    imageUrl: '',
+    name:'',
+    description:'',
+    price:'',
+    cost:'',
+    taxRate:'',
+    status:'A',
+    brand:''
 }
 
 const ProductListPage = ({ fetchProducts, createProduct, updateProduct, products }) => {
 
     const [dialogOpened, setDialogOpen] = useState(false);
-    const [data, setData] = useState(DEFAULT_USER);
+    const [data, setData] = useState(DEFAULT_PRODUCT);
 
     useEffect(() => {
         fetchProducts();
@@ -50,7 +56,7 @@ const ProductListPage = ({ fetchProducts, createProduct, updateProduct, products
     }
 
     const handleOpenProductDialog = () => {
-        setData(DEFAULT_USER);
+        setData(DEFAULT_PRODUCT);
         setDialogOpen(true);
     }
 

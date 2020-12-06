@@ -51,12 +51,12 @@ const NavMenuList = () => (
   <List>
     {
 
-      menus && menus.length &&
-      menus.map(menu => (
+      menus && menus.length
+      && menus.map((menu) => (
         <NavMenuItem key={menu.text} data={menu} />
       ))
     }
   </List>
-)
+);
 
 export default NavMenuList;

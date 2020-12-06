@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form'
 import { connect } from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles';
 
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -15,10 +16,14 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { fetchUsers } from '../../redux/user/user.actions';
-
+const useStyles = makeStyles((theme) => ({
+    formCtrl: {
+      width: '100%'
+    },
+}));
 function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
-    const { register, handleSubmit, setValue, watch, errors } = useForm();
-    // const [model, setModel] = useState(data);
+    const classes = useStyles();
+    const { control, handleSubmit } = useForm();
     const handleClose = () => {
         onClose(false);
     };
@@ -39,49 +44,63 @@ function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                 <DialogContent>
                     <DialogContentText>
                         To add a brand, please enter the name and description here.
-          </DialogContentText>
+                    </DialogContentText>
 
-                    <TextField
-                        autoFocus
-                        margin="dense"
+                    <Controller
+                        control={control}
                         name="name"
-                        label="name"
-                        type="text"
                         defaultValue={data.name}
-                        fullWidth
-                        inputRef={register}
+                        as={<TextField
+                            autoFocus
+                            margin="dense"
+                            label="name"
+                            type="text"
+                            fullWidth
+                        />}
                     />
 
-                    <TextField
-                        autoFocus
-                        margin="dense"
+                    <Controller
+                        control={control}
                         name="description"
-                        label="Description"
-                        type="text"
-                        // value={model.brandname}
-                        fullWidth
-                        inputRef={register}
+                        as={<TextField
+                            autoFocus
+                            margin="dense"
+                            label="Description"
+                            type="text"
+                            fullWidth
+                        />}
                     />
 
-                    <FormControl >
+                    <FormControl className={classes.formCtrl}>
+                        <InputLabel id="product-status-select-label">Status</InputLabel>
+                        <Controller
+                            control={control}
+                            name="status"
+                            rules={{ required: true }}
+                            as={
+                                <Select id="product-status-select">
+                                    <MenuItem key={"A"} value={"A"}>Active</MenuItem>
+                                    <MenuItem key={"I"} value={"I"}>Inactive</MenuItem>
+                                </Select>
+                            }
+                        />
+                    </FormControl>
+
+                    <FormControl className={classes.formCtrl}>
                         <InputLabel id="brand-owner-select-label">Owner</InputLabel>
                         <Controller
-                            // control={control}
-                            name="ownerId"
+                            control={control}
+                            name="owner"
+                            rules={{ required: true }}
                             as={
-                                <Select
-                                labelId="brand-owner-select-label"
-                                id="brand-owner-select"
-                                // value={age}
-                                // onChange={handleChange}
-                            >
-                                {
-                                    users &&
-                                    users.map(user => 
-                                    <MenuItem key={user._id} value={user._id}>{user.username}</MenuItem>
+                                <Select id="brand-owner-select">
+                                    {
+                                        users &&
+                                        users.map(user =>
+                                            <MenuItem key={user._id} value={user._id}>{user.username}</MenuItem>
                                         )
-                                }
-                            </Select>
+                                    }
+                                </Select>
                             }
                         />
                     </FormControl>
@@ -108,9 +127,7 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { 
-        fetchUsers,
-        // createBrand,
-        // updateBrand
+    {
+        fetchUsers
     }
 )(BrandDialog);

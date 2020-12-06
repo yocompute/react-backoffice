@@ -1,44 +1,51 @@
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import {
+  BrowserRouter as Router, Switch, Route, Redirect,
+} from 'react-router-dom';
 
 import './App.css';
 
-import LoginSelectPage from './pages/auth/LoginSelectPage'
-import LocalLoginPage from './pages/auth/LocalLoginPage'
-import LocalSignupPage from './pages/auth/LocalSignupPage'
+import LoginSelectPage from './pages/auth/LoginSelectPage';
+import LocalLoginPage from './pages/auth/LocalLoginPage';
+import LocalSignupPage from './pages/auth/LocalSignupPage';
 
-import Layout from './layout/index'
-import { fetchAuth } from './redux/auth/auth.sagas'
+import Layout from './layout/index';
+import { fetchAuth } from './redux/auth/auth.actions';
+import { setLoading } from './redux/page/page.actions';
 
-function App({isLoggedIn}) {
-  // const loggedIn = false;
+function App({ isLoggedIn, isLoading, fetchAuth, setLoading }) {
   useEffect(() => {
-    fetchAuth();
-}, [fetchAuth]);
+    setLoading(true);
+    fetchAuth(); // checking if cookie has valid tokenId
+  }, [fetchAuth]);
 
-  return (
+
+  return isLoading ?
+    <div>Loading...</div>
+    :
     <Router>
       {
-      isLoggedIn
-      ? <Layout />
-      : <Switch>
+        isLoggedIn ?
+        <Layout />
+        : (
+          <Switch>
             <Route path="/login-select" component={LoginSelectPage} />
             <Route path="/local-login" component={LocalLoginPage} />
             <Route path="/local-signup" component={LocalSignupPage} />
-            {/* <Route path="/forgot-password" component={ForgotPassword} /> */}
             <Redirect from="/" to="/local-login" />
-      </Switch>
+          </Switch>
+        )
       }
     </Router>
-  );
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.tokenId
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.tokenId,
+  isLoading: state.page.loading
 });
 
 export default connect(
   mapStateToProps,
-  {fetchAuth}
+  { fetchAuth, setLoading },
 )(App);

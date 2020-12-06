@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
-import './QuantityInput.scss';
+// import './QuantityInput.scss';
 
 const useStyles = makeStyles((theme) => ({
   quantityCtrl: {

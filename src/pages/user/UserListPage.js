@@ -14,7 +14,7 @@ import UserDialog from './UserDialog'
 import { fetchUsers, createUser, updateUser } from '../../redux/user/user.actions'
 
 const columns = [
-    { field: "created", label: "Created Date" },
+    { field: "createUTC", label: "Created Date" },
     { field: "imageurl", label: "Portrait", type: 'image' },
     { field: "username", label: "Username" },
     { field: "email", label: "Email" },
@@ -26,7 +26,7 @@ const columns = [
     { field: "actions", label: "Actions" },
 ];
 
-const defaultSort = ['created', -1];
+const defaultSort = ['createUTC', -1];
 
 const DEFAULT_USER = {
     _id: '',

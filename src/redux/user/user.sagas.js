@@ -27,8 +27,10 @@ export function* fetchUsers(action) {
 
 export function* createUser(action) {
     try {
-        const users = yield call(UserApi.post, action.data);
-        yield put(createUserSuccess(users));
+        const user = yield call(UserApi.create, action.data);
+        yield put(createUserSuccess(user));
+        const users = yield call(UserApi.get, null);
+        yield put(fetchUsersSuccess(users));
     } catch (error) {
         // yield put(addError({
         //     ...error
@@ -38,7 +40,7 @@ export function* createUser(action) {
 
 export function* updateUser(action) {
     try {
-        const users = yield call(UserApi.put, action.data);
+        const users = yield call(UserApi.update, action.data);
         yield put(updateUserSuccess(users));
 
     } catch (error) {

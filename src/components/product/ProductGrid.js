@@ -10,7 +10,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import { setProduct } from '../../redux/product/product.actions'
 
 import DefaultImage from '../../assets/Default-Image.jpg'
-import './ProductGrid.scss'
+// import './ProductGrid.scss'
 
 
 const useStyles = makeStyles((theme) => ({

@@ -3,48 +3,24 @@ import Api from './Api';
 const API_URL = process.env.REACT_APP_API_URL;
 
 const UserApi = {
-    
-    async get(query){
-        const url = process.env.REACT_APP_MODE === 'local' ? `/users.json` : Api.buildUrl(API_URL, 'users', query);
 
-        const res = await Api.get(url);
+  async get(query) {
+    const url = process.env.REACT_APP_MODE === 'local' ? '/users.json' : Api.buildUrl(API_URL, 'users', query);
 
-        if(res && res.status === 200){
-            return res.data.data;
-        }else{
-            // redirect to error page and log error message
-            console.log(res.statusText);
-            return [];
-        }
-    },
+    return await Api.get(url);
+  },
 
-    async create(data){
-        const url = process.env.REACT_APP_MODE === 'local' ? `/users.json` : Api.buildUrl(API_URL, 'users');
+  async create(entity) {
+    const url = process.env.REACT_APP_MODE === 'local' ? '/users.json' : Api.buildUrl(API_URL, 'users');
 
-        const res = await Api.post(url, data);
+    return await Api.post(url, entity);
+  },
 
-        if(res && res.status === 200){
-            return res.data.data;
-        }else{
-            // redirect to error page and log error message
-            console.log(res.statusText);
-            return [];
-        }
-    },
+  async update(entity) {
+    const url = process.env.REACT_APP_MODE === 'local' ? '/users.json' : Api.buildUrl(API_URL, 'users');
 
-    async update(data){
-        const url = process.env.REACT_APP_MODE === 'local' ? `/users.json` : Api.buildUrl(API_URL, 'users');
-
-        const res = await Api.put(url, data);
-
-        if(res && res.status === 200){
-            return res.data.data;
-        }else{
-            // redirect to error page and log error message
-            console.log(res.statusText);
-            return [];
-        }
-    }
-}
+    return await Api.put(url, entity);
+  },
+};
 
 export default UserApi;

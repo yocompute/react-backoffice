@@ -12,7 +12,7 @@ export function* fetchPayments(query){
 }
 
 export function* watchFetchPayments(){
-    yield takeEvery(FETCH_PAYMENTS, fetchPayments)
+    yield takeLatest(FETCH_PAYMENTS, fetchPayments)
 }
 
 // export function* fetchPayments(action){

@@ -14,32 +14,32 @@ import BrandDialog from './BrandDialog'
 import { fetchBrands, createBrand, updateBrand } from '../../redux/brand/brand.actions'
 
 const columns = [
-    { field: "created", label: "Created Date" },
-    { field: "imageurl", label: "Portrait", type: 'image' },
-    { field: "brandname", label: "Brandname" },
-    { field: "email", label: "Email" },
-    { field: "phone", label: "Phone" },
-    { field: "type", label: "Type" },
-    { field: "balance", label: "Balance" },
+    { field: "createUTC", label: "Created Date" },
+    { field: "logoUrl", label: "Brand logo", type: 'image' },
+    { field: "name", label: "Brand name" },
+    { field: "description", label: "Description" },
     { field: "status", label: "Status" },
-    // { field: "attribute", label: "Attribute" },
+    { field: "owner", label: "Owner", type: 'object', property:'username' },
     { field: "actions", label: "Actions" },
 ];
 
-const defaultSort = ['created', -1];
+const defaultSort = ['createUTC', -1];
 
-const DEFAULT_USER = {
+const DEFAULT_BRAND = {
     _id: '',
-    brandname:'',
-    email:'',
-    phone:'',
-    password:''
+    logoUrl:'',
+    name:'',
+    description:'',
+    status: '',
+    owner:'',
+    createUTC:'',
+    actions:'',
 }
 
 const BrandListPage = ({ fetchBrands, createBrand, updateBrand, brands }) => {
 
     const [dialogOpened, setDialogOpen] = useState(false);
-    const [data, setData] = useState(DEFAULT_USER);
+    const [data, setData] = useState(DEFAULT_BRAND);
 
     useEffect(() => {
         fetchBrands();
@@ -50,7 +50,7 @@ const BrandListPage = ({ fetchBrands, createBrand, updateBrand, brands }) => {
     }
 
     const handleOpenBrandDialog = () => {
-        setData(DEFAULT_USER);
+        setData(DEFAULT_BRAND);
         setDialogOpen(true);
     }
 
@@ -86,10 +86,6 @@ const BrandListPage = ({ fetchBrands, createBrand, updateBrand, brands }) => {
                     onEditRow={handleEditRow}
                 />
             }
-            {/* <Header title={'Brand Page'}></Header>
-            <CartItemList items={cart.items}/>
-            <div className="label payment-label">Payment Method</div>
-            <PaymentMethodSelect onSelect={handlePaymentMethodSelect}></PaymentMethodSelect> */}
         </div>
     )
 }

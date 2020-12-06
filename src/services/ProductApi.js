@@ -3,52 +3,27 @@ import Api from './Api';
 const API_URL = process.env.REACT_APP_API_URL;
 
 const ProductApi = {
-    
-    async get(query){
-        const url = process.env.REACT_APP_MODE === 'local' ? `/products.json` : Api.buildUrl(API_URL, 'products', query);
 
-        const res = await Api.get(url);
+  async get(query) {
+    const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, 'products', query);
 
-        if(res && res.status === 200){
-            return res.data.data;
-        }else{
-            // redirect to error page and log error message
-            console.log(res.statusText);
-            return [];
-        }
-    },
+    return await Api.get(url);
+  },
 
-    async create(data){
-        const url = process.env.REACT_APP_MODE === 'local' ? `/products.json` : Api.buildUrl(API_URL, 'products');
+  async create(entity) {
+    const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, 'products');
 
-        const res = await Api.post(url, data);
+    return await Api.post(url, entity);
+  },
 
-        if(res && res.status === 200){
-            return res.data.data;
-        }else{
-            // redirect to error page and log error message
-            console.log(res.statusText);
-            return [];
-        }
-    },
+  async update(entity) {
+    const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, 'products');
 
-    async update(data){
-        const url = process.env.REACT_APP_MODE === 'local' ? `/products.json` : Api.buildUrl(API_URL, 'products');
-
-        const res = await Api.put(url, data);
-
-        if(res && res.status === 200){
-            return res.data.data;
-        }else{
-            // redirect to error page and log error message
-            console.log(res.statusText);
-            return [];
-        }
-    }
-}
+    return await Api.put(url, entity);
+  },
+};
 
 export default ProductApi;
-
 
 // export default {
 //   getProductList: (page, pageSize, search = "", params = null, sort = []) => {
@@ -81,7 +56,7 @@ export default ProductApi;
 //       productId
 //     });
 //   },
-  
+
 //   getProducts: conditions => { // https://duocun.ca/api/products
 //     let query = {};
 //     query.query = buildQuery(conditions);
@@ -89,13 +64,13 @@ export default ProductApi;
 //   },
 
 //   getProduct: id => {
-//     return ApiService.v2().get(`products/${id}`); 
+//     return ApiService.v2().get(`products/${id}`);
 //   },
 //   saveProduct: model => {
 //     model._id = model._id || "new";
 //     return ApiService.v2().post(`products/${model._id}`, { data: model });
 //   },
-//   deleteProduct: id => { 
+//   deleteProduct: id => {
 //     return ApiService.v2().delete(`products/${id}`);
 //   },
 //   getProductDeliveries: id => {
