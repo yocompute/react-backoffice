@@ -12,9 +12,14 @@ import {JWT_COOKIE, JWT_EXPIRY} from '../../const';
 export function* fetchAuth() {
     try {
         const tokenId = Cookies.get(JWT_COOKIE);
-        const user = yield call(AuthApi.getUserByTokenId, tokenId);
-        yield put(setUser(user && user._id ? user : null));
-        yield put(fetchAuthSuccess(user? tokenId : null));
+        if(tokenId){
+            const user = yield call(AuthApi.getUserByTokenId, tokenId);
+            yield put(setUser(user && user._id ? user : null));
+            yield put(fetchAuthSuccess(user? tokenId : null));
+        }else{
+            yield put(setUser(null));
+            yield put(fetchAuthSuccess(null));
+        }
         yield put(setLoading(false));
     } catch (error) {
         // yield put(addError({
