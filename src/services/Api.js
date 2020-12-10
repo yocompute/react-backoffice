@@ -3,7 +3,6 @@ import queryString from 'query-string';
 
 const Api = {
   /**
-   *
    * @param {*} url
    */
   async get(url) {
@@ -12,7 +11,6 @@ const Api = {
     if (status === 200) {
       return data.data;
     }
-
     // redirect to error page and log error message
     console.log(statusText);
     return null;
@@ -20,7 +18,6 @@ const Api = {
 
   async post(url, entity) {
     const { data, status, statusText } = await axios.post(url, entity);
-
     if (status === 200) {
       return data.data;
     }
@@ -37,7 +34,6 @@ const Api = {
     if (status === 200) {
       return data.data;
     }
-
     // redirect to error page and log error message
     console.log(statusText);
     return null;
@@ -58,7 +54,6 @@ const Api = {
     }
     if (typeof params === 'object') {
       const q = JSON.stringify(params);
-
       return `${url}?${queryString.stringify({ where: q })}`;
     }
     return url;

@@ -4,11 +4,22 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  th: {
+    cursor: "pointer",
+  },
+  thWidth: {
+    minWidth: 100,
+  },
+}));
 
 export const TableHeadCell = ({ sort, field, label, onSetSort }) => {
+  const classes = useStyles();
   const { t } = useTranslation();
 
-  const toggleSort = fieldName => {
+  const toggleSort = (fieldName) => {
     // sort only one field
     if (sort && sort[0] === fieldName) {
       onSetSort([fieldName, sort[1] === 1 ? -1 : 1]);
@@ -17,14 +28,14 @@ export const TableHeadCell = ({ sort, field, label, onSetSort }) => {
     }
   };
 
-  const renderSortLabel = fieldName => {
+  const renderSortLabel = (fieldName) => {
     return (
       <TableSortLabel
         active={sort && sort[0] === fieldName}
         direction={sort && sort[1] === -1 ? "desc" : "asc"}
-        onClick={() => {
-          toggleSort(fieldName);
-        }}
+        // onClick={() => {
+        //   toggleSort(fieldName);
+        // }}
       ></TableSortLabel>
     );
   };
@@ -34,10 +45,17 @@ export const TableHeadCell = ({ sort, field, label, onSetSort }) => {
       onClick={() => {
         toggleSort(field);
       }}
-      style={{ cursor: "pointer" }}
+      className={
+        field !== "logoUrl" && field !== "actions"
+          ? `${classes.th} ${
+              (field === "name" || field === "status" || field === "owner") &&
+              classes.thWidth
+            }`
+          : ""
+      }
     >
       {t(label)}
-      {renderSortLabel(field)}
+      {field !== "logoUrl" && field !== "actions" && renderSortLabel(field)}
     </TableCell>
   );
 };
@@ -49,7 +67,7 @@ const TableHeader = ({ data, sort, onSetSort }) => {
       <TableRow>
         {data &&
           data.length > 0 &&
-          data.map(t => (
+          data.map((t) => (
             <TableHeadCell
               key={t.field}
               sort={sort}

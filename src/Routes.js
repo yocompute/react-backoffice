@@ -15,6 +15,7 @@ import LocalSignupPage from './pages/auth/LocalSignupPage';
 import DashbordPage from './pages/dashbord/index'
 import UserListPage from './pages/user/UserListPage'
 import BrandListPage from './pages/brand/BrandListPage'
+import CategoryListPage from './pages/category/CategoryListPage'
 import ProductListPage from './pages/product/ProductListPage'
 import OrderListPage from './pages/order/OrderListPage'
 
@@ -31,6 +32,7 @@ const Routes = () => {
             <Route path="/payments" component={PaymentHistoryPage} />
             <Route path="/users" component={UserListPage} />
             <Route path="/brands" component={BrandListPage} />
+            <Route path="/categories" component={CategoryListPage} />
             <Route path="/products" component={ProductListPage} />
             <Route path="/orders" component={OrderListPage} />
             <Route exact path="/" component={DashbordPage} />
