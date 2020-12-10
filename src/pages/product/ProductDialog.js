@@ -100,12 +100,25 @@ function ProductDialog({ brands,fetchBrands, data, opened, onClose, onSubmit }) 
 
                     <Controller
                         control={control}
-                        name="taxRate"
+                        name="purchaseTaxRate"
                         type="number"
                         as={<TextField
                             autoFocus
                             margin="dense"
-                            label="tax Rate"
+                            label="Purchase Tax Rate"
+                            type="text"
+                            fullWidth
+                        />}
+                    />
+
+                    <Controller
+                        control={control}
+                        name="saleTaxRate"
+                        type="number"
+                        as={<TextField
+                            autoFocus
+                            margin="dense"
+                            label="Sale Tax Rate"
                             type="text"
                             fullWidth
                         />}
