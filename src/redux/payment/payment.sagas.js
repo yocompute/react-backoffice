@@ -1,39 +1,46 @@
-import { put, call, select, takeEvery, takeLatest } from 'redux-saga/effects'
-import PaymentApi from '../../services/PaymentApi'
-import { fetchPaymentsFail, fetchPaymentsSuccess } from './payment.actions';
+import { put, call, select, takeLatest } from 'redux-saga/effects'
 
-export function* fetchPayments(query){
+import { FETCH_PAYMENTS, CREATE_PAYMENT, UPDATE_PAYMENT, 
+    fetchPaymentsSuccess, fetchPaymentsFail, createPaymentSuccess, updatePaymentSuccess } from './payment.actions'
+
+import PaymentApi from '../../services/PaymentApi';
+
+export function* fetchPayments(action){
     try{
-        const payments = yield call(PaymentApi.get, query);
+        const payments = yield call(PaymentApi.get, action.query);
         yield put(fetchPaymentsSuccess(payments));
     }catch(error){
         yield put(fetchPaymentsFail(error));
     }
 }
 
-export function* watchFetchPayments(){
-    yield takeLatest(FETCH_PAYMENTS, fetchPayments)
+export function* createPayment(action) {
+    try {
+        const payment = yield call(PaymentApi.create, action.data);
+        yield put(createPaymentSuccess(payment));
+        const payments = yield call(PaymentApi.get, null);
+        yield put(fetchPaymentsSuccess(payments));
+    } catch (error) {
+        // yield put(addError({
+        //     ...error
+        // }))
+    }
 }
 
-// export function* fetchPayments(action){
-//     try{
-//         const payload = yield call(PaymentApi.getPayments, action.payload)
-//         yield put({type: 'FETCH_PAYMENTS_SUCCESS', payload})
-//     } catch (error){
-//         yield put({type: 'FETCH_PAYMENTS_FAIL', error})
-//     }
-// }
+export function* updatePayment(action) {
+    try {
+        const payments = yield call(PaymentApi.update, action.data);
+        yield put(updatePaymentSuccess(payments));
 
+    } catch (error) {
+        // yield put(addError({
+        //     ...error
+        // }))
+    }
+}
 
-// export function* createPayment(action){
-//     try{
-//         const payload = yield call(PaymentApi.createPayment, action.payload)
-//         yield put({type: 'CREATE_PAYMENT_SUCCESS', payload})
-//     } catch (error){
-//         yield put({type: 'CREATE_PAYMENT_FAIL', error})
-//     }
-// }
-
-// export function* watchCreatePayment(){
-//     yield takeEvery('CREATE_PAYMENT', createPayment)
-// }
+export function* watchPayments(){
+    yield takeLatest(FETCH_PAYMENTS, fetchPayments);
+    yield takeLatest(CREATE_PAYMENT, createPayment);
+    yield takeLatest(UPDATE_PAYMENT, updatePayment);
+}

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 
-import {PaymentMethod} from '../../services/PaymentApi'
+import {PaymentMethod} from '../../const';
 
 // import './PaymentMethodSelect.scss';
 
