@@ -3,7 +3,7 @@ import { watchAuth } from './auth/auth.sagas';
 import { watchUser } from './user/user.sagas';
 import { watchBrands } from './brand/brand.sagas';
 import { watchProducts } from './product/product.sagas';
-// import { watchCreatePayment } from "./payment/payment.sagas";
+import { watchPayments } from "./payment/payment.sagas";
 
 export default function* rootSaga() {
   // const [auth, users, products, brands] = 
@@ -12,6 +12,6 @@ export default function* rootSaga() {
     watchUser(),
     watchBrands(),
     watchProducts(),
-    // watchCreatePayment()
+    watchPayments()
   ]);
 }
