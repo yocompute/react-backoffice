@@ -39,11 +39,17 @@ const menus = [
     tip: 'Manage Products',
   },
   {
-    path: '/orders',
-    text: 'Manage Orders',
+    path: '/payments',
+    text: 'Manage Payments',
     icon: <ShoppingCartIcon />,
-    tip: 'Manage Orders',
+    tip: 'Manage Payments',
   },
+  // {
+  //   path: '/orders',
+  //   text: 'Manage Orders',
+  //   icon: <ShoppingCartIcon />,
+  //   tip: 'Manage Orders',
+  // },
 ];
 
 const NavMenuList = () => (
