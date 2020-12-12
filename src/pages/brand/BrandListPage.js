@@ -40,7 +40,7 @@ const DEFAULT_BRAND = {
   actions: "",
 };
 
-const BrandListPage = ({ fetchBrands, createBrand, updateBrand, brands }) => {
+const BrandListPage = ({fetchBrands, createBrand, updateBrand, brands }) => {
   const [dialogOpened, setDialogOpen] = useState(false);
   const [data, setData] = useState(DEFAULT_BRAND);
 

@@ -6,14 +6,24 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
-  th: {
+const useStyles = makeStyles(() => ({
+  tableHeaderCell: {
     cursor: "pointer",
   },
-  thWidth: {
-    minWidth: 100,
-  },
 }));
+
+const headerSort = [
+  "createUTC",
+  "name",
+  "username",
+  "email",
+  "phone",
+  "price",
+  "cost",
+  "brand",
+  "category",
+  "owner",
+];
 
 export const TableHeadCell = ({ sort, field, label, onSetSort }) => {
   const classes = useStyles();
@@ -45,17 +55,10 @@ export const TableHeadCell = ({ sort, field, label, onSetSort }) => {
       onClick={() => {
         toggleSort(field);
       }}
-      className={
-        field !== "logoUrl" && field !== "actions"
-          ? `${classes.th} ${
-              (field === "name" || field === "status" || field === "owner") &&
-              classes.thWidth
-            }`
-          : ""
-      }
+      className={headerSort.includes(field) ? classes.tableHeaderCell : ""}
     >
       {t(label)}
-      {field !== "logoUrl" && field !== "actions" && renderSortLabel(field)}
+      {headerSort.includes(field) && renderSortLabel(field)}
     </TableCell>
   );
 };

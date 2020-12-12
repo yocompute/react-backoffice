@@ -80,13 +80,13 @@ function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
           />
 
           <FormControl className={classes.formCtrl}>
-            <InputLabel id="product-status-select-label">Status</InputLabel>
+            <InputLabel id="brand-status-select-label">Status</InputLabel>
             <Controller
               control={control}
               name="status"
               rules={{ required: true }}
               as={
-                <Select id="product-status-select">
+                <Select id="brand-status-select">
                   <MenuItem key={"A"} value={"A"}>
                     Active
                   </MenuItem>
@@ -117,7 +117,7 @@ function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
             />
           </FormControl>
         </DialogContent>
-        
+
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel

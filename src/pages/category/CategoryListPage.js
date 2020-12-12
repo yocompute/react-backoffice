@@ -72,7 +72,6 @@ const CategoryListPage = ({
       >
         Add
       </Button>
-{console.log("c, ", categories)}
       <CategoryDialog
         data={data}
         opened={dialogOpen}
