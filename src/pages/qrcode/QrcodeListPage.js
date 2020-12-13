@@ -9,80 +9,81 @@ import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect
 
 // import Header from '../../components/common/Header'
 import ListTable from '../../components/table/ListTable'
-import BrandDialog from './BrandDialog'
+import QrcodeDialog from './QrcodeDialog'
 
-import { fetchBrands, createBrand, updateBrand } from '../../redux/brand/brand.actions'
+import { fetchQrcodes, createQrcode, updateQrcode, setQrcode } from '../../redux/qrcode/qrcode.actions'
 
 const columns = [
     { field: "createUTC", label: "Created Date" },
-    { field: "logoUrl", label: "Brand logo", type: 'image' },
-    { field: "name", label: "Brand name" },
+    { field: "pictures", label: "Qrcode logo", type: 'picture' },
+    { field: "name", label: "Qrcode name" },
     { field: "description", label: "Description" },
     { field: "status", label: "Status" },
-    { field: "owner", label: "Owner", type: 'object', property:'username' },
+    { field: "brand", label: "Brand", type: 'object', property:'name' },
     { field: "actions", label: "Actions" },
 ];
 
 const defaultSort = ['createUTC', -1];
 
-const DEFAULT_BRAND = {
+const DEFAULT_QRCODE = {
     _id: '',
     logoUrl:'',
     name:'',
     description:'',
     status: '',
-    owner:'',
+    brand:'',
     createUTC:'',
     actions:'',
 }
 
-const BrandListPage = ({ fetchBrands, createBrand, updateBrand, brands }) => {
+const QrcodeListPage = ({ setQrcode, fetchQrcodes, createQrcode, updateQrcode, qrcodes }) => {
 
     const [dialogOpened, setDialogOpen] = useState(false);
-    const [data, setData] = useState(DEFAULT_BRAND);
+    const [data, setData] = useState(DEFAULT_QRCODE);
 
     useEffect(() => {
-        fetchBrands();
-    }, [fetchBrands]);
+        fetchQrcodes();
+    }, [fetchQrcodes]);
 
     const handlePaymentMethodSelect = () => {
 
     }
 
-    const handleOpenBrandDialog = () => {
-        setData(DEFAULT_BRAND);
+    const handleOpenQrcodeDialog = () => {
+        setData(DEFAULT_QRCODE);
         setDialogOpen(true);
     }
 
     const handleSave = (data) => {
         if(data && data._id){
-            updateBrand(data);
+            updateQrcode(data);
         }else{
-            createBrand(data);
+            createQrcode(data);
         }
     }
 
     const handleEditRow = (row) => {
         setData(row);
+        setQrcode(row);
         setDialogOpen(true);
     }
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleOpenBrandDialog}>Add</Button>
-            <BrandDialog
+            <Button variant="contained" color="primary" onClick={handleOpenQrcodeDialog}>Add</Button>
+            <QrcodeDialog
                 data={data}
                 opened={dialogOpened}
                 onClose={setDialogOpen}
                 onSubmit={handleSave}
             />
             {
-                brands &&
+                qrcodes &&
                 <ListTable
-                    label="brand"
+                    label="qrcode"
                     defaultSort={defaultSort}
                     columns={columns}
-                    rows={brands}
+                    rows={qrcodes}
                     onEditRow={handleEditRow}
                 />
             }
@@ -91,14 +92,16 @@ const BrandListPage = ({ fetchBrands, createBrand, updateBrand, brands }) => {
 }
 
 const mapStateToProps = state => ({
-    brands: state.brands
+    // qrcode: state.qrcode,
+    qrcodes: state.qrcodes
 });
 
 export default connect(
     mapStateToProps,
-    { 
-        fetchBrands,
-        createBrand,
-        updateBrand
+    {
+        setQrcode, 
+        fetchQrcodes,
+        createQrcode,
+        updateQrcode
     }
-)(BrandListPage);
+)(QrcodeListPage);

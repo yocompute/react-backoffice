@@ -33,6 +33,12 @@ const menus = [
     tip: 'Manage Brands',
   },
   {
+    path: '/qrcodes',
+    text: 'Manage Qrcodes',
+    icon: <BrandingWatermarkIcon />,
+    tip: 'Manage Qrcodes',
+  },
+  {
     path: '/products',
     text: 'Manage Products',
     icon: <ViewListIcon />,
