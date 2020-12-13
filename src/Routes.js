@@ -6,7 +6,7 @@ import VerificationCodePage from './pages/auth/VerificationCodePage';
 import ProductPage from './pages/product/ProductListPage';
 import OrderPage from './pages/order/OrderPage';
 import CreditCardPage from './pages/payment/CreditCardPage';
-import PaymentHistoryPage from './pages/payment/PaymentHistoryPage';
+import PaymentListPage from './pages/payment/PaymentListPage';
 import LoginSelectPage from './pages/auth/LoginSelectPage'
 import LocalLoginPage from './pages/auth/LocalLoginPage'
 import LocalSignupPage from './pages/auth/LocalSignupPage';
@@ -29,7 +29,7 @@ const Routes = () => {
             <Route path="/local-login" component={LocalLoginPage} />
             <Route path="/local-signup" component={LocalSignupPage} />
             <Route path="/verify-code" component={VerificationCodePage} />
-            <Route path="/payments" component={PaymentHistoryPage} />
+            <Route path="/payments" component={PaymentListPage} />
             <Route path="/users" component={UserListPage} />
             <Route path="/brands" component={BrandListPage} />
             <Route path="/categories" component={CategoryListPage} />

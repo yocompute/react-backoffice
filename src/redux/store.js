@@ -12,6 +12,7 @@ import { productsReducer, productReducer } from './product/product.reducers';
 import { cartReducer } from './cart/cart.reducers';
 import { merchantReducer } from './merchant/merchant.reducers';
 import { pageReducer } from './page/page.reducers';
+import { paymentReducer, paymentsReducer } from './payment/payment.reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -28,6 +29,8 @@ export const rootReducer = combineReducers({
   cart: cartReducer,
   merchant: merchantReducer,
   page: pageReducer,
+  payments: paymentsReducer,
+  payment: paymentReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
