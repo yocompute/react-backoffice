@@ -36,6 +36,8 @@ export function* login(action) {
         if(tokenId){
             const user = yield call(AuthApi.getUserByTokenId, tokenId);
             yield put(setUser(user && user._id ? user : null));
+        }else{
+            yield put(setUser(null));
         }
     } catch (error) {
         // yield put(addError({
@@ -51,6 +53,8 @@ export function* signup(action) {
         if(tokenId){
             const user = yield call(AuthApi.getUserByTokenId, tokenId);
             yield put(setUser(user && user._id ? user : null));
+        }else{
+            yield put(setUser(null));
         }
     } catch (error) {
         // yield put(addError({
