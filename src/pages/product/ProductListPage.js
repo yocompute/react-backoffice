@@ -11,11 +11,11 @@ import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect
 import ListTable from '../../components/table/ListTable'
 import ProductDialog from './ProductDialog'
 
-import { fetchProducts, createProduct, updateProduct } from '../../redux/product/product.actions'
+import { setProduct, fetchProducts, createProduct, updateProduct } from '../../redux/product/product.actions'
 
 const columns = [
     { field: "createUTC", label: "Created Date" },
-    { field: "imageUrl", label: "Picture", type: 'image' },
+    { field: "pictures", label: "Picture", type: 'picture' },
     { field: "name", label: "Product Name" },
     { field: "description", label: "Description" },
     { field: "price", label: "Price" },
@@ -42,7 +42,7 @@ const DEFAULT_PRODUCT = {
     brand:''
 }
 
-const ProductListPage = ({ fetchProducts, createProduct, updateProduct, products }) => {
+const ProductListPage = ({ setProduct, fetchProducts, createProduct, updateProduct, products }) => {
 
     const [dialogOpened, setDialogOpen] = useState(false);
     const [data, setData] = useState(DEFAULT_PRODUCT);
@@ -70,6 +70,7 @@ const ProductListPage = ({ fetchProducts, createProduct, updateProduct, products
 
     const handleEditRow = (row) => {
         setData(row);
+        setProduct(row);
         setDialogOpen(true);
     }
 
@@ -107,6 +108,7 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { 
+        setProduct,
         fetchProducts,
         createProduct,
         updateProduct

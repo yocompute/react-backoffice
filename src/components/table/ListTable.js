@@ -17,6 +17,7 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 
 import TableHeader from './TableHeader'
+import ListCell from "./ListCell";
 
 const ListTable = ({ label, defaultSort, columns, rows, onEditRow }) => {
     const [sort, setSort] = useState(defaultSort);
@@ -29,33 +30,12 @@ const ListTable = ({ label, defaultSort, columns, rows, onEditRow }) => {
             />
 
             <TableBody>
-                {rows.map((row, idx) => (
+                {
+                rows && rows.length >0 &&
+                rows.map((row, idx) => (
                     <TableRow key={`${row._id}_${idx}`}>
                         {
-                            columns.map(col => (
-                                col.type === 'image'
-                                ?  <TableCell key={col.field}>
-                                    <Avatar
-                                    variant="square"
-                                    alt="user"
-                                    // src={`${row[col.field] ? row[col.field] : "#"}`}
-                                    >
-                                    </Avatar>
-                                    </TableCell>
-                                : (col.field === 'actions'
-                                    ? <TableCell key={col.field} onClick={() => onEditRow(row)}>
-                                        <IconButton aria-label="edit">
-                                            <EditIcon />
-                                        </IconButton>
-                                    </TableCell>
-                                    :(col.type === 'object'
-                                        ? <TableCell key={col.field}>
-                                            {row[col.field][col.property]}
-                                        </TableCell>
-                                        : <TableCell key={col.field}>
-                                            {row[col.field]? row[col.field] : ''}
-                                        </TableCell>))
-                            ))
+                            columns.map(col => <ListCell row={row} col={col} onEditRow={onEditRow}/>)
                         }
                     </TableRow>
                 ))}

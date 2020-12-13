@@ -11,11 +11,11 @@ import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect
 import ListTable from '../../components/table/ListTable'
 import BrandDialog from './BrandDialog'
 
-import { fetchBrands, createBrand, updateBrand } from '../../redux/brand/brand.actions'
+import { fetchBrands, createBrand, updateBrand, setBrand } from '../../redux/brand/brand.actions'
 
 const columns = [
     { field: "createUTC", label: "Created Date" },
-    { field: "logoUrl", label: "Brand logo", type: 'image' },
+    { field: "pictures", label: "Brand logo", type: 'picture' },
     { field: "name", label: "Brand name" },
     { field: "description", label: "Description" },
     { field: "status", label: "Status" },
@@ -36,7 +36,7 @@ const DEFAULT_BRAND = {
     actions:'',
 }
 
-const BrandListPage = ({ fetchBrands, createBrand, updateBrand, brands }) => {
+const BrandListPage = ({ setBrand, fetchBrands, createBrand, updateBrand, brands }) => {
 
     const [dialogOpened, setDialogOpen] = useState(false);
     const [data, setData] = useState(DEFAULT_BRAND);
@@ -64,6 +64,7 @@ const BrandListPage = ({ fetchBrands, createBrand, updateBrand, brands }) => {
 
     const handleEditRow = (row) => {
         setData(row);
+        setBrand(row);
         setDialogOpen(true);
     }
 
@@ -91,12 +92,14 @@ const BrandListPage = ({ fetchBrands, createBrand, updateBrand, brands }) => {
 }
 
 const mapStateToProps = state => ({
+    // brand: state.brand,
     brands: state.brands
 });
 
 export default connect(
     mapStateToProps,
-    { 
+    {
+        setBrand, 
         fetchBrands,
         createBrand,
         updateBrand

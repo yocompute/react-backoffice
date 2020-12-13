@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form'
 import { connect } from 'react-redux'
+import ImageUploader from "react-images-upload";
 import { makeStyles } from '@material-ui/core/styles';
 
 import FormControl from '@material-ui/core/FormControl';
@@ -15,13 +16,31 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import { setBrand } from '../../redux/brand/brand.actions';
 import { fetchUsers } from '../../redux/user/user.actions';
+
+import BrandApi from '../../services/BrandApi';
+import ImageViewer from '../../components/common/ImageViewer';
+
+
 const useStyles = makeStyles((theme) => ({
     formCtrl: {
       width: '100%'
     },
+    uploadRow:{
+        paddingBottom: '25px',
+        paddingRight: '25px'
+    },
+    uploadCol:{
+        width: '50%',
+        float: 'left'
+    },
+    imageCol:{
+        width: '50%',
+        float: 'left'
+    }
 }));
-function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
+function BrandDialog({ brand, users, setBrand, fetchUsers, data, opened, onClose, onSubmit }) {
     const classes = useStyles();
     const { control, handleSubmit } = useForm();
     const handleClose = () => {
@@ -32,7 +51,31 @@ function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
         onSubmit(d);
         onClose(false);
     }
+    const handleRemovePicture = () => {
+        const confirm = window.confirm("Do you really want to remove this image?");
+        if (confirm) {
+            const newModel = { ...brand };
+            newModel.pictures.splice(0, 1);
+            setBrand(newModel);
+        }
+    }
 
+    const handleUpload = picture => {
+        let file = picture;
+        if (Array.isArray(file)) {
+            file = file[0];
+        }
+        BrandApi.upload(file, brand._id).then(data => {
+            if (data) {
+                setBrand({ ...data });
+            } else {
+                // setAlert({
+                //   message: t("Upload failed"),
+                //   severity: "error"
+                // });
+            }
+        });
+    };
     useEffect(() => {
         fetchUsers();
     }, [fetchUsers]);
@@ -72,13 +115,13 @@ function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                     />
 
                     <FormControl className={classes.formCtrl}>
-                        <InputLabel id="product-status-select-label">Status</InputLabel>
+                        <InputLabel id="brand-status-select-label">Status</InputLabel>
                         <Controller
                             control={control}
                             name="status"
                             rules={{ required: true }}
                             as={
-                                <Select id="product-status-select">
+                                <Select id="brand-status-select">
                                     <MenuItem key={"A"} value={"A"}>Active</MenuItem>
                                     <MenuItem key={"I"} value={"I"}>Inactive</MenuItem>
                                 </Select>
@@ -115,6 +158,26 @@ function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                     </Button>
                 </DialogActions>
             </form>
+
+            <div className={classes.uploadRow}>
+                <div className={classes.uploadCol}>
+
+                    <ImageUploader
+                        withIcon={true}
+                        buttonText="Upload image"
+                        onChange={picture => handleUpload(picture)}
+                        imgExtension={[".jpg", ".gif", ".png", ".jpeg"]}
+                        maxFileSize={5242880}
+                    />
+                </div>
+                <div className={classes.imageCol}>
+
+                    <ImageViewer
+                        url={brand && brand.pictures && brand.pictures.length > 0 ? brand.pictures[0].url : ""}
+                        onRemove={handleRemovePicture}
+                    />
+                </div>
+            </div>
         </Dialog>
     );
 }
@@ -122,12 +185,14 @@ function BrandDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
 
 
 const mapStateToProps = state => ({
+    brand: state.brand,
     users: state.users
 });
 
 export default connect(
     mapStateToProps,
     {
+        setBrand,
         fetchUsers
     }
 )(BrandDialog);
