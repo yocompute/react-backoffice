@@ -21,6 +21,14 @@ const ProductApi = {
 
     return await Api.put(url, entity);
   },
+
+  async upload(file, productId) {
+    const formData = new FormData();
+    formData.append("upload", file);
+    const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, `products/upload/${productId}`);
+
+    return await Api.post(url, formData);
+  },
 };
 
 export default ProductApi;
