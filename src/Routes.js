@@ -17,7 +17,7 @@ import UserListPage from './pages/user/UserListPage'
 import BrandListPage from './pages/brand/BrandListPage'
 import ProductListPage from './pages/product/ProductListPage'
 import OrderListPage from './pages/order/OrderListPage'
-
+import QrcodeListPage from './pages/qrcode/QrcodeListPage'
 const Routes = () => {
     return (<Switch>
             <Route path="/merchants/:id" component={HomePage} />
@@ -31,6 +31,7 @@ const Routes = () => {
             <Route path="/payments" component={PaymentListPage} />
             <Route path="/users" component={UserListPage} />
             <Route path="/brands" component={BrandListPage} />
+            <Route path="/qrcodes" component={QrcodeListPage} />
             <Route path="/products" component={ProductListPage} />
             <Route path="/orders" component={OrderListPage} />
             <Route exact path="/" component={DashbordPage} />
