@@ -33,7 +33,10 @@ const ListTable = ({ label, defaultSort, columns, rows, onEditRow }) => {
           ? sort[1] > 0
             ? a[sort[0]].name.localeCompare(b[sort[0]].name)
             : b[sort[0]].name.localeCompare(a[sort[0]].name)
-          : sort[0] === "price" || sort[0] === "cost"
+          : sort[0] === "price" ||
+            sort[0] === "cost" ||
+            sort[0] === "purchaseTaxRate" ||
+            sort[0] === "saleTaxRate"
           ? sort[1] > 0
             ? a[sort[0]] - b[sort[0]]
             : b[sort[0]] - a[sort[0]]
