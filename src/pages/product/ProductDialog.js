@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
@@ -16,10 +17,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { fetchBrands } from '../../redux/brand/brand.actions';
-import { setProduct } from '../../redux/product/product.actions';
+
 import ProductApi from '../../services/ProductApi';
 import ImageViewer from '../../components/common/ImageViewer';
+
+import { fetchBrands } from '../../redux/brand/brand.actions';
+import { setProduct } from '../../redux/product/product.actions';
+import { fetchCategories } from "../../redux/category/category.actions";
 
 const useStyles = makeStyles((theme) => ({
     formCtrl: {
@@ -39,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ProductDialog({ product, brands, setProduct, fetchBrands, data, opened, onClose, onSubmit }) {
+function ProductDialog({ product, brands, categories, setProduct, fetchBrands, fetchCategories, data, opened, onClose, onSubmit }) {
     const classes = useStyles();
     const { control, handleSubmit } = useForm();
     const handleClose = () => {
@@ -75,6 +79,10 @@ function ProductDialog({ product, brands, setProduct, fetchBrands, data, opened,
             }
         });
     };
+  
+    useEffect(() => {
+      fetchCategories();
+    }, [fetchCategories]);
 
     useEffect(() => {
         fetchBrands();
@@ -113,6 +121,26 @@ function ProductDialog({ product, brands, setProduct, fetchBrands, data, opened,
                             fullWidth
                         />}
                     />
+                   
+            <FormControl className={classes.formCtrl}>
+              <InputLabel id="product-category-select-label">Category</InputLabel>
+              <Controller
+                control={control}
+                name="category"
+                rules={{ required: true }}
+                as={
+                  <Select id="product-category-select">
+                    {categories &&
+                      categories.map((category) => (
+                        <MenuItem key={category._id} value={category._id}>
+                          {category.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                }
+              />
+            </FormControl>  
+                          
                     <Controller
                         control={control}
                         name="price"
@@ -235,6 +263,7 @@ function ProductDialog({ product, brands, setProduct, fetchBrands, data, opened,
 
 const mapStateToProps = state => ({
     brands: state.brands,
+    categories: state.categories,
     product: state.product
 });
 
@@ -242,6 +271,7 @@ export default connect(
     mapStateToProps,
     {
         fetchBrands,
+        fetchCategories,
         setProduct
         // createBrand,
         // updateBrand

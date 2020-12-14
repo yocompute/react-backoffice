@@ -6,7 +6,7 @@ const ProductApi = {
 
   async get(query) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, 'products', query);
-
+    
     return await Api.get(url);
   },
 

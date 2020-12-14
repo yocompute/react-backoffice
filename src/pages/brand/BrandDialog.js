@@ -80,39 +80,48 @@ function BrandDialog({ brand, users, setBrand, fetchUsers, data, opened, onClose
         fetchUsers();
     }, [fetchUsers]);
 
-    return (
-        <Dialog open={opened} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Add New Brand</DialogTitle>
-            <form onSubmit={handleSubmit(handleOk)}>
-                <DialogContent>
-                    <DialogContentText>
-                        To add a brand, please enter the name and description here.
-                    </DialogContentText>
+  return (
+    <Dialog
+      open={opened}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+    >
+      <DialogTitle id="form-dialog-title">Add New Brand</DialogTitle>
+      <form onSubmit={handleSubmit(handleOk)}>
+        <DialogContent>
+          <DialogContentText>
+            To add a brand, please enter the name and description here.
+          </DialogContentText>
 
-                    <Controller
-                        control={control}
-                        name="name"
-                        defaultValue={data.name}
-                        as={<TextField
-                            autoFocus
-                            margin="dense"
-                            label="name"
-                            type="text"
-                            fullWidth
-                        />}
-                    />
+          <Controller
+            control={control}
+            name="name"
+            defaultValue={data.name}
+            as={
+              <TextField
+                autoFocus
+                margin="dense"
+                label="Name"
+                type="text"
+                fullWidth
+              />
+            }
+          />
 
-                    <Controller
-                        control={control}
-                        name="description"
-                        as={<TextField
-                            autoFocus
-                            margin="dense"
-                            label="Description"
-                            type="text"
-                            fullWidth
-                        />}
-                    />
+          <Controller
+            control={control}
+            name="description"
+            as={
+              <TextField
+                autoFocus
+                margin="dense"
+                label="Description"
+                type="text"
+                fullWidth
+              />
+            }
+          />
+
 
                     <FormControl className={classes.formCtrl}>
                         <InputLabel id="brand-status-select-label">Status</InputLabel>
@@ -129,24 +138,26 @@ function BrandDialog({ brand, users, setBrand, fetchUsers, data, opened, onClose
                         />
                     </FormControl>
 
-                    <FormControl className={classes.formCtrl}>
-                        <InputLabel id="brand-owner-select-label">Owner</InputLabel>
-                        <Controller
-                            control={control}
-                            name="owner"
-                            rules={{ required: true }}
-                            as={
-                                <Select id="brand-owner-select">
-                                    {
-                                        users &&
-                                        users.map(user =>
-                                            <MenuItem key={user._id} value={user._id}>{user.username}</MenuItem>
-                                        )
-                                    }
-                                </Select>
-                            }
-                        />
-                    </FormControl>
+          <FormControl className={classes.formCtrl}>
+            <InputLabel id="brand-owner-select-label">Owner</InputLabel>
+            <Controller
+              control={control}
+              name="owner"
+              rules={{ required: true }}
+              as={
+                <Select id="brand-owner-select">
+                  {users &&
+                    users.map((user) => (
+                      <MenuItem key={user._id} value={user._id}>
+                        {user.username}
+                      </MenuItem>
+                    ))}
+                </Select>
+              }
+            />
+          </FormControl>
+        </DialogContent>
+
 
                 </DialogContent>
                 <DialogActions>
