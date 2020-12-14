@@ -40,12 +40,27 @@ const menus = [
     tip: "Manage Categories",
   },
   {
-    path: "/products",
-    text: "Manage Products",
+    path: '/qrcodes',
+    text: 'Manage Qrcodes',
+    icon: <BrandingWatermarkIcon />,
+    tip: 'Manage Qrcodes',
+  },
+  {
+    path: '/products',
+    text: 'Manage Products',
     icon: <ViewListIcon />,
     tip: "Manage Products",
   },
   {
+<<<<<<< HEAD
+=======
+    path: "/orders",
+    text: "Manage Orders",
+    icon: <ShoppingCartIcon />,
+    tip: "Manage Orders",
+  },
+  {
+>>>>>>> refs/remotes/origin/pages/category
     path: '/payments',
     text: 'Manage Payments',
     icon: <ShoppingCartIcon />,

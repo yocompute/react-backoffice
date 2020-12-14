@@ -11,33 +11,30 @@ import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect
 import ListTable from "../../components/table/ListTable";
 import ProductDialog from "./ProductDialog";
 
-import {
-  fetchProducts,
-  createProduct,
-  updateProduct,
-} from "../../redux/product/product.actions";
+
+import { setProduct, fetchProducts, createProduct, updateProduct } from '../../redux/product/product.actions'
 
 const columns = [
-  { field: "createUTC", label: "Created Date" },
-  { field: "imageUrl", label: "Picture", type: "image" },
-  { field: "name", label: "Product Name" },
-  { field: "description", label: "Description" },
-  { field: "price", label: "Price" },
-  { field: "cost", label: "Cost" },
-  { field: "purchaseTaxRate", label: "Purchase Tax Rate" },
-  { field: "saleTaxRate", label: "Sale Tax Rate" },
-  { field: "status", label: "Status" },
-  { field: "brand", label: "Brand", type: "object", property: "name" },
-  { field: "category", label: "Category", type: "object", property: "name" },
-  // { field: "attribute", label: "Attribute" },
-  { field: "actions", label: "Actions" },
+    { field: "createUTC", label: "Created Date" },
+    { field: "pictures", label: "Picture", type: 'picture' },
+    { field: "name", label: "Product Name" },
+    { field: "description", label: "Description" },
+    { field: "price", label: "Price" },
+    { field: "cost", label: "Cost" },
+    { field: "purchaseTaxRate", label: "Purchase Tax Rate" },
+    { field: "saleTaxRate", label: "Sale Tax Rate" },
+    { field: "status", label: "Status" },
+    { field: "brand", label: "Brand", type:'object', property: 'name' },
+    { field: "category", label: "Category", type: "object", property: "name" },
+    // { field: "attribute", label: "Attribute" },
+    { field: "actions", label: "Actions" },
 ];
 
 const defaultSort = ["createUTC", -1];
 
 const DEFAULT_PRODUCT = {
   _id: "",
-  imageUrl: "",
+  pictures: [],
   name: "",
   description: "",
   price: "",
@@ -49,67 +46,58 @@ const DEFAULT_PRODUCT = {
   category: "",
 };
 
-const ProductListPage = ({
-  products,
-  fetchProducts,
-  createProduct,
-  updateProduct,
-}) => {
-  const [dialogOpened, setDialogOpen] = useState(false);
-  const [data, setData] = useState(DEFAULT_PRODUCT);
 
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+const ProductListPage = ({ setProduct, fetchProducts, createProduct, updateProduct, products }) => {
 
-  const handlePaymentMethodSelect = () => {};
+    const [dialogOpened, setDialogOpen] = useState(false);
+    const [data, setData] = useState(DEFAULT_PRODUCT);
 
-  const handleOpenProductDialog = () => {
-    setData(DEFAULT_PRODUCT);
-    setDialogOpen(true);
-  };
+    useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts]);
 
-  const handleSave = (data) => {
-    if (data && data._id) {
-      updateProduct(data);
-    } else {
-      createProduct(data);
+    const handlePaymentMethodSelect = () => {
+
     }
-  };
 
-  const handleEditRow = (row) => {
-    setData(row);
-    setDialogOpen(true);
-  };
+    const handleOpenProductDialog = () => {
+        setData(DEFAULT_PRODUCT);
+        setDialogOpen(true);
+    }
 
-  return (
-    <div>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleOpenProductDialog}
-      >
-        Add
-      </Button>
-      <ProductDialog
-        data={data}
-        opened={dialogOpened}
-        onClose={setDialogOpen}
-        onSubmit={handleSave}
-      />
-      {products && (
-        <ListTable
-          label="product"
-          defaultSort={defaultSort}
-          columns={columns}
-          rows={products}
-          onEditRow={handleEditRow}
-        />
-      )}
-      {/* <Header title={'Product Page'}></Header>
-            <CartItemList items={cart.items}/>
-            <div className="label payment-label">Payment Method</div>
-            <PaymentMethodSelect onSelect={handlePaymentMethodSelect}></PaymentMethodSelect> */}
+    const handleSave = (data) => {
+        if(data && data._id){
+            updateProduct(data);
+        }else{
+            createProduct(data);
+        }
+    }
+
+    const handleEditRow = (row) => {
+        setData(row);
+        setProduct(row);
+        setDialogOpen(true);
+    }
+
+    return (
+        <div>
+            <Button variant="contained" color="primary" onClick={handleOpenProductDialog}>Add</Button>
+            <ProductDialog
+                data={data}
+                opened={dialogOpened}
+                onClose={setDialogOpen}
+                onSubmit={handleSave}
+            />
+            {
+                products &&
+                <ListTable
+                    label="product"
+                    defaultSort={defaultSort}
+                    columns={columns}
+                    rows={products}
+                    onEditRow={handleEditRow}
+                />
+            }
     </div>
   );
 };
@@ -119,6 +107,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
+  setProduct,
   fetchProducts,
   createProduct,
   updateProduct,
