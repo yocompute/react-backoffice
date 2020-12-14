@@ -24,61 +24,61 @@ import ImageViewer from '../../components/common/ImageViewer';
 
 
 const useStyles = makeStyles((theme) => ({
-    formCtrl: {
-      width: '100%'
-    },
-    uploadRow:{
-        paddingBottom: '25px',
-        paddingRight: '25px'
-    },
-    uploadCol:{
-        width: '50%',
-        float: 'left'
-    },
-    imageCol:{
-        width: '50%',
-        float: 'left'
-    }
+  formCtrl: {
+    width: '100%'
+  },
+  uploadRow: {
+    paddingBottom: '25px',
+    paddingRight: '25px'
+  },
+  uploadCol: {
+    width: '50%',
+    float: 'left'
+  },
+  imageCol: {
+    width: '50%',
+    float: 'left'
+  }
 }));
 function BrandDialog({ brand, users, setBrand, fetchUsers, data, opened, onClose, onSubmit }) {
-    const classes = useStyles();
-    const { control, handleSubmit } = useForm();
-    const handleClose = () => {
-        onClose(false);
-    };
+  const classes = useStyles();
+  const { control, handleSubmit } = useForm();
+  const handleClose = () => {
+    onClose(false);
+  };
 
-    const handleOk = (d) => {
-        onSubmit(d);
-        onClose(false);
+  const handleOk = (d) => {
+    onSubmit(d);
+    onClose(false);
+  }
+  const handleRemovePicture = () => {
+    const confirm = window.confirm("Do you really want to remove this image?");
+    if (confirm) {
+      const newModel = { ...brand };
+      newModel.pictures.splice(0, 1);
+      setBrand(newModel);
     }
-    const handleRemovePicture = () => {
-        const confirm = window.confirm("Do you really want to remove this image?");
-        if (confirm) {
-            const newModel = { ...brand };
-            newModel.pictures.splice(0, 1);
-            setBrand(newModel);
-        }
-    }
+  }
 
-    const handleUpload = picture => {
-        let file = picture;
-        if (Array.isArray(file)) {
-            file = file[0];
-        }
-        BrandApi.upload(file, brand._id).then(data => {
-            if (data) {
-                setBrand({ ...data });
-            } else {
-                // setAlert({
-                //   message: t("Upload failed"),
-                //   severity: "error"
-                // });
-            }
-        });
-    };
-    useEffect(() => {
-        fetchUsers();
-    }, [fetchUsers]);
+  const handleUpload = picture => {
+    let file = picture;
+    if (Array.isArray(file)) {
+      file = file[0];
+    }
+    BrandApi.upload(file, brand._id).then(data => {
+      if (data) {
+        setBrand({ ...data });
+      } else {
+        // setAlert({
+        //   message: t("Upload failed"),
+        //   severity: "error"
+        // });
+      }
+    });
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
   return (
     <Dialog
@@ -123,20 +123,20 @@ function BrandDialog({ brand, users, setBrand, fetchUsers, data, opened, onClose
           />
 
 
-                    <FormControl className={classes.formCtrl}>
-                        <InputLabel id="brand-status-select-label">Status</InputLabel>
-                        <Controller
-                            control={control}
-                            name="status"
-                            rules={{ required: true }}
-                            as={
-                                <Select id="brand-status-select">
-                                    <MenuItem key={"A"} value={"A"}>Active</MenuItem>
-                                    <MenuItem key={"I"} value={"I"}>Inactive</MenuItem>
-                                </Select>
-                            }
-                        />
-                    </FormControl>
+          <FormControl className={classes.formCtrl}>
+            <InputLabel id="brand-status-select-label">Status</InputLabel>
+            <Controller
+              control={control}
+              name="status"
+              rules={{ required: true }}
+              as={
+                <Select id="brand-status-select">
+                  <MenuItem key={"A"} value={"A"}>Active</MenuItem>
+                  <MenuItem key={"I"} value={"I"}>Inactive</MenuItem>
+                </Select>
+              }
+            />
+          </FormControl>
 
           <FormControl className={classes.formCtrl}>
             <InputLabel id="brand-owner-select-label">Owner</InputLabel>
@@ -157,53 +157,50 @@ function BrandDialog({ brand, users, setBrand, fetchUsers, data, opened, onClose
             />
           </FormControl>
         </DialogContent>
-
-
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
                     </Button>
-                    <Button variant="contained" color="primary" type="submit">
-                        Submit
+          <Button variant="contained" color="primary" type="submit">
+            Submit
                     </Button>
-                </DialogActions>
-            </form>
+        </DialogActions>
+      </form>
 
-            <div className={classes.uploadRow}>
-                <div className={classes.uploadCol}>
+      <div className={classes.uploadRow}>
+        <div className={classes.uploadCol}>
 
-                    <ImageUploader
-                        withIcon={true}
-                        buttonText="Upload image"
-                        onChange={picture => handleUpload(picture)}
-                        imgExtension={[".jpg", ".gif", ".png", ".jpeg"]}
-                        maxFileSize={5242880}
-                    />
-                </div>
-                <div className={classes.imageCol}>
+          <ImageUploader
+            withIcon={true}
+            buttonText="Upload image"
+            onChange={picture => handleUpload(picture)}
+            imgExtension={[".jpg", ".gif", ".png", ".jpeg"]}
+            maxFileSize={5242880}
+          />
+        </div>
+        <div className={classes.imageCol}>
 
-                    <ImageViewer
-                        url={brand && brand.pictures && brand.pictures.length > 0 ? brand.pictures[0].url : ""}
-                        onRemove={handleRemovePicture}
-                    />
-                </div>
-            </div>
-        </Dialog>
-    );
+          <ImageViewer
+            url={brand && brand.pictures && brand.pictures.length > 0 ? brand.pictures[0].url : ""}
+            onRemove={handleRemovePicture}
+          />
+        </div>
+      </div>
+    </Dialog >
+  );
 }
 
 
 
 const mapStateToProps = state => ({
-    brand: state.brand,
-    users: state.users
+  brand: state.brand,
+  users: state.users
 });
 
 export default connect(
-    mapStateToProps,
-    {
-        setBrand,
-        fetchUsers
-    }
+  mapStateToProps,
+  {
+    setBrand,
+    fetchUsers
+  }
 )(BrandDialog);
