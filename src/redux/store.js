@@ -13,6 +13,7 @@ import { cartReducer } from './cart/cart.reducers';
 import { merchantReducer } from './merchant/merchant.reducers';
 import { pageReducer } from './page/page.reducers';
 import { paymentReducer, paymentsReducer } from './payment/payment.reducers';
+import { qrcodeReducer, qrcodesReducer } from './qrcode/qrcode.reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -30,7 +31,9 @@ export const rootReducer = combineReducers({
   merchant: merchantReducer,
   page: pageReducer,
   payments: paymentsReducer,
-  payment: paymentReducer
+  payment: paymentReducer,
+  qrcodes: qrcodesReducer,
+  qrcode: qrcodeReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));

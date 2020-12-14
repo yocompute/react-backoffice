@@ -1,9 +1,7 @@
-
 import React, { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { connect } from 'react-redux';
+import { Controller, useForm } from 'react-hook-form'
+import { connect } from 'react-redux'
 import ImageUploader from "react-images-upload";
-
 import { makeStyles } from '@material-ui/core/styles';
 
 import FormControl from '@material-ui/core/FormControl';
@@ -18,32 +16,31 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import ProductApi from '../../services/ProductApi';
+import { setQrcode } from '../../redux/qrcode/qrcode.actions';
+import { fetchBrands } from '../../redux/brand/brand.actions';
+
+import QrcodeApi from '../../services/QrcodeApi';
 import ImageViewer from '../../components/common/ImageViewer';
 
-import { fetchBrands } from '../../redux/brand/brand.actions';
-import { setProduct } from '../../redux/product/product.actions';
-import { fetchCategories } from "../../redux/category/category.actions";
 
 const useStyles = makeStyles((theme) => ({
     formCtrl: {
-        width: '100%'
+      width: '100%'
     },
-    uploadRow: {
+    uploadRow:{
         paddingBottom: '25px',
         paddingRight: '25px'
     },
-    uploadCol: {
+    uploadCol:{
         width: '50%',
         float: 'left'
     },
-    imageCol: {
+    imageCol:{
         width: '50%',
         float: 'left'
     }
 }));
-
-function ProductDialog({ product, brands, categories, setProduct, fetchBrands, fetchCategories, data, opened, onClose, onSubmit }) {
+function QrcodeDialog({ qrcode, brands, setQrcode, fetchBrands, data, opened, onClose, onSubmit }) {
     const classes = useStyles();
     const { control, handleSubmit } = useForm();
     const handleClose = () => {
@@ -57,9 +54,9 @@ function ProductDialog({ product, brands, categories, setProduct, fetchBrands, f
     const handleRemovePicture = () => {
         const confirm = window.confirm("Do you really want to remove this image?");
         if (confirm) {
-            const newModel = { ...product };
+            const newModel = { ...qrcode };
             newModel.pictures.splice(0, 1);
-            setProduct(newModel);
+            setQrcode(newModel);
         }
     }
 
@@ -68,9 +65,9 @@ function ProductDialog({ product, brands, categories, setProduct, fetchBrands, f
         if (Array.isArray(file)) {
             file = file[0];
         }
-        ProductApi.upload(file, product._id).then(data => {
+        QrcodeApi.upload(file, qrcode._id).then(data => {
             if (data) {
-                setProduct({ ...data });
+                setQrcode({ ...data });
             } else {
                 // setAlert({
                 //   message: t("Upload failed"),
@@ -79,22 +76,17 @@ function ProductDialog({ product, brands, categories, setProduct, fetchBrands, f
             }
         });
     };
-  
-    useEffect(() => {
-      fetchCategories();
-    }, [fetchCategories]);
-
     useEffect(() => {
         fetchBrands();
-    }, [])
+    }, [fetchBrands]);
 
     return (
         <Dialog open={opened} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Add New Product</DialogTitle>
+            <DialogTitle id="form-dialog-title">Add New Qrcode</DialogTitle>
             <form onSubmit={handleSubmit(handleOk)}>
                 <DialogContent>
                     <DialogContentText>
-                        To add a product, please enter the name and description here.
+                        To add a qrcode, please enter the name and description here.
                     </DialogContentText>
 
                     <Controller
@@ -121,86 +113,15 @@ function ProductDialog({ product, brands, categories, setProduct, fetchBrands, f
                             fullWidth
                         />}
                     />
-                   
-            <FormControl className={classes.formCtrl}>
-              <InputLabel id="product-category-select-label">Category</InputLabel>
-              <Controller
-                control={control}
-                name="category"
-                rules={{ required: true }}
-                as={
-                  <Select id="product-category-select">
-                    {categories &&
-                      categories.map((category) => (
-                        <MenuItem key={category._id} value={category._id}>
-                          {category.name}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                }
-              />
-            </FormControl>  
-                          
-                    <Controller
-                        control={control}
-                        name="price"
-                        type="number"
-                        as={<TextField
-                            autoFocus
-                            margin="dense"
-                            label="Price"
-                            type="text"
-                            fullWidth
-                        />}
-                    />
-
-                    <Controller
-                        control={control}
-                        name="cost"
-                        type="number"
-                        as={<TextField
-                            autoFocus
-                            margin="dense"
-                            label="Cost"
-                            type="text"
-                            fullWidth
-                        />}
-                    />
-
-                    <Controller
-                        control={control}
-                        name="purchaseTaxRate"
-                        type="number"
-                        as={<TextField
-                            autoFocus
-                            margin="dense"
-                            label="Purchase Tax Rate"
-                            type="text"
-                            fullWidth
-                        />}
-                    />
-
-                    <Controller
-                        control={control}
-                        name="saleTaxRate"
-                        type="number"
-                        as={<TextField
-                            autoFocus
-                            margin="dense"
-                            label="Sale Tax Rate"
-                            type="text"
-                            fullWidth
-                        />}
-                    />
 
                     <FormControl className={classes.formCtrl}>
-                        <InputLabel id="product-status-select-label">Status</InputLabel>
+                        <InputLabel id="qrcode-status-select-label">Status</InputLabel>
                         <Controller
                             control={control}
                             name="status"
                             rules={{ required: true }}
                             as={
-                                <Select id="product-status-select">
+                                <Select id="qrcode-status-select">
                                     <MenuItem key={"A"} value={"A"}>Active</MenuItem>
                                     <MenuItem key={"I"} value={"I"}>Inactive</MenuItem>
                                 </Select>
@@ -209,13 +130,13 @@ function ProductDialog({ product, brands, categories, setProduct, fetchBrands, f
                     </FormControl>
 
                     <FormControl className={classes.formCtrl}>
-                        <InputLabel id="product-brand-select-label">Owner</InputLabel>
+                        <InputLabel id="qrcode-brand-select-label">Owner</InputLabel>
                         <Controller
                             control={control}
                             name="brand"
                             rules={{ required: true }}
                             as={
-                                <Select id="product-brand-select">
+                                <Select id="qrcode-brand-select">
                                     {
                                         brands &&
                                         brands.map(brand =>
@@ -252,7 +173,7 @@ function ProductDialog({ product, brands, categories, setProduct, fetchBrands, f
                 <div className={classes.imageCol}>
 
                     <ImageViewer
-                        url={product && product.pictures && product.pictures.length > 0 ? product.pictures[0].url : ""}
+                        url={qrcode && qrcode.pictures && qrcode.pictures.length > 0 ? qrcode.pictures[0].url : ""}
                         onRemove={handleRemovePicture}
                     />
                 </div>
@@ -261,19 +182,17 @@ function ProductDialog({ product, brands, categories, setProduct, fetchBrands, f
     );
 }
 
+
+
 const mapStateToProps = state => ({
-    brands: state.brands,
-    categories: state.categories,
-    product: state.product
+    qrcode: state.qrcode,
+    brands: state.brands
 });
 
 export default connect(
     mapStateToProps,
     {
-        fetchBrands,
-        fetchCategories,
-        setProduct
-        // createBrand,
-        // updateBrand
+        setQrcode,
+        fetchBrands
     }
-)(ProductDialog);
+)(QrcodeDialog);

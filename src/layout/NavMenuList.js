@@ -40,23 +40,28 @@ const menus = [
     tip: "Manage Categories",
   },
   {
-    path: "/products",
-    text: "Manage Products",
+    path: '/qrcodes',
+    text: 'Manage Qrcodes',
+    icon: <BrandingWatermarkIcon />,
+    tip: 'Manage Qrcodes',
+  },
+  {
+    path: '/products',
+    text: 'Manage Products',
     icon: <ViewListIcon />,
     tip: "Manage Products",
   },
   {
-<<<<<<< HEAD
     path: "/orders",
     text: "Manage Orders",
     icon: <ShoppingCartIcon />,
     tip: "Manage Orders",
-=======
+  },
+  {
     path: '/payments',
     text: 'Manage Payments',
     icon: <ShoppingCartIcon />,
     tip: 'Manage Payments',
->>>>>>> develop
   },
   // {
   //   path: '/orders',
