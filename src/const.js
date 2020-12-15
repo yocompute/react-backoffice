@@ -1,6 +1,7 @@
 export const JWT_COOKIE = 'shippal_jwt';
 export const JWT_EXPIRY = 7;
 
+export const CLIENT_HOST = 'https://www.yocompute.com';
 
 export const HOME_PAGE = 'page/home';
 export const BRAND_PAGE = 'page/brand';
