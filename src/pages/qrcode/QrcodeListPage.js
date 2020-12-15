@@ -15,7 +15,6 @@ import { fetchQrcodes, createQrcode, updateQrcode, setQrcode } from '../../redux
 
 const columns = [
     { field: "createUTC", label: "Created Date" },
-    { field: "pictures", label: "Qrcode logo", type: 'picture' },
     { field: "name", label: "Qrcode name" },
     { field: "description", label: "Description" },
     { field: "status", label: "Status" },
@@ -27,7 +26,6 @@ const defaultSort = ['createUTC', -1];
 
 const DEFAULT_QRCODE = {
     _id: '',
-    logoUrl:'',
     name:'',
     description:'',
     status: '',
@@ -39,7 +37,6 @@ const DEFAULT_QRCODE = {
 const QrcodeListPage = ({ setQrcode, fetchQrcodes, createQrcode, updateQrcode, qrcodes }) => {
 
     const [dialogOpened, setDialogOpen] = useState(false);
-    const [data, setData] = useState(DEFAULT_QRCODE);
 
     useEffect(() => {
         fetchQrcodes();
@@ -50,7 +47,7 @@ const QrcodeListPage = ({ setQrcode, fetchQrcodes, createQrcode, updateQrcode, q
     }
 
     const handleOpenQrcodeDialog = () => {
-        setData(DEFAULT_QRCODE);
+        setQrcode(DEFAULT_QRCODE);
         setDialogOpen(true);
     }
 
@@ -63,7 +60,6 @@ const QrcodeListPage = ({ setQrcode, fetchQrcodes, createQrcode, updateQrcode, q
     }
 
     const handleEditRow = (row) => {
-        setData(row);
         setQrcode(row);
         setDialogOpen(true);
     }
@@ -72,7 +68,6 @@ const QrcodeListPage = ({ setQrcode, fetchQrcodes, createQrcode, updateQrcode, q
         <div>
             <Button variant="contained" color="primary" onClick={handleOpenQrcodeDialog}>Add</Button>
             <QrcodeDialog
-                data={data}
                 opened={dialogOpened}
                 onClose={setDialogOpen}
                 onSubmit={handleSave}

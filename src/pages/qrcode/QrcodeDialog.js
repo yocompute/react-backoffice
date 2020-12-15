@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form'
 import { connect } from 'react-redux'
 import ImageUploader from "react-images-upload";
@@ -19,30 +19,30 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { setQrcode } from '../../redux/qrcode/qrcode.actions';
 import { fetchBrands } from '../../redux/brand/brand.actions';
 
-import QrcodeApi from '../../services/QrcodeApi';
-import ImageViewer from '../../components/common/ImageViewer';
+import { CLIENT_HOST } from '../../const';
 
+var QRCode = require('qrcode-react');
 
 const useStyles = makeStyles((theme) => ({
     formCtrl: {
-      width: '100%'
+        width: '100%'
     },
-    uploadRow:{
-        paddingBottom: '25px',
-        paddingRight: '25px'
+    qrcodeRow: {
+        padding: '25px'
     },
-    uploadCol:{
-        width: '50%',
-        float: 'left'
-    },
-    imageCol:{
+    qrcodeCol: {
         width: '50%',
         float: 'left'
     }
 }));
-function QrcodeDialog({ qrcode, brands, setQrcode, fetchBrands, data, opened, onClose, onSubmit }) {
+
+function QrcodeDialog({ qrcode, brands, setQrcode, fetchBrands, opened, onClose, onSubmit }) {
     const classes = useStyles();
     const { control, handleSubmit } = useForm();
+    const [val, setValue] = useState();
+        // qrcode && qrcode._id && qrcode.brand ?
+        // `${CLIENT_HOST}/${qrcode.brand}/${qrcode._id}` : null);
+
     const handleClose = () => {
         onClose(false);
     };
@@ -51,31 +51,26 @@ function QrcodeDialog({ qrcode, brands, setQrcode, fetchBrands, data, opened, on
         onSubmit(d);
         onClose(false);
     }
-    const handleRemovePicture = () => {
-        const confirm = window.confirm("Do you really want to remove this image?");
-        if (confirm) {
-            const newModel = { ...qrcode };
-            newModel.pictures.splice(0, 1);
-            setQrcode(newModel);
-        }
+
+    const handleBrandChange = (e) => {
+        const newModel = { ...qrcode };
+        newModel.brand = e.target.value;
+        setQrcode(newModel);
+        setValue(`${CLIENT_HOST}/${e.target.value}/${qrcode._id}`);
     }
 
-    const handleUpload = picture => {
-        let file = picture;
-        if (Array.isArray(file)) {
-            file = file[0];
+    const handleStatusChange = (e) => {
+        const newModel = { ...qrcode };
+        newModel.status = e.target.value;
+        setQrcode(newModel);
+    }
+
+    useEffect(() => {
+        if (qrcode && qrcode._id && qrcode.brand) {
+            setValue(`${CLIENT_HOST}/${qrcode.brand}/${qrcode._id}`);
         }
-        QrcodeApi.upload(file, qrcode._id).then(data => {
-            if (data) {
-                setQrcode({ ...data });
-            } else {
-                // setAlert({
-                //   message: t("Upload failed"),
-                //   severity: "error"
-                // });
-            }
-        });
-    };
+    }, [qrcode]);
+
     useEffect(() => {
         fetchBrands();
     }, [fetchBrands]);
@@ -83,99 +78,98 @@ function QrcodeDialog({ qrcode, brands, setQrcode, fetchBrands, data, opened, on
     return (
         <Dialog open={opened} onClose={handleClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Add New Qrcode</DialogTitle>
-            <form onSubmit={handleSubmit(handleOk)}>
-                <DialogContent>
-                    <DialogContentText>
-                        To add a qrcode, please enter the name and description here.
+            {
+                qrcode &&
+                <form onSubmit={handleSubmit(handleOk)}>
+                    <DialogContent>
+                        <DialogContentText>
+                            To add a qrcode, please enter the name and description here.
                     </DialogContentText>
 
-                    <Controller
-                        control={control}
-                        name="name"
-                        defaultValue={data.name}
-                        as={<TextField
-                            autoFocus
-                            margin="dense"
-                            label="name"
-                            type="text"
-                            fullWidth
-                        />}
-                    />
-
-                    <Controller
-                        control={control}
-                        name="description"
-                        as={<TextField
-                            autoFocus
-                            margin="dense"
-                            label="Description"
-                            type="text"
-                            fullWidth
-                        />}
-                    />
-
-                    <FormControl className={classes.formCtrl}>
-                        <InputLabel id="qrcode-status-select-label">Status</InputLabel>
                         <Controller
                             control={control}
-                            name="status"
-                            rules={{ required: true }}
-                            as={
-                                <Select id="qrcode-status-select">
-                                    <MenuItem key={"A"} value={"A"}>Active</MenuItem>
-                                    <MenuItem key={"I"} value={"I"}>Inactive</MenuItem>
-                                </Select>
-                            }
+                            name="name"
+                            defaultValue={qrcode.name}
+                            as={<TextField
+                                autoFocus
+                                margin="dense"
+                                label="name"
+                                type="text"
+                                fullWidth
+                            />}
                         />
-                    </FormControl>
 
-                    <FormControl className={classes.formCtrl}>
-                        <InputLabel id="qrcode-brand-select-label">Owner</InputLabel>
                         <Controller
                             control={control}
-                            name="brand"
-                            rules={{ required: true }}
-                            as={
-                                <Select id="qrcode-brand-select">
-                                    {
-                                        brands &&
-                                        brands.map(brand =>
-                                            <MenuItem key={brand._id} value={brand._id}>{brand.name}</MenuItem>
-                                        )
-                                    }
-                                </Select>
-                            }
+                            name="description"
+                            defaultValue={qrcode.description}
+                            as={<TextField
+                                autoFocus
+                                margin="dense"
+                                label="Description"
+                                type="text"
+                                fullWidth
+                            />}
                         />
-                    </FormControl>
 
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
+                        <FormControl className={classes.formCtrl}>
+                            <InputLabel id="qrcode-status-select-label">Status</InputLabel>
+                            <Controller
+                                control={control}
+                                name="status"
+                                defaultValue={qrcode.status}
+                                rules={{ required: true }}
+                                as={
+                                    <Select id="qrcode-status-select" onChange={handleStatusChange}>
+                                        <MenuItem key={"A"} value={"A"}>Active</MenuItem>
+                                        <MenuItem key={"I"} value={"I"}>Inactive</MenuItem>
+                                    </Select>
+                                }
+                            />
+                        </FormControl>
+
+                        <FormControl className={classes.formCtrl}>
+                            <InputLabel id="qrcode-brand-select-label">Brand</InputLabel>
+                            <Controller
+                                control={control}
+                                name="brand"
+                                rules={{ required: true }}
+                                defaultValue={qrcode.brand}
+                                render={({ onChange, value, onBlur, name }) => (
+                                    <Select id="qrcode-brand-select" value={value} onChange={(e) => {
+                                        onChange(e);
+                                        handleBrandChange(e);
+                                        return e;
+                                    }}>
+                                        {
+                                            brands &&
+                                            brands.map(brand =>
+                                                <MenuItem key={brand._id} value={brand._id}>{brand.name}</MenuItem>
+                                            )
+                                        }
+                                    </Select>
+                                )}
+                            />
+                        </FormControl>
+
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            Cancel
                     </Button>
-                    <Button variant="contained" color="primary" type="submit">
-                        Submit
+                        <Button variant="contained" color="primary" type="submit">
+                            Submit
                     </Button>
-                </DialogActions>
-            </form>
+                    </DialogActions>
+                </form>
+            }
 
-            <div className={classes.uploadRow}>
-                <div className={classes.uploadCol}>
-
-                    <ImageUploader
-                        withIcon={true}
-                        buttonText="Upload image"
-                        onChange={picture => handleUpload(picture)}
-                        imgExtension={[".jpg", ".gif", ".png", ".jpeg"]}
-                        maxFileSize={5242880}
-                    />
-                </div>
-                <div className={classes.imageCol}>
-
-                    <ImageViewer
-                        url={qrcode && qrcode.pictures && qrcode.pictures.length > 0 ? qrcode.pictures[0].url : ""}
-                        onRemove={handleRemovePicture}
-                    />
+            <div className={classes.qrcodeRow}>
+                <div className={classes.qrcodeCol}>
+                    {
+                        val &&
+                        <QRCode value={val} />
+                    }
                 </div>
             </div>
         </Dialog>
