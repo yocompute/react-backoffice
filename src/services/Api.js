@@ -3,7 +3,6 @@ import queryString from 'query-string';
 
 const Api = {
   /**
-   *
    * @param {*} url
    */
   async get(url) {

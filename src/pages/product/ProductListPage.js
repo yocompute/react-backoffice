@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux'
-import PropTypes from "prop-types"
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-import Button from '@material-ui/core/Button'
-import { CartItemList } from '../../components/cart/CartItemList';
-import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect'
+import Button from "@material-ui/core/Button";
+import { CartItemList } from "../../components/cart/CartItemList";
+import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect";
 
 // import Header from '../../components/common/Header'
-import ListTable from '../../components/table/ListTable'
-import ProductDialog from './ProductDialog'
+import ListTable from "../../components/table/ListTable";
+import ProductDialog from "./ProductDialog";
 
-import { fetchProducts, createProduct, updateProduct } from '../../redux/product/product.actions'
+
+import { setProduct, fetchProducts, createProduct, updateProduct } from '../../redux/product/product.actions'
 
 const columns = [
     { field: "createUTC", label: "Created Date" },
-    { field: "imageUrl", label: "Picture", type: 'image' },
+    { field: "pictures", label: "Picture", type: 'picture' },
     { field: "name", label: "Product Name" },
     { field: "description", label: "Description" },
     { field: "price", label: "Price" },
@@ -24,25 +25,29 @@ const columns = [
     { field: "saleTaxRate", label: "Sale Tax Rate" },
     { field: "status", label: "Status" },
     { field: "brand", label: "Brand", type:'object', property: 'name' },
+    { field: "category", label: "Category", type: "object", property: "name" },
     // { field: "attribute", label: "Attribute" },
     { field: "actions", label: "Actions" },
 ];
 
-const defaultSort = ['createUTC', -1];
+const defaultSort = ["createUTC", -1];
 
 const DEFAULT_PRODUCT = {
-    _id: '',
-    imageUrl: '',
-    name:'',
-    description:'',
-    price:'',
-    cost:'',
-    taxRate:'',
-    status:'A',
-    brand:''
-}
+  _id: "",
+  pictures: [],
+  name: "",
+  description: "",
+  price: "",
+  cost: "",
+  purchaseTaxRate: "",
+  saleTaxRate: "",
+  status: "A",
+  brand: "",
+  category: "",
+};
 
-const ProductListPage = ({ fetchProducts, createProduct, updateProduct, products }) => {
+
+const ProductListPage = ({ setProduct, fetchProducts, createProduct, updateProduct, products }) => {
 
     const [dialogOpened, setDialogOpen] = useState(false);
     const [data, setData] = useState(DEFAULT_PRODUCT);
@@ -70,6 +75,7 @@ const ProductListPage = ({ fetchProducts, createProduct, updateProduct, products
 
     const handleEditRow = (row) => {
         setData(row);
+        setProduct(row);
         setDialogOpen(true);
     }
 
@@ -92,23 +98,17 @@ const ProductListPage = ({ fetchProducts, createProduct, updateProduct, products
                     onEditRow={handleEditRow}
                 />
             }
-            {/* <Header title={'Product Page'}></Header>
-            <CartItemList items={cart.items}/>
-            <div className="label payment-label">Payment Method</div>
-            <PaymentMethodSelect onSelect={handlePaymentMethodSelect}></PaymentMethodSelect> */}
-        </div>
-    )
-}
+    </div>
+  );
+};
 
-const mapStateToProps = state => ({
-    products: state.products
+const mapStateToProps = (state) => ({
+  products: state.products,
 });
 
-export default connect(
-    mapStateToProps,
-    { 
-        fetchProducts,
-        createProduct,
-        updateProduct
-    }
-)(ProductListPage);
+export default connect(mapStateToProps, {
+  setProduct,
+  fetchProducts,
+  createProduct,
+  updateProduct,
+})(ProductListPage);

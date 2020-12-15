@@ -7,11 +7,13 @@ import rootSaga from './sagas';
 import { authReducer } from './auth/auth.reducers';
 import { usersReducer, userReducer } from './user/user.reducers';
 import { brandsReducer, brandReducer } from './brand/brand.reducers';
+import { categoriesReducer, categoryReducer } from './category/category.reducers';
 import { productsReducer, productReducer } from './product/product.reducers';
 import { cartReducer } from './cart/cart.reducers';
 import { merchantReducer } from './merchant/merchant.reducers';
 import { pageReducer } from './page/page.reducers';
 import { paymentReducer, paymentsReducer } from './payment/payment.reducers';
+import { qrcodeReducer, qrcodesReducer } from './qrcode/qrcode.reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -21,13 +23,17 @@ export const rootReducer = combineReducers({
   user: userReducer,
   brands: brandsReducer,
   brand: brandReducer,
+  categories: categoriesReducer,
+  category: categoryReducer,
   products: productsReducer,
   product: productReducer,
   cart: cartReducer,
   merchant: merchantReducer,
   page: pageReducer,
   payments: paymentsReducer,
-  payment: paymentReducer
+  payment: paymentReducer,
+  qrcodes: qrcodesReducer,
+  qrcode: qrcodeReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));

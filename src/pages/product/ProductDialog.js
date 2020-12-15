@@ -1,6 +1,9 @@
+
 import React, { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form'
-import { connect } from 'react-redux'
+import { Controller, useForm } from 'react-hook-form';
+import { connect } from 'react-redux';
+import ImageUploader from "react-images-upload";
+
 import { makeStyles } from '@material-ui/core/styles';
 
 import FormControl from '@material-ui/core/FormControl';
@@ -14,16 +17,33 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { fetchBrands } from '../../redux/brand/brand.actions';
 
+import ProductApi from '../../services/ProductApi';
+import ImageViewer from '../../components/common/ImageViewer';
+
+import { fetchBrands } from '../../redux/brand/brand.actions';
+import { setProduct } from '../../redux/product/product.actions';
+import { fetchCategories } from "../../redux/category/category.actions";
 
 const useStyles = makeStyles((theme) => ({
     formCtrl: {
-      width: '100%'
+        width: '100%'
     },
+    uploadRow: {
+        paddingBottom: '25px',
+        paddingRight: '25px'
+    },
+    uploadCol: {
+        width: '50%',
+        float: 'left'
+    },
+    imageCol: {
+        width: '50%',
+        float: 'left'
+    }
 }));
 
-function ProductDialog({ brands,fetchBrands, data, opened, onClose, onSubmit }) {
+function ProductDialog({ product, brands, categories, setProduct, fetchBrands, fetchCategories, data, opened, onClose, onSubmit }) {
     const classes = useStyles();
     const { control, handleSubmit } = useForm();
     const handleClose = () => {
@@ -34,6 +54,35 @@ function ProductDialog({ brands,fetchBrands, data, opened, onClose, onSubmit }) 
         onSubmit(d);
         onClose(false);
     }
+    const handleRemovePicture = () => {
+        const confirm = window.confirm("Do you really want to remove this image?");
+        if (confirm) {
+            const newModel = { ...product };
+            newModel.pictures.splice(0, 1);
+            setProduct(newModel);
+        }
+    }
+
+    const handleUpload = picture => {
+        let file = picture;
+        if (Array.isArray(file)) {
+            file = file[0];
+        }
+        ProductApi.upload(file, product._id).then(data => {
+            if (data) {
+                setProduct({ ...data });
+            } else {
+                // setAlert({
+                //   message: t("Upload failed"),
+                //   severity: "error"
+                // });
+            }
+        });
+    };
+  
+    useEffect(() => {
+      fetchCategories();
+    }, [fetchCategories]);
 
     useEffect(() => {
         fetchBrands();
@@ -72,6 +121,26 @@ function ProductDialog({ brands,fetchBrands, data, opened, onClose, onSubmit }) 
                             fullWidth
                         />}
                     />
+                   
+            <FormControl className={classes.formCtrl}>
+              <InputLabel id="product-category-select-label">Category</InputLabel>
+              <Controller
+                control={control}
+                name="category"
+                rules={{ required: true }}
+                as={
+                  <Select id="product-category-select">
+                    {categories &&
+                      categories.map((category) => (
+                        <MenuItem key={category._id} value={category._id}>
+                          {category.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                }
+              />
+            </FormControl>  
+                          
                     <Controller
                         control={control}
                         name="price"
@@ -168,18 +237,42 @@ function ProductDialog({ brands,fetchBrands, data, opened, onClose, onSubmit }) 
                     </Button>
                 </DialogActions>
             </form>
+
+            <div className={classes.uploadRow}>
+                <div className={classes.uploadCol}>
+
+                    <ImageUploader
+                        withIcon={true}
+                        buttonText="Upload image"
+                        onChange={picture => handleUpload(picture)}
+                        imgExtension={[".jpg", ".gif", ".png", ".jpeg"]}
+                        maxFileSize={5242880}
+                    />
+                </div>
+                <div className={classes.imageCol}>
+
+                    <ImageViewer
+                        url={product && product.pictures && product.pictures.length > 0 ? product.pictures[0].url : ""}
+                        onRemove={handleRemovePicture}
+                    />
+                </div>
+            </div>
         </Dialog>
     );
 }
 
 const mapStateToProps = state => ({
-    brands: state.brands
+    brands: state.brands,
+    categories: state.categories,
+    product: state.product
 });
 
 export default connect(
     mapStateToProps,
-    { 
+    {
         fetchBrands,
+        fetchCategories,
+        setProduct
         // createBrand,
         // updateBrand
     }

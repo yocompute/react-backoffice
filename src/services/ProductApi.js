@@ -6,7 +6,7 @@ const ProductApi = {
 
   async get(query) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, 'products', query);
-
+    
     return await Api.get(url);
   },
 
@@ -20,6 +20,14 @@ const ProductApi = {
     const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, 'products');
 
     return await Api.put(url, entity);
+  },
+
+  async upload(file, productId) {
+    const formData = new FormData();
+    formData.append("upload", file);
+    const url = process.env.REACT_APP_MODE === 'local' ? '/products.json' : Api.buildUrl(API_URL, `products/upload/${productId}`);
+
+    return await Api.post(url, formData);
   },
 };
 
