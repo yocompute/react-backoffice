@@ -52,15 +52,12 @@ const menus = [
     tip: "Manage Products",
   },
   {
-<<<<<<< HEAD
-=======
     path: "/orders",
     text: "Manage Orders",
     icon: <ShoppingCartIcon />,
     tip: "Manage Orders",
   },
   {
->>>>>>> refs/remotes/origin/pages/category
     path: '/payments',
     text: 'Manage Payments',
     icon: <ShoppingCartIcon />,
