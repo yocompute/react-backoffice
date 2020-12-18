@@ -19,14 +19,14 @@ const BrandApi = {
     return await Api.post(url, entity);
   },
 
-  async update(data) {
+  async update(data, id) {
     const url =
       process.env.REACT_APP_MODE === "local"
         ? "/brands.json"
-        : Api.buildUrl(API_URL, "brands");
-
+        : Api.buildUrl(API_URL, `brands/${id}`);
     return await Api.put(url, data);
   },
+
   async upload(file, brandId) {
     const formData = new FormData();
     formData.append("upload", file);

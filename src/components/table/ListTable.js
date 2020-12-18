@@ -16,11 +16,15 @@ import {
 
 import EditIcon from "@material-ui/icons/Edit";
 
-import TableHeader from './TableHeader'
+import TableHeader from "./TableHeader";
 import ListCell from "./ListCell";
 
 const ListTable = ({ label, defaultSort, columns, rows, onEditRow }) => {
   const [sort, setSort] = useState(defaultSort);
+
+  const sorts = (a, b) => {
+    return a.localeCompare(b);
+  };
 
   const rowsSort = (rows) => {
     rows.sort((a, b) => {
@@ -28,43 +32,45 @@ const ListTable = ({ label, defaultSort, columns, rows, onEditRow }) => {
         a[sort[0]] &&
         (sort[0] === "owner"
           ? sort[1] > 0
-            ? a[sort[0]].username.localeCompare(b[sort[0]].username)
-            : b[sort[0]].username.localeCompare(a[sort[0]].username)
+            ? sorts(a[sort[0]].username, b[sort[0]].username)
+            : sorts(b[sort[0]].username, a[sort[0]].username)
           : sort[0] === "brand" || sort[0] === "category"
           ? sort[1] > 0
-            ? a[sort[0]].name.localeCompare(b[sort[0]].name)
-            : b[sort[0]].name.localeCompare(a[sort[0]].name)
-          : sort[0] === "price" ||
-            sort[0] === "cost" ||
-            sort[0] === "purchaseTaxRate" ||
-            sort[0] === "saleTaxRate"
+            ? sorts(a[sort[0]].name, b[sort[0]].name)
+            : sorts(b[sort[0]].name, a[sort[0]].name)
+          : typeof a[sort[0]] === "number"
           ? sort[1] > 0
             ? a[sort[0]] - b[sort[0]]
             : b[sort[0]] - a[sort[0]]
           : sort[1] > 0
-          ? a[sort[0]].localeCompare(b[sort[0]])
-          : b[sort[0]].localeCompare(a[sort[0]]))
+          ? sorts(a[sort[0]], b[sort[0]])
+          : sorts(b[sort[0]], a[sort[0]]))
       );
     });
     return rows;
   };
-  
+
   return (
-      <Table aria-label={label} size="small">
-            <TableHeader data={columns} sort={sort} onSetSort={setSort} />
-            <TableBody>
-                {
-                rows && rows.length >0 &&
-                rows.map((row, idx) => (
-                    <TableRow key={`${row._id}_${idx}`}>
-                        {
-                            columns.map(col => <ListCell row={row} col={col} onEditRow={onEditRow}/>)
-                        }
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
-    )
-}
+    <Table aria-label={label} size="small">
+      <TableHeader data={columns} sort={sort} onSetSort={setSort} />
+      <TableBody>
+        {rows &&
+          rows.length > 0 &&
+          rowsSort(rows).map((row, idx) => (
+            <TableRow key={`${row._id}_${idx}`}>
+              {columns.map((col) => (
+                <ListCell
+                  key={col.field}
+                  row={row}
+                  col={col}
+                  onEditRow={onEditRow}
+                />
+              ))}
+            </TableRow>
+          ))}
+      </TableBody>
+    </Table>
+  );
+};
 
 export default ListTable;

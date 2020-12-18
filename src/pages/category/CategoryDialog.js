@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
-import { fetchUsers } from "../../redux/user/user.actions";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -23,8 +22,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CategoryDialog = ({
-  users,
-  fetchUsers,
+  category,
   data,
   opened,
   onClose,
@@ -33,16 +31,12 @@ const CategoryDialog = ({
   const { control, handleSubmit } = useForm();
   const classes = useStyles();
 
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
-
   const handleClose = () => {
     onClose(false);
   };
 
   const handleOk = (d) => {
-    onSubmit(d);
+    onSubmit(d, category._id);
     onClose(false);
   };
 
@@ -52,6 +46,7 @@ const CategoryDialog = ({
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
+      {console.log(data)}
       <DialogTitle id="form-dialog-title">Add New Category</DialogTitle>
       <form onSubmit={handleSubmit(handleOk)}>
         <DialogContent>
@@ -61,7 +56,7 @@ const CategoryDialog = ({
           <Controller
             control={control}
             name="name"
-            defaultValue={data.name}
+            defaultValue={data && data.name}
             as={
               <TextField
                 autoFocus
@@ -76,6 +71,7 @@ const CategoryDialog = ({
           <Controller
             control={control}
             name="description"
+            defaultValue={data && data.description}
             as={
               <TextField
                 autoFocus
@@ -92,6 +88,7 @@ const CategoryDialog = ({
             <Controller
               control={control}
               name="status"
+              defaultValue={data && data.status}
               rules={{ required: true }}
               as={
                 <Select id="category-status-select">
@@ -101,25 +98,6 @@ const CategoryDialog = ({
                   <MenuItem key={"I"} value={"I"}>
                     Inactive
                   </MenuItem>
-                </Select>
-              }
-            />
-          </FormControl>
-
-          <FormControl className={classes.formCtrl}>
-            <InputLabel id="category-owner-select-label">Owner</InputLabel>
-            <Controller
-              control={control}
-              name="owner"
-              rules={{ required: true }}
-              as={
-                <Select id="category-owner-select">
-                  {users &&
-                    users.map((user) => (
-                      <MenuItem key={user._id} value={user._id}>
-                        {user.username}
-                      </MenuItem>
-                    ))}
                 </Select>
               }
             />
@@ -139,9 +117,7 @@ const CategoryDialog = ({
 };
 
 const mapStateToProps = (state) => ({
-  users: state.users,
+  category: state.category,
 });
 
-export default connect(mapStateToProps, {
-  fetchUsers,
-})(CategoryDialog);
+export default connect(mapStateToProps)(CategoryDialog);

@@ -1,4 +1,5 @@
 import {
+  SET_CATEGORY,
   FETCH_CATEGORIES_SUCCESS,
   CREATE_CATEGORY_SUCCESS,
   UPDATE_CATEGORY_SUCCESS,
@@ -12,6 +13,9 @@ export const categoriesReducer = (state = null, action) => {
 };
 
 export const categoryReducer = (state = null, action) => {
+  if (action && action.type === SET_CATEGORY) {
+    return { ...action.category };
+  }
   if (action && action.type === CREATE_CATEGORY_SUCCESS) {
     return { ...action.category };
   }

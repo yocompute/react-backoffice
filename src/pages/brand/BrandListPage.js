@@ -10,8 +10,8 @@ import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
 import BrandDialog from "./BrandDialog";
-
 import {
+  setBrand,
   fetchBrands,
   createBrand,
   updateBrand,
@@ -23,7 +23,12 @@ const columns = [
   { field: "name", label: "Brand Name" },
   { field: "description", label: "Description" },
   { field: "status", label: "Status" },
-  { field: "owner", label: "Owner", type: "object", property: "username" },
+  {
+    field: "owner",
+    label: "Owner",
+    type: "object",
+    property: "username",
+  },
   { field: "actions", label: "Actions" },
 ];
 
@@ -40,9 +45,20 @@ const DEFAULT_BRAND = {
   actions: "",
 };
 
-const BrandListPage = ({fetchBrands, createBrand, updateBrand, brands }) => {
+const BrandListPage = ({
+  brand,
+  brands,
+  setBrand,
+  fetchBrands,
+  createBrand,
+  updateBrand,
+}) => {
   const [dialogOpened, setDialogOpen] = useState(false);
-  const [data, setData] = useState(DEFAULT_BRAND);
+  // const [data, setData] = useState(DEFAULT_BRAND);
+
+  useEffect(() => {
+    setBrand(DEFAULT_BRAND);
+  }, []);
 
   useEffect(() => {
     fetchBrands();
@@ -51,20 +67,20 @@ const BrandListPage = ({fetchBrands, createBrand, updateBrand, brands }) => {
   const handlePaymentMethodSelect = () => {};
 
   const handleOpenBrandDialog = () => {
-    setData(DEFAULT_BRAND);
+    setBrand(DEFAULT_BRAND);
     setDialogOpen(true);
   };
 
-  const handleSave = (data) => {
-    if (data && data._id) {
-      updateBrand(data);
+  const handleSave = (data, id) => {
+    if (id) {
+      updateBrand(data, id);
     } else {
       createBrand(data);
     }
   };
 
   const handleEditRow = (row) => {
-    setData(row);
+    setBrand(row);
     setDialogOpen(true);
   };
 
@@ -77,12 +93,14 @@ const BrandListPage = ({fetchBrands, createBrand, updateBrand, brands }) => {
       >
         Add
       </Button>
-      <BrandDialog
-        data={data}
-        opened={dialogOpened}
-        onClose={setDialogOpen}
-        onSubmit={handleSave}
-      />
+      {brand && (
+        <BrandDialog
+          data={brand}
+          opened={dialogOpened}
+          onClose={setDialogOpen}
+          onSubmit={handleSave}
+        />
+      )}
       {brands && (
         <ListTable
           label="brand"
@@ -97,10 +115,12 @@ const BrandListPage = ({fetchBrands, createBrand, updateBrand, brands }) => {
 };
 
 const mapStateToProps = (state) => ({
+  brand: state.brand,
   brands: state.brands,
 });
 
 export default connect(mapStateToProps, {
+  setBrand,
   fetchBrands,
   createBrand,
   updateBrand,

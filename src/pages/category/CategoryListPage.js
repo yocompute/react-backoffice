@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import CategoryDialog from "./CategoryDialog";
 import ListTable from "../../components/table/ListTable";
 import {
+  setCategory,
   fetchCategories,
   createCategory,
   updateCategory,
@@ -11,12 +12,11 @@ import Button from "@material-ui/core/Button";
 
 const DEFAULT_CATEGORY = {
   _id: "",
+  createUTC: "",
   imageUrl: "",
   name: "",
   description: "",
   status: "",
-  owner: "",
-  createUTC: "",
   actions: "",
 };
 
@@ -26,40 +26,45 @@ const columns = [
   { field: "name", label: "Category Name" },
   { field: "description", label: "Description" },
   { field: "status", label: "Status" },
-  { field: "owner", label: "Owner", type: "object", property: "username" },
   { field: "actions", label: "Actions" },
 ];
 
 const defaultSort = ["createUTC", 1];
 
 const CategoryListPage = ({
+  category,
   categories,
+  setCategory,
   fetchCategories,
   createCategory,
   updateCategory,
 }) => {
-  const [data, setData] = useState(DEFAULT_CATEGORY);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => {
+    setCategory(DEFAULT_CATEGORY);
+    console.log(category)
+  }, []);
 
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
 
   const handleOpenCategsoryDialog = () => {
-    setData(DEFAULT_CATEGORY);
+    setCategory(DEFAULT_CATEGORY);
     setDialogOpen(true);
   };
 
-  const handleSave = (data) => {
-    if (data && data._id) {
-      updateCategory(data);
+  const handleSave = (data, id) => {
+    if (id) {
+      updateCategory(data, id);
     } else {
       createCategory(data);
     }
   };
 
   const handleEditRow = (row) => {
-    setData(row);
+    setCategory(row);
     setDialogOpen(true);
   };
 
@@ -73,7 +78,7 @@ const CategoryListPage = ({
         Add
       </Button>
       <CategoryDialog
-        data={data}
+        data={category}
         opened={dialogOpen}
         onClose={setDialogOpen}
         onSubmit={handleSave}
@@ -92,10 +97,12 @@ const CategoryListPage = ({
 };
 
 const mapStateToProps = (state) => ({
+  category: state.category,
   categories: state.categories,
 });
 
 export default connect(mapStateToProps, {
+  setCategory,
   fetchCategories,
   createCategory,
   updateCategory,

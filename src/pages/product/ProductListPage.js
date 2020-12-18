@@ -11,29 +11,44 @@ import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect
 import ListTable from "../../components/table/ListTable";
 import ProductDialog from "./ProductDialog";
 
-
-import { setProduct, fetchProducts, createProduct, updateProduct } from '../../redux/product/product.actions'
+import {
+  setProduct,
+  fetchProducts,
+  createProduct,
+  updateProduct,
+} from "../../redux/product/product.actions";
 
 const columns = [
-    { field: "createUTC", label: "Created Date" },
-    { field: "pictures", label: "Picture", type: 'picture' },
-    { field: "name", label: "Product Name" },
-    { field: "description", label: "Description" },
-    { field: "price", label: "Price" },
-    { field: "cost", label: "Cost" },
-    { field: "purchaseTaxRate", label: "Purchase Tax Rate" },
-    { field: "saleTaxRate", label: "Sale Tax Rate" },
-    { field: "status", label: "Status" },
-    { field: "brand", label: "Brand", type:'object', property: 'name' },
-    { field: "category", label: "Category", type: "object", property: "name" },
-    // { field: "attribute", label: "Attribute" },
-    { field: "actions", label: "Actions" },
+  { field: "createUTC", label: "Created Date" },
+  { field: "pictures", label: "Picture" },
+  { field: "name", label: "Product Name" },
+  { field: "description", label: "Description" },
+  { field: "price", label: "Price" },
+  { field: "cost", label: "Cost" },
+  { field: "purchaseTaxRate", label: "Purchase Tax Rate" },
+  { field: "saleTaxRate", label: "Sale Tax Rate" },
+  { field: "status", label: "Status" },
+  {
+    field: "brand",
+    label: "Brand",
+    type: "object",
+    property: "name",
+  },
+  {
+    field: "category",
+    label: "Category",
+    type: "object",
+    property: "name",
+  },
+  // { field: "attribute", label: "Attribute" },
+  { field: "actions", label: "Actions" },
 ];
 
 const defaultSort = ["createUTC", -1];
 
 const DEFAULT_PRODUCT = {
   _id: "",
+  createUTC: "",
   pictures: [],
   name: "",
   description: "",
@@ -46,58 +61,65 @@ const DEFAULT_PRODUCT = {
   category: "",
 };
 
+const ProductListPage = ({
+  setProduct,
+  fetchProducts,
+  createProduct,
+  updateProduct,
+  products,
+}) => {
+  const [dialogOpened, setDialogOpen] = useState(false);
+  const [data, setData] = useState(DEFAULT_PRODUCT);
 
-const ProductListPage = ({ setProduct, fetchProducts, createProduct, updateProduct, products }) => {
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
-    const [dialogOpened, setDialogOpen] = useState(false);
-    const [data, setData] = useState(DEFAULT_PRODUCT);
+  const handlePaymentMethodSelect = () => {};
 
-    useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
+  const handleOpenProductDialog = () => {
+    setData(DEFAULT_PRODUCT);
+    setDialogOpen(true);
+  };
 
-    const handlePaymentMethodSelect = () => {
-
+  const handleSave = (data) => {
+    if (data && data._id) {
+      updateProduct(data);
+    } else {
+      createProduct(data);
     }
+  };
 
-    const handleOpenProductDialog = () => {
-        setData(DEFAULT_PRODUCT);
-        setDialogOpen(true);
-    }
+  const handleEditRow = (row) => {
+    setData(row);
+    setProduct(row);
+    setDialogOpen(true);
+  };
 
-    const handleSave = (data) => {
-        if(data && data._id){
-            updateProduct(data);
-        }else{
-            createProduct(data);
-        }
-    }
-
-    const handleEditRow = (row) => {
-        setData(row);
-        setProduct(row);
-        setDialogOpen(true);
-    }
-
-    return (
-        <div>
-            <Button variant="contained" color="primary" onClick={handleOpenProductDialog}>Add</Button>
-            <ProductDialog
-                data={data}
-                opened={dialogOpened}
-                onClose={setDialogOpen}
-                onSubmit={handleSave}
-            />
-            {
-                products &&
-                <ListTable
-                    label="product"
-                    defaultSort={defaultSort}
-                    columns={columns}
-                    rows={products}
-                    onEditRow={handleEditRow}
-                />
-            }
+  return (
+    <div>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleOpenProductDialog}
+      >
+        Add
+      </Button>
+      <ProductDialog
+        data={data}
+        opened={dialogOpened}
+        onClose={setDialogOpen}
+        onSubmit={handleSave}
+      />
+      {products && (
+        <ListTable
+          label="product"
+          defaultSort={defaultSort}
+          columns={columns}
+          rows={products}
+          onEditRow={handleEditRow}
+        />
+      )}
     </div>
   );
 };
