@@ -56,20 +56,20 @@ const DEFAULT_PRODUCT = {
   cost: "",
   purchaseTaxRate: "",
   saleTaxRate: "",
-  status: "A",
+  status: "",
   brand: "",
   category: "",
 };
 
 const ProductListPage = ({
+  product,
+  products,
   setProduct,
   fetchProducts,
   createProduct,
   updateProduct,
-  products,
 }) => {
   const [dialogOpened, setDialogOpen] = useState(false);
-  const [data, setData] = useState(DEFAULT_PRODUCT);
 
   useEffect(() => {
     fetchProducts();
@@ -78,20 +78,19 @@ const ProductListPage = ({
   const handlePaymentMethodSelect = () => {};
 
   const handleOpenProductDialog = () => {
-    setData(DEFAULT_PRODUCT);
+    setProduct(DEFAULT_PRODUCT);
     setDialogOpen(true);
   };
 
-  const handleSave = (data) => {
-    if (data && data._id) {
-      updateProduct(data);
+  const handleSave = (data, id) => {
+    if (id) {
+      updateProduct(data, id);
     } else {
       createProduct(data);
     }
   };
 
   const handleEditRow = (row) => {
-    setData(row);
     setProduct(row);
     setDialogOpen(true);
   };
@@ -106,7 +105,7 @@ const ProductListPage = ({
         Add
       </Button>
       <ProductDialog
-        data={data}
+        data={product}
         opened={dialogOpened}
         onClose={setDialogOpen}
         onSubmit={handleSave}
@@ -125,6 +124,7 @@ const ProductListPage = ({
 };
 
 const mapStateToProps = (state) => ({
+  product: state.product,
   products: state.products,
 });
 

@@ -30,8 +30,10 @@ const BrandApi = {
   async upload(file, brandId) {
     const formData = new FormData();
     formData.append("upload", file);
-    const url = process.env.REACT_APP_MODE === 'local' ? '/brands.json' : Api.buildUrl(API_URL, `brands/upload/${brandId}`);
-
+    const url =
+      process.env.REACT_APP_MODE === "local"
+        ? "/brands.json"
+        : Api.buildUrl(API_URL, `brands/upload/${brandId}`);
     return await Api.post(url, formData);
   },
 };

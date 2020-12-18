@@ -43,7 +43,6 @@ const CategoryListPage = ({
 
   useEffect(() => {
     setCategory(DEFAULT_CATEGORY);
-    console.log(category)
   }, []);
 
   useEffect(() => {

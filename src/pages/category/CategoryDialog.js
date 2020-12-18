@@ -46,7 +46,6 @@ const CategoryDialog = ({
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
-      {console.log(data)}
       <DialogTitle id="form-dialog-title">Add New Category</DialogTitle>
       <form onSubmit={handleSubmit(handleOk)}>
         <DialogContent>

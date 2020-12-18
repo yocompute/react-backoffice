@@ -12,6 +12,7 @@ import ListTable from "../../components/table/ListTable";
 import UserDialog from "./UserDialog";
 
 import {
+  setUser,
   fetchUsers,
   createUser,
   updateUser,
@@ -41,9 +42,19 @@ const DEFAULT_USER = {
   password: "",
 };
 
-const UserListPage = ({ fetchUsers, createUser, updateUser, users }) => {
+const UserListPage = ({
+  setUser,
+  fetchUsers,
+  createUser,
+  updateUser,
+  user,
+  users,
+}) => {
   const [dialogOpened, setDialogOpen] = useState(false);
-  const [data, setData] = useState(DEFAULT_USER);
+
+  useEffect(() => {
+    setUser(DEFAULT_USER);
+  }, []);
 
   useEffect(() => {
     fetchUsers();
@@ -52,20 +63,20 @@ const UserListPage = ({ fetchUsers, createUser, updateUser, users }) => {
   const handlePaymentMethodSelect = () => {};
 
   const handleOpenUserDialog = () => {
-    setData(DEFAULT_USER);
+    setUser(DEFAULT_USER);
     setDialogOpen(true);
   };
 
-  const handleSave = (data) => {
-    if (data && data._id) {
-      updateUser(data);
+  const handleSave = (data, id) => {
+    if (id) {
+      updateUser(data, id);
     } else {
       createUser(data);
     }
   };
 
   const handleEditRow = (row) => {
-    setData(row);
+    setUser(row);
     setDialogOpen(true);
   };
 
@@ -79,7 +90,7 @@ const UserListPage = ({ fetchUsers, createUser, updateUser, users }) => {
         Add
       </Button>
       <UserDialog
-        data={data}
+        data={user}
         opened={dialogOpened}
         onClose={setDialogOpen}
         onSubmit={handleSave}
@@ -102,10 +113,12 @@ const UserListPage = ({ fetchUsers, createUser, updateUser, users }) => {
 };
 
 const mapStateToProps = (state) => ({
+  user: state.user,
   users: state.users,
 });
 
 export default connect(mapStateToProps, {
+  setUser,
   fetchUsers,
   createUser,
   updateUser,
