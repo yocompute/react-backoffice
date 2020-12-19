@@ -29,6 +29,8 @@ export function* updateCategory(action) {
   try {
     const category = yield call(CategoryApi.update, action.data, action.id);
     yield put(updateCategorySuccess(category));
+    const categories = yield call(CategoryApi.get, null);
+    yield put(fetchCategoriesSuccess(categories));
   } catch (error) {}
 }
 
