@@ -21,13 +21,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CategoryDialog = ({
-  category,
-  data,
-  opened,
-  onClose,
-  onSubmit,
-}) => {
+const CategoryDialog = ({ data, opened, onClose, onSubmit }) => {
   const { control, handleSubmit } = useForm();
   const classes = useStyles();
 
@@ -36,7 +30,7 @@ const CategoryDialog = ({
   };
 
   const handleOk = (d) => {
-    onSubmit(d, category._id);
+    onSubmit(d, data._id);
     onClose(false);
   };
 
@@ -47,76 +41,74 @@ const CategoryDialog = ({
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Add New Category</DialogTitle>
-      <form onSubmit={handleSubmit(handleOk)}>
-        <DialogContent>
-          <DialogContentText>
-            To add a category, please enter the name and description here.
-          </DialogContentText>
-          <Controller
-            control={control}
-            name="name"
-            defaultValue={data && data.name}
-            as={
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Name"
-                type="text"
-                fullWidth
-              />
-            }
-          />
-
-          <Controller
-            control={control}
-            name="description"
-            defaultValue={data && data.description}
-            as={
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Description"
-                type="text"
-                fullWidth
-              />
-            }
-          />
-
-          <FormControl className={classes.formCtrl}>
-            <InputLabel id="category-status-select-label">Status</InputLabel>
+      {data && (
+        <form onSubmit={handleSubmit(handleOk)}>
+          <DialogContent>
+            <DialogContentText>
+              To add a category, please enter the name and description here.
+            </DialogContentText>
             <Controller
               control={control}
-              name="status"
-              defaultValue={data && data.status}
-              rules={{ required: true }}
+              name="name"
+              defaultValue={data.name}
               as={
-                <Select id="category-status-select">
-                  <MenuItem key={"A"} value={"A"}>
-                    Active
-                  </MenuItem>
-                  <MenuItem key={"I"} value={"I"}>
-                    Inactive
-                  </MenuItem>
-                </Select>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  label="Name"
+                  type="text"
+                  fullWidth
+                />
               }
             />
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button variant="contained" color="primary" type="submit">
-            Submit
-          </Button>
-        </DialogActions>
-      </form>
+
+            <Controller
+              control={control}
+              name="description"
+              defaultValue={data.description}
+              as={
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  label="Description"
+                  type="text"
+                  fullWidth
+                />
+              }
+            />
+
+            <FormControl className={classes.formCtrl}>
+              <InputLabel id="category-status-select-label">Status</InputLabel>
+              <Controller
+                control={control}
+                name="status"
+                defaultValue={data.status}
+                rules={{ required: true }}
+                as={
+                  <Select id="category-status-select">
+                    <MenuItem key={"A"} value={"A"}>
+                      Active
+                    </MenuItem>
+                    <MenuItem key={"I"} value={"I"}>
+                      Inactive
+                    </MenuItem>
+                  </Select>
+                }
+              />
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" type="submit">
+              Submit
+            </Button>
+          </DialogActions>
+        </form>
+      )}
     </Dialog>
   );
 };
 
-const mapStateToProps = (state) => ({
-  category: state.category,
-});
-
-export default connect(mapStateToProps)(CategoryDialog);
+export default CategoryDialog;

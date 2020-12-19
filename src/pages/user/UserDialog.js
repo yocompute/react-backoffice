@@ -34,64 +34,66 @@ export default function UserDialog({ data, opened, onClose, onSubmit }) {
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Add New User</DialogTitle>
-      <form onSubmit={handleSubmit(handleOk)}>
-        <DialogContent>
-          <DialogContentText>
-            To add a user, please enter the email, name and tmporary password
-            here.
-          </DialogContentText>
+      {data && (
+        <form onSubmit={handleSubmit(handleOk)}>
+          <DialogContent>
+            <DialogContentText>
+              To add a user, please enter the email, name and tmporary password
+              here.
+            </DialogContentText>
 
-          <TextField
-            autoFocus
-            margin="dense"
-            name="email"
-            label="Email"
-            type="email"
-            defaultValue={data && data.email}
-            fullWidth
-            inputRef={register}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            name="phone"
-            defaultValue={data && data.phone}
-            label="Phone Number"
-            type="phone"
-            // value={model.phone}
-            fullWidth
-            inputRef={register}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            name="username"
-            defaultValue={data && data.username}
-            label="Username"
-            type="text"
-            // value={model.username}
-            fullWidth
-            inputRef={register}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            name="password"
-            label="Password"
-            type="password"
-            fullWidth
-            inputRef={register}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button variant="contained" color="primary" type="submit">
-            Submit
-          </Button>
-        </DialogActions>
-      </form>
+            <TextField
+              autoFocus
+              margin="dense"
+              name="email"
+              label="Email"
+              type="email"
+              defaultValue={data.email}
+              fullWidth
+              inputRef={register}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              name="phone"
+              defaultValue={data.phone}
+              label="Phone Number"
+              type="phone"
+              // value={model.phone}
+              fullWidth
+              inputRef={register}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              name="username"
+              defaultValue={data.username}
+              label="Username"
+              type="text"
+              // value={model.username}
+              fullWidth
+              inputRef={register}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              name="password"
+              label="Password"
+              type="password"
+              fullWidth
+              inputRef={register}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" type="submit">
+              Submit
+            </Button>
+          </DialogActions>
+        </form>
+      )}
     </Dialog>
   );
 }

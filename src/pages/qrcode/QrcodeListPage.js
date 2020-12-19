@@ -23,7 +23,12 @@ const columns = [
   { field: "name", label: "Qrcode name" },
   { field: "description", label: "Description" },
   { field: "status", label: "Status" },
-  { field: "brand", label: "Brand", type: "object", property: "name" },
+  {
+    field: "brand",
+    label: "Brand",
+    type: "object",
+    property: "name",
+  },
   { field: "actions", label: "Actions" },
 ];
 
@@ -44,6 +49,7 @@ const QrcodeListPage = ({
   fetchQrcodes,
   createQrcode,
   updateQrcode,
+  qrcode,
   qrcodes,
 }) => {
   const [dialogOpened, setDialogOpen] = useState(false);
@@ -59,9 +65,9 @@ const QrcodeListPage = ({
     setDialogOpen(true);
   };
 
-  const handleSave = (data) => {
-    if (data && data._id) {
-      updateQrcode(data);
+  const handleSave = (data, id) => {
+    if (id) {
+      updateQrcode(data, id);
     } else {
       createQrcode(data);
     }
@@ -82,6 +88,7 @@ const QrcodeListPage = ({
         Add
       </Button>
       <QrcodeDialog
+        data={qrcode}
         opened={dialogOpened}
         onClose={setDialogOpen}
         onSubmit={handleSave}
@@ -100,7 +107,7 @@ const QrcodeListPage = ({
 };
 
 const mapStateToProps = (state) => ({
-  // qrcode: state.qrcode,
+  qrcode: state.qrcode,
   qrcodes: state.qrcodes,
 });
 

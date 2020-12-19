@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function BrandDialog({
-  brand,
   users,
   setBrand,
   fetchUsers,
@@ -56,14 +55,14 @@ function BrandDialog({
   };
 
   const handleOk = (d) => {
-    onSubmit(d, brand._id);
+    onSubmit(d, data._id);
     onClose(false);
   };
 
   const handleRemovePicture = () => {
     const confirm = window.confirm("Do you really want to remove this image?");
     if (confirm) {
-      const newModel = { ...brand };
+      const newModel = { ...data };
       newModel.pictures.splice(0, 1);
       setBrand(newModel);
     }
@@ -74,7 +73,7 @@ function BrandDialog({
     if (Array.isArray(file)) {
       file = file[0];
     }
-    BrandApi.upload(file, brand._id).then((data) => {
+    BrandApi.upload(file, data._id).then((data) => {
       if (data) {
         setBrand({ ...data });
       } else {
@@ -85,7 +84,7 @@ function BrandDialog({
       }
     });
   };
-  
+
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
@@ -97,92 +96,94 @@ function BrandDialog({
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Add New Brand</DialogTitle>
-      <form onSubmit={handleSubmit(handleOk)}>
-        <DialogContent>
-          <DialogContentText>
-            To add a brand, please enter the name and description here.
-          </DialogContentText>
+      {data && (
+        <form onSubmit={handleSubmit(handleOk)}>
+          <DialogContent>
+            <DialogContentText>
+              To add a brand, please enter the name and description here.
+            </DialogContentText>
 
-          <Controller
-            control={control}
-            name="name"
-            defaultValue={data && data.name}
-            as={
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Name"
-                type="text"
-                fullWidth
-              />
-            }
-          />
-
-          <Controller
-            control={control}
-            name="description"
-            defaultValue={data && data.description}
-            as={
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Description"
-                type="text"
-                fullWidth
-              />
-            }
-          />
-
-          <FormControl className={classes.formCtrl}>
-            <InputLabel id="brand-status-select-label">Status</InputLabel>
             <Controller
               control={control}
-              name="status"
-              defaultValue={data && data.status}
-              rules={{ required: true }}
+              name="name"
+              defaultValue={data.name}
               as={
-                <Select id="brand-status-select">
-                  <MenuItem key={"A"} value={"A"}>
-                    Active
-                  </MenuItem>
-                  <MenuItem key={"I"} value={"I"}>
-                    Inactive
-                  </MenuItem>
-                </Select>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  label="Name"
+                  type="text"
+                  fullWidth
+                />
               }
             />
-          </FormControl>
 
-          <FormControl className={classes.formCtrl}>
-            <InputLabel id="brand-owner-select-label">Owner</InputLabel>
             <Controller
               control={control}
-              name="owner"
-              defaultValue={data.owner && data.owner._id}
-              rules={{ required: true }}
+              name="description"
+              defaultValue={data.description}
               as={
-                <Select id="brand-owner-select">
-                  {users &&
-                    users.map((user) => (
-                      <MenuItem key={user._id} value={user._id}>
-                        {user.username}
-                      </MenuItem>
-                    ))}
-                </Select>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  label="Description"
+                  type="text"
+                  fullWidth
+                />
               }
             />
-          </FormControl>
-        </DialogContent>
 
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button variant="contained" color="primary" type="submit">
-            Submit
-          </Button>
-        </DialogActions>
-      </form>
+            <FormControl className={classes.formCtrl}>
+              <InputLabel id="brand-status-select-label">Status</InputLabel>
+              <Controller
+                control={control}
+                name="status"
+                defaultValue={data.status}
+                rules={{ required: true }}
+                as={
+                  <Select id="brand-status-select">
+                    <MenuItem key={"A"} value={"A"}>
+                      Active
+                    </MenuItem>
+                    <MenuItem key={"I"} value={"I"}>
+                      Inactive
+                    </MenuItem>
+                  </Select>
+                }
+              />
+            </FormControl>
+
+            <FormControl className={classes.formCtrl}>
+              <InputLabel id="brand-owner-select-label">Owner</InputLabel>
+              <Controller
+                control={control}
+                name="owner"
+                defaultValue={data.owner && data.owner._id}
+                rules={{ required: true }}
+                as={
+                  <Select id="brand-owner-select">
+                    {users &&
+                      users.map((user) => (
+                        <MenuItem key={user._id} value={user._id}>
+                          {user.username}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                }
+              />
+            </FormControl>
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" type="submit">
+              Submit
+            </Button>
+          </DialogActions>
+        </form>
+      )}
 
       <div className={classes.uploadRow}>
         <div className={classes.uploadCol}>
@@ -197,8 +198,8 @@ function BrandDialog({
         <div className={classes.imageCol}>
           <ImageViewer
             url={
-              brand && brand.pictures && brand.pictures.length > 0
-                ? brand.pictures[0].url
+              data && data.pictures && data.pictures.length > 0
+                ? data.pictures[0].url
                 : ""
             }
             onRemove={handleRemovePicture}
@@ -210,7 +211,6 @@ function BrandDialog({
 }
 
 const mapStateToProps = (state) => ({
-  brand: state.brand,
   users: state.users,
 });
 

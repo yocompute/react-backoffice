@@ -45,9 +45,10 @@ export const createQrcodeFail = error => ({
     error
 })
 
-export const updateQrcode = (data) => ({
+export const updateQrcode = (data, id) => ({
     type: UPDATE_QRCODE,
-    data
+    data,
+    id,
 })
 
 export const updateQrcodeSuccess = (qrcode) => ({
