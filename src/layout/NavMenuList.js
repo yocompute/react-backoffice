@@ -40,14 +40,14 @@ const menus = [
     tip: "Manage Categories",
   },
   {
-    path: '/qrcodes',
-    text: 'Manage Qrcodes',
+    path: "/qrcodes",
+    text: "Manage Qrcodes",
     icon: <BrandingWatermarkIcon />,
-    tip: 'Manage Qrcodes',
+    tip: "Manage Qrcodes",
   },
   {
-    path: '/products',
-    text: 'Manage Products',
+    path: "/products",
+    text: "Manage Products",
     icon: <ViewListIcon />,
     tip: "Manage Products",
   },
@@ -58,10 +58,10 @@ const menus = [
     tip: "Manage Orders",
   },
   {
-    path: '/payments',
-    text: 'Manage Payments',
+    path: "/payments",
+    text: "Manage Payments",
     icon: <ShoppingCartIcon />,
-    tip: 'Manage Payments',
+    tip: "Manage Payments",
   },
   // {
   //   path: '/orders',

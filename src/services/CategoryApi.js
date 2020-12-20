@@ -19,11 +19,11 @@ const CategoryApi = {
     return await Api.post(url, entity);
   },
 
-  async update(data) {
+  async update(data, id) {
     const url =
       process.env.REACT_APP_MODE === "local"
         ? "/categories.json"
-        : Api.buildUrl(API_URL, "categories");
+        : Api.buildUrl(API_URL, `categories/${id}`);
 
     return await Api.put(url, data);
   },
