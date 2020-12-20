@@ -4,6 +4,7 @@ import {
   CREATE_CATEGORY,
   UPDATE_CATEGORY,
   fetchCategoriesSuccess,
+  fetchCategoriesFail,
   updateCategorySuccess,
   createCategorySuccess,
 } from "./category.actions";
@@ -13,7 +14,9 @@ export function* fetchCategories(action) {
   try {
     const categories = yield call(CategoryApi.get, action.query);
     yield put(fetchCategoriesSuccess(categories));
-  } catch (error) {}
+  } catch (error) {
+    yield put(fetchCategoriesFail(error));
+  }
 }
 
 export function* createCategory(action) {
@@ -27,9 +30,13 @@ export function* createCategory(action) {
 
 export function* updateCategory(action) {
   try {
-    const category = yield call(CategoryApi.update, action.data);
+    const category = yield call(CategoryApi.update, action.data, action.id);
     yield put(updateCategorySuccess(category));
-  } catch (error) {}
+    const categories = yield call(CategoryApi.get, null);
+    yield put(fetchCategoriesSuccess(categories));
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export function* watchCategories() {
