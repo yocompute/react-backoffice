@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CategoryDialog = ({ data, opened, onClose, onSubmit }) => {
+const CategoryDialog = ({ category, opened, onClose, onSubmit }) => {
   const { control, handleSubmit } = useForm();
   const classes = useStyles();
 
@@ -30,7 +30,7 @@ const CategoryDialog = ({ data, opened, onClose, onSubmit }) => {
   };
 
   const handleOk = (d) => {
-    onSubmit(d, data._id);
+    onSubmit(d, category._id);
     onClose(false);
   };
 
@@ -41,7 +41,7 @@ const CategoryDialog = ({ data, opened, onClose, onSubmit }) => {
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Add New Category</DialogTitle>
-      {data && (
+      {category && (
         <form onSubmit={handleSubmit(handleOk)}>
           <DialogContent>
             <DialogContentText>
@@ -50,7 +50,7 @@ const CategoryDialog = ({ data, opened, onClose, onSubmit }) => {
             <Controller
               control={control}
               name="name"
-              defaultValue={data.name}
+              defaultValue={category.name}
               as={
                 <TextField
                   autoFocus
@@ -65,7 +65,7 @@ const CategoryDialog = ({ data, opened, onClose, onSubmit }) => {
             <Controller
               control={control}
               name="description"
-              defaultValue={data.description}
+              defaultValue={category.description}
               as={
                 <TextField
                   autoFocus
@@ -82,7 +82,7 @@ const CategoryDialog = ({ data, opened, onClose, onSubmit }) => {
               <Controller
                 control={control}
                 name="status"
-                defaultValue={data.status}
+                defaultValue={category.status}
                 rules={{ required: true }}
                 as={
                   <Select id="category-status-select">
@@ -111,4 +111,8 @@ const CategoryDialog = ({ data, opened, onClose, onSubmit }) => {
   );
 };
 
-export default CategoryDialog;
+const mapStateToProps = (state) => ({
+  category: state.category,
+});
+
+export default connect(mapStateToProps)(CategoryDialog);

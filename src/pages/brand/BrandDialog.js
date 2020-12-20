@@ -39,30 +39,32 @@ const useStyles = makeStyles((theme) => ({
     float: "left",
   },
 }));
+
 function BrandDialog({
   users,
   setBrand,
   fetchUsers,
-  data,
+  brand,
   opened,
   onClose,
   onSubmit,
 }) {
   const classes = useStyles();
   const { control, handleSubmit } = useForm();
+  
   const handleClose = () => {
     onClose(false);
   };
 
   const handleOk = (d) => {
-    onSubmit(d, data._id);
+    onSubmit(d, brand._id);
     onClose(false);
   };
 
   const handleRemovePicture = () => {
     const confirm = window.confirm("Do you really want to remove this image?");
     if (confirm) {
-      const newModel = { ...data };
+      const newModel = { ...brand };
       newModel.pictures.splice(0, 1);
       setBrand(newModel);
     }
@@ -73,9 +75,9 @@ function BrandDialog({
     if (Array.isArray(file)) {
       file = file[0];
     }
-    BrandApi.upload(file, data._id).then((data) => {
-      if (data) {
-        setBrand({ ...data });
+    BrandApi.upload(file, brand._id).then((brand) => {
+      if (brand) {
+        setBrand({ ...brand });
       } else {
         // setAlert({
         //   message: t("Upload failed"),
@@ -96,7 +98,7 @@ function BrandDialog({
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Add New Brand</DialogTitle>
-      {data && (
+      {brand && (
         <form onSubmit={handleSubmit(handleOk)}>
           <DialogContent>
             <DialogContentText>
@@ -106,7 +108,7 @@ function BrandDialog({
             <Controller
               control={control}
               name="name"
-              defaultValue={data.name}
+              defaultValue={brand.name}
               as={
                 <TextField
                   autoFocus
@@ -121,7 +123,7 @@ function BrandDialog({
             <Controller
               control={control}
               name="description"
-              defaultValue={data.description}
+              defaultValue={brand.description}
               as={
                 <TextField
                   autoFocus
@@ -138,7 +140,7 @@ function BrandDialog({
               <Controller
                 control={control}
                 name="status"
-                defaultValue={data.status}
+                defaultValue={brand.status}
                 rules={{ required: true }}
                 as={
                   <Select id="brand-status-select">
@@ -158,7 +160,7 @@ function BrandDialog({
               <Controller
                 control={control}
                 name="owner"
-                defaultValue={data.owner && data.owner._id}
+                defaultValue={brand.owner && brand.owner._id}
                 rules={{ required: true }}
                 as={
                   <Select id="brand-owner-select">
@@ -198,8 +200,8 @@ function BrandDialog({
         <div className={classes.imageCol}>
           <ImageViewer
             url={
-              data && data.pictures && data.pictures.length > 0
-                ? data.pictures[0].url
+              brand && brand.pictures && brand.pictures.length > 0
+                ? brand.pictures[0].url
                 : ""
             }
             onRemove={handleRemovePicture}
@@ -211,6 +213,7 @@ function BrandDialog({
 }
 
 const mapStateToProps = (state) => ({
+  brand: state.brand,
   users: state.users,
 });
 

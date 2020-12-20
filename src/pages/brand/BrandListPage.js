@@ -46,7 +46,6 @@ const DEFAULT_BRAND = {
 };
 
 const BrandListPage = ({
-  brand,
   brands,
   setBrand,
   fetchBrands,
@@ -93,14 +92,11 @@ const BrandListPage = ({
       >
         Add
       </Button>
-      {brand && (
-        <BrandDialog
-          data={brand}
-          opened={dialogOpened}
-          onClose={setDialogOpen}
-          onSubmit={handleSave}
-        />
-      )}
+      <BrandDialog
+        opened={dialogOpened}
+        onClose={setDialogOpen}
+        onSubmit={handleSave}
+      />
       {brands && (
         <ListTable
           label="brand"
@@ -115,7 +111,6 @@ const BrandListPage = ({
 };
 
 const mapStateToProps = (state) => ({
-  brand: state.brand,
   brands: state.brands,
 });
 

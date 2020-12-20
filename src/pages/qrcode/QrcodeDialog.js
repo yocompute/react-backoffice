@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function QrcodeDialog({
-  data,
+  qrcode,
   brands,
   setQrcode,
   fetchBrands,
@@ -56,28 +56,28 @@ function QrcodeDialog({
   };
 
   const handleOk = (d) => {
-    onSubmit(d, data._id);
+    onSubmit(d, qrcode._id);
     onClose(false);
   };
 
   const handleBrandChange = (e) => {
-    const newModel = { ...data };
+    const newModel = { ...qrcode };
     newModel.brand = e.target.value;
     setQrcode(newModel);
-    setValue(`${CLIENT_HOST}/${e.target.value}/${data._id}`);
+    setValue(`${CLIENT_HOST}/${e.target.value}/${qrcode._id}`);
   };
 
   const handleStatusChange = (e) => {
-    const newModel = { ...data };
+    const newModel = { ...qrcode };
     newModel.status = e.target.value;
     setQrcode(newModel);
   };
 
   useEffect(() => {
-    if (data && data._id && data.brand) {
-      setValue(`${CLIENT_HOST}/${data.brand}/${data._id}`);
+    if (qrcode && qrcode._id && qrcode.brand) {
+      setValue(`${CLIENT_HOST}/${qrcode.brand}/${qrcode._id}`);
     }
-  }, [data]);
+  }, [qrcode]);
 
   useEffect(() => {
     fetchBrands();
@@ -90,7 +90,7 @@ function QrcodeDialog({
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Add New Qrcode</DialogTitle>
-      {data && (
+      {qrcode && (
         <form onSubmit={handleSubmit(handleOk)}>
           <DialogContent>
             <DialogContentText>
@@ -100,7 +100,7 @@ function QrcodeDialog({
             <Controller
               control={control}
               name="name"
-              defaultValue={data.name}
+              defaultValue={qrcode.name}
               as={
                 <TextField
                   autoFocus
@@ -115,7 +115,7 @@ function QrcodeDialog({
             <Controller
               control={control}
               name="description"
-              defaultValue={data.description}
+              defaultValue={qrcode.description}
               as={
                 <TextField
                   autoFocus
@@ -132,7 +132,7 @@ function QrcodeDialog({
               <Controller
                 control={control}
                 name="status"
-                defaultValue={data.status}
+                defaultValue={qrcode.status}
                 rules={{ required: true }}
                 as={
                   <Select
@@ -156,7 +156,7 @@ function QrcodeDialog({
                 control={control}
                 name="brand"
                 rules={{ required: true }}
-                defaultValue={data.brand && data.brand._id}
+                defaultValue={qrcode.brand && qrcode.brand._id}
                 render={({ onChange, value, onBlur, name }) => (
                   <Select
                     id="qrcode-brand-select"
@@ -198,6 +198,7 @@ function QrcodeDialog({
 }
 
 const mapStateToProps = (state) => ({
+  qrcode: state.qrcode,
   brands: state.brands,
 });
 

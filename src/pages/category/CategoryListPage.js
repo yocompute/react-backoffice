@@ -32,7 +32,6 @@ const columns = [
 const defaultSort = ["createUTC", 1];
 
 const CategoryListPage = ({
-  category,
   categories,
   setCategory,
   fetchCategories,
@@ -77,7 +76,6 @@ const CategoryListPage = ({
         Add
       </Button>
       <CategoryDialog
-        data={category}
         opened={dialogOpen}
         onClose={setDialogOpen}
         onSubmit={handleSave}
@@ -96,7 +94,6 @@ const CategoryListPage = ({
 };
 
 const mapStateToProps = (state) => ({
-  category: state.category,
   categories: state.categories,
 });
 

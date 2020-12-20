@@ -9,8 +9,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { SentimentVerySatisfiedOutlined } from "@material-ui/icons";
+import { connect } from "react-redux";
 
-export default function UserDialog({ data, opened, onClose, onSubmit }) {
+function UserDialog({ user, opened, onClose, onSubmit }) {
   const { register, handleSubmit, setValue, watch, errors } = useForm();
   // const [model, setModel] = useState(data);
   const handleClose = () => {
@@ -18,13 +19,13 @@ export default function UserDialog({ data, opened, onClose, onSubmit }) {
   };
 
   const handleOk = (d) => {
-    onSubmit(d, data._id);
+    onSubmit(d, user._id);
     onClose(false);
   };
 
   useEffect(() => {
-    let kk = data;
-    //setValue([data]);
+    let kk = user;
+    //setValue([user]);
   }, []);
 
   return (
@@ -34,7 +35,7 @@ export default function UserDialog({ data, opened, onClose, onSubmit }) {
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Add New User</DialogTitle>
-      {data && (
+      {user && (
         <form onSubmit={handleSubmit(handleOk)}>
           <DialogContent>
             <DialogContentText>
@@ -48,7 +49,7 @@ export default function UserDialog({ data, opened, onClose, onSubmit }) {
               name="email"
               label="Email"
               type="email"
-              defaultValue={data.email}
+              defaultValue={user.email}
               fullWidth
               inputRef={register}
             />
@@ -56,7 +57,7 @@ export default function UserDialog({ data, opened, onClose, onSubmit }) {
               autoFocus
               margin="dense"
               name="phone"
-              defaultValue={data.phone}
+              defaultValue={user.phone}
               label="Phone Number"
               type="phone"
               // value={model.phone}
@@ -67,7 +68,7 @@ export default function UserDialog({ data, opened, onClose, onSubmit }) {
               autoFocus
               margin="dense"
               name="username"
-              defaultValue={data.username}
+              defaultValue={user.username}
               label="Username"
               type="text"
               // value={model.username}
@@ -97,3 +98,9 @@ export default function UserDialog({ data, opened, onClose, onSubmit }) {
     </Dialog>
   );
 }
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+})
+
+export default connect(mapStateToProps)(UserDialog);

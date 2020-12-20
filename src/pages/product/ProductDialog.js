@@ -48,7 +48,7 @@ function ProductDialog({
   setProduct,
   fetchBrands,
   fetchCategories,
-  data,
+  product,
   opened,
   onClose,
   onSubmit,
@@ -60,13 +60,13 @@ function ProductDialog({
   };
 
   const handleOk = (d) => {
-    onSubmit(d, data._id);
+    onSubmit(d, product._id);
     onClose(false);
   };
   const handleRemovePicture = () => {
     const confirm = window.confirm("Do you really want to remove this image?");
     if (confirm) {
-      const newModel = { ...data };
+      const newModel = { ...product };
       newModel.pictures.splice(0, 1);
       setProduct(newModel);
     }
@@ -77,9 +77,9 @@ function ProductDialog({
     if (Array.isArray(file)) {
       file = file[0];
     }
-    ProductApi.upload(file, data._id).then((data) => {
-      if (data) {
-        setProduct({ ...data });
+    ProductApi.upload(file, product._id).then((product) => {
+      if (product) {
+        setProduct({ ...product });
       } else {
         // setAlert({
         //   message: t("Upload failed"),
@@ -104,7 +104,7 @@ function ProductDialog({
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Add New Product</DialogTitle>
-      {data && (
+      {product && (
         <form onSubmit={handleSubmit(handleOk)}>
           <DialogContent>
             <DialogContentText>
@@ -114,7 +114,7 @@ function ProductDialog({
             <Controller
               control={control}
               name="name"
-              defaultValue={data.name}
+              defaultValue={product.name}
               as={
                 <TextField
                   autoFocus
@@ -129,7 +129,7 @@ function ProductDialog({
             <Controller
               control={control}
               name="description"
-              defaultValue={data.description}
+              defaultValue={product.description}
               as={
                 <TextField
                   autoFocus
@@ -144,7 +144,7 @@ function ProductDialog({
             <Controller
               control={control}
               name="price"
-              defaultValue={data.price}
+              defaultValue={product.price}
               type="number"
               as={
                 <TextField
@@ -160,7 +160,7 @@ function ProductDialog({
             <Controller
               control={control}
               name="cost"
-              defaultValue={data.cost}
+              defaultValue={product.cost}
               type="number"
               as={
                 <TextField
@@ -176,7 +176,7 @@ function ProductDialog({
             <Controller
               control={control}
               name="purchaseTaxRate"
-              defaultValue={data.purchaseTaxRate}
+              defaultValue={product.purchaseTaxRate}
               type="number"
               as={
                 <TextField
@@ -192,7 +192,7 @@ function ProductDialog({
             <Controller
               control={control}
               name="saleTaxRate"
-              defaultValue={data.saleTaxRate}
+              defaultValue={product.saleTaxRate}
               type="number"
               as={
                 <TextField
@@ -210,7 +210,7 @@ function ProductDialog({
               <Controller
                 control={control}
                 name="status"
-                defaultValue={data.status}
+                defaultValue={product.status}
                 rules={{ required: true }}
                 as={
                   <Select id="product-status-select">
@@ -232,7 +232,7 @@ function ProductDialog({
               <Controller
                 control={control}
                 name="category"
-                defaultValue={data.category && data.category._id}
+                defaultValue={product.category && product.category._id}
                 rules={{ required: true }}
                 as={
                   <Select id="product-category-select">
@@ -252,7 +252,7 @@ function ProductDialog({
               <Controller
                 control={control}
                 name="brand"
-                defaultValue={data.brand && data.brand._id}
+                defaultValue={product.brand && product.brand._id}
                 rules={{ required: true }}
                 as={
                   <Select id="product-brand-select">
@@ -292,8 +292,8 @@ function ProductDialog({
         <div className={classes.imageCol}>
           <ImageViewer
             url={
-              data && data.pictures && data.pictures.length > 0
-                ? data.pictures[0].url
+              product && product.pictures && product.pictures.length > 0
+                ? product.pictures[0].url
                 : ""
             }
             onRemove={handleRemovePicture}
@@ -307,12 +307,11 @@ function ProductDialog({
 const mapStateToProps = (state) => ({
   brands: state.brands,
   categories: state.categories,
+  product: state.product,
 });
 
 export default connect(mapStateToProps, {
   fetchBrands,
   fetchCategories,
   setProduct,
-  // createBrand,
-  // updateBrand
 })(ProductDialog);
