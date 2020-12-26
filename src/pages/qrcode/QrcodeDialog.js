@@ -64,7 +64,7 @@ function QrcodeDialog({
     const newModel = { ...qrcode };
     newModel.brand = e.target.value;
     setQrcode(newModel);
-    setValue(`${CLIENT_HOST}/${e.target.value}/${qrcode._id}`);
+    setValue(`${CLIENT_HOST}/?brandId=${e.target.value}&qrcode=${qrcode._id}`);
   };
 
   const handleStatusChange = (e) => {
@@ -75,7 +75,7 @@ function QrcodeDialog({
 
   useEffect(() => {
     if (qrcode && qrcode._id && qrcode.brand) {
-      setValue(`${CLIENT_HOST}/${qrcode.brand}/${qrcode._id}`);
+      setValue(`${CLIENT_HOST}/?brandId=${qrcode.brand}&qrcode=${qrcode._id}`);
     }
   }, [qrcode]);
 
