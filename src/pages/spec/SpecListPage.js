@@ -9,24 +9,18 @@ import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect
 
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
-import ProductDialog from "./ProductDialog";
-
+import SpecDialog from "./SpecDialog";
 import {
-  setProduct,
-  fetchProducts,
-  createProduct,
-  updateProduct,
-} from "../../redux/product/product.actions";
+  setSpec,
+  fetchSpecs,
+  createSpec,
+  updateSpec,
+} from "../../redux/spec/spec.actions";
 
 const columns = [
   { field: "createUTC", label: "Created Date" },
-  { field: "pictures", label: "Picture", type: "picture" },
-  { field: "name", label: "Product Name" },
+  { field: "name", label: "Spec Name" },
   { field: "description", label: "Description" },
-  { field: "price", label: "Price" },
-  { field: "cost", label: "Cost" },
-  { field: "purchaseTaxRate", label: "Purchase Tax Rate" },
-  { field: "saleTaxRate", label: "Sale Tax Rate" },
   { field: "status", label: "Status" },
   {
     field: "brand",
@@ -34,64 +28,57 @@ const columns = [
     type: "object",
     property: "name",
   },
-  {
-    field: "category",
-    label: "Category",
-    type: "object",
-    property: "name",
-  },
-  // { field: "attribute", label: "Attribute" },
   { field: "actions", label: "Actions" },
 ];
 
-const defaultSort = ["createUTC", -1];
+const defaultSort = ["createUTC", 1];
 
-const DEFAULT_PRODUCT = {
+const DEFAULT_SPEC = {
   _id: "",
-  createUTC: "",
-  pictures: [],
+  logoUrl: "",
   name: "",
   description: "",
-  price: "",
-  cost: "",
-  purchaseTaxRate: "",
-  saleTaxRate: "",
   status: "",
   brand: "",
-  category: "",
+  createUTC: "",
+  actions: "",
 };
 
-const ProductListPage = ({
-  product,
-  products,
-  setProduct,
-  fetchProducts,
-  createProduct,
-  updateProduct,
+const SpecListPage = ({
+  specs,
+  setSpec,
+  fetchSpecs,
+  createSpec,
+  updateSpec,
 }) => {
   const [dialogOpened, setDialogOpen] = useState(false);
+  // const [data, setData] = useState(DEFAULT_SPEC);
 
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    setSpec(DEFAULT_SPEC);
+  }, []);
+
+  useEffect(() => {
+    fetchSpecs();
+  }, [fetchSpecs]);
 
   const handlePaymentMethodSelect = () => {};
 
-  const handleOpenProductDialog = () => {
-    setProduct(DEFAULT_PRODUCT);
+  const handleOpenSpecDialog = () => {
+    setSpec(DEFAULT_SPEC);
     setDialogOpen(true);
   };
 
   const handleSave = (data, id) => {
     if (id) {
-      updateProduct(data, id);
+      updateSpec(data, id);
     } else {
-      createProduct(data);
+      createSpec(data);
     }
   };
 
   const handleEditRow = (row) => {
-    setProduct(row);
+    setSpec(row);
     setDialogOpen(true);
   };
 
@@ -100,22 +87,21 @@ const ProductListPage = ({
       <Button
         variant="contained"
         color="primary"
-        onClick={handleOpenProductDialog}
+        onClick={handleOpenSpecDialog}
       >
         Add
       </Button>
-      <ProductDialog
-        data={product}
+      <SpecDialog
         opened={dialogOpened}
         onClose={setDialogOpen}
         onSubmit={handleSave}
       />
-      {products && (
+      {specs && (
         <ListTable
-          label="product"
+          label="spec"
           defaultSort={defaultSort}
           columns={columns}
-          rows={products}
+          rows={specs}
           onEditRow={handleEditRow}
         />
       )}
@@ -124,13 +110,12 @@ const ProductListPage = ({
 };
 
 const mapStateToProps = (state) => ({
-  product: state.product,
-  products: state.products,
+  specs: state.specs,
 });
 
 export default connect(mapStateToProps, {
-  setProduct,
-  fetchProducts,
-  createProduct,
-  updateProduct,
-})(ProductListPage);
+  setSpec,
+  fetchSpecs,
+  createSpec,
+  updateSpec,
+})(SpecListPage);

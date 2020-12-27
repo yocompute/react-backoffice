@@ -46,6 +46,12 @@ const menus = [
     tip: "Manage Qrcodes",
   },
   {
+    path: "/specs",
+    text: "Manage Specs",
+    icon: <ViewListIcon />,
+    tip: "Manage Specs",
+  },
+  {
     path: "/products",
     text: "Manage Products",
     icon: <ViewListIcon />,

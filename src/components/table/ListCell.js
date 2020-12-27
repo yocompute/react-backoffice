@@ -50,9 +50,12 @@ const ListCell = ({ col, row, onEditRow }) => {
                 {data[col.property]}
             </TableCell>
         } else {
-            return <TableCell key={col.field}>
-                {data ? data : ''}
-            </TableCell>
+            return (
+                <TableCell key={col.field}>
+                    {data ? data : ''}
+                </TableCell>
+            )
+
         }
     }
 }

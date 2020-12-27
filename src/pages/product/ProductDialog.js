@@ -19,7 +19,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import ProductApi from "../../services/ProductApi";
 import ImageViewer from "../../components/common/ImageViewer";
-
+import Specs from "../../components/spec/Specs";
 import { fetchBrands } from "../../redux/brand/brand.actions";
 import { setProduct } from "../../redux/product/product.actions";
 import { fetchCategories } from "../../redux/category/category.actions";
@@ -60,7 +60,8 @@ function ProductDialog({
   };
 
   const handleOk = (d) => {
-    onSubmit(d, product._id);
+    const data = {...d, specs: product.specs};
+    onSubmit(data, product._id);
     onClose(false);
   };
   const handleRemovePicture = () => {
@@ -88,6 +89,11 @@ function ProductDialog({
       }
     });
   };
+  
+  const handleSpecsChange = (specs) => {
+    const newModel = { ...product, specs };
+    setProduct(newModel);
+  }
 
   useEffect(() => {
     fetchCategories();
@@ -266,6 +272,8 @@ function ProductDialog({
                 }
               />
             </FormControl>
+
+            <Specs productSpecs={product.specs} onChange={handleSpecsChange}/>
           </DialogContent>
 
           <DialogActions>
