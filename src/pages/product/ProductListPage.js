@@ -99,7 +99,9 @@ const ProductListPage = ({
     setProduct(row);
     fetchAdditions({brand: row.brand});
     // setDialogOpen(true);
-    history.push(`/products/${row._id}`);
+    setTimeout(() => {
+      history.push(`/products/${row._id}`);
+    }, 100)
   };
 
   return (
