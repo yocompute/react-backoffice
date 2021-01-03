@@ -142,7 +142,7 @@ function ProductFormPage({
     if (datas && datas.length > 0) {
       datas.forEach(d => {
         if (d.checked) {
-          additions.push(d._id);
+          additions.push(d);
         }
       })
     }

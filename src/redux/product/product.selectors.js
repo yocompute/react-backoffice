@@ -41,7 +41,7 @@ export const selectAdditions = createSelector([selectProduct, selectAllAdditions
     if(additions && product && product.additions && product.additions.length > 0){
         const arr = [];
         additions.forEach(a => {
-            const aId = product.additions.find(id => id === a._id);
+            const aId = product.additions.find(p => p._id === a._id);
             if(aId){
                 arr.push(a);
             }else{
