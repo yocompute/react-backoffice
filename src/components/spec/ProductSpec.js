@@ -1,11 +1,11 @@
 
-import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React from 'react';
+// import { v4 as uuidv4 } from 'uuid';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
+// import AddIcon from '@material-ui/icons/Add';
 import { ProductSpecOption } from "./ProductSpecOption";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +60,7 @@ export const ProductSpec = ({ spec, onChange, onRemove }) => {
             {
                 spec.options && spec.options.length > 0 &&
                 spec.options.map(option =>
-                    <ProductSpecOption item={option} onChange={handleOptionChange} />
+                    <ProductSpecOption key={option.name} item={option} onChange={handleOptionChange} />
                 )
             }
         </div>

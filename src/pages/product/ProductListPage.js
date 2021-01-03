@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -9,13 +9,14 @@ import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect
 
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
-import ProductDialog from "./ProductDialog";
+import ProductFormPage from "./ProductFormPage";
 
 import {
   setProduct,
   fetchProducts,
   createProduct,
   updateProduct,
+  fetchAdditions
 } from "../../redux/product/product.actions";
 
 const columns = [
@@ -64,12 +65,15 @@ const DEFAULT_PRODUCT = {
 const ProductListPage = ({
   product,
   products,
+  additions,
   setProduct,
   fetchProducts,
   createProduct,
   updateProduct,
+  fetchAdditions
 }) => {
   const [dialogOpened, setDialogOpen] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     fetchProducts();
@@ -77,9 +81,10 @@ const ProductListPage = ({
 
   const handlePaymentMethodSelect = () => {};
 
-  const handleOpenProductDialog = () => {
+  const handleNewProductFormPage = () => {
     setProduct(DEFAULT_PRODUCT);
-    setDialogOpen(true);
+    // setDialogOpen(true);
+    history.push("/products/new");
   };
 
   const handleSave = (data, id) => {
@@ -92,7 +97,9 @@ const ProductListPage = ({
 
   const handleEditRow = (row) => {
     setProduct(row);
-    setDialogOpen(true);
+    fetchAdditions({brand: row.brand});
+    // setDialogOpen(true);
+    history.push(`/products/${row._id}`);
   };
 
   return (
@@ -100,16 +107,11 @@ const ProductListPage = ({
       <Button
         variant="contained"
         color="primary"
-        onClick={handleOpenProductDialog}
+        onClick={handleNewProductFormPage}
       >
         Add
       </Button>
-      <ProductDialog
-        data={product}
-        opened={dialogOpened}
-        onClose={setDialogOpen}
-        onSubmit={handleSave}
-      />
+
       {products && (
         <ListTable
           label="product"
@@ -126,6 +128,7 @@ const ProductListPage = ({
 const mapStateToProps = (state) => ({
   product: state.product,
   products: state.products,
+  additions: state.additions
 });
 
 export default connect(mapStateToProps, {
@@ -133,4 +136,5 @@ export default connect(mapStateToProps, {
   fetchProducts,
   createProduct,
   updateProduct,
+  fetchAdditions
 })(ProductListPage);

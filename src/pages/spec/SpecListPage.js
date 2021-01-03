@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
-import { CartItemList } from "../../components/cart/CartItemList";
-import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect";
 
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
@@ -61,8 +59,6 @@ const SpecListPage = ({
   useEffect(() => {
     fetchSpecs();
   }, [fetchSpecs]);
-
-  const handlePaymentMethodSelect = () => {};
 
   const handleOpenSpecDialog = () => {
     setSpec(DEFAULT_SPEC);

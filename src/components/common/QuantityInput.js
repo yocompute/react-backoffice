@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
-// import './QuantityInput.scss';
 
 const useStyles = makeStyles((theme) => ({
   quantityCtrl: {
@@ -26,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const QuantityInput = ({val, onChange}) => {
-    // const inputRef = React.createRef();
+    const classes = useStyles();
 
     const [quantity, setQuantity] = useState(val);
 
@@ -50,7 +49,7 @@ export const QuantityInput = ({val, onChange}) => {
   }
 
     return (
-      <div className="quantity-ctrl">
+      <div className={classes.quantityCtrl}>
         <div className="increase-btn" onClick={increase}>
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
             <path fill="none" d="M0 0h24v24H0V0z" />

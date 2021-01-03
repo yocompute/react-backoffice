@@ -4,8 +4,11 @@ import {
   FETCH_PRODUCTS,
   CREATE_PRODUCT,
   UPDATE_PRODUCT,
+  FETCH_ADDITIONS,
   fetchProductsSuccess,
   fetchProductsFail,
+  fetchAdditionsSuccess,
+  fetchAdditionsFail,
   createProductSuccess,
   updateProductSuccess,
 } from "./product.actions";
@@ -47,8 +50,20 @@ export function* updateProduct(action) {
   }
 }
 
+// Restaurant related
+
+export function* fetchAdditions(action) {
+  try {
+    const additions = yield call(ProductApi.get, {...action.query, type: 'A' });
+    yield put(fetchAdditionsSuccess(additions));
+  } catch (error) {
+    yield put(fetchAdditionsFail(error));
+  }
+}
+
 export function* watchProducts() {
   yield takeLatest(FETCH_PRODUCTS, fetchProducts);
   yield takeLatest(CREATE_PRODUCT, createProduct);
   yield takeLatest(UPDATE_PRODUCT, updateProduct);
+  yield takeLatest(FETCH_ADDITIONS, fetchAdditions);
 }
