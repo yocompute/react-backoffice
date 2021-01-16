@@ -17,6 +17,7 @@ const DEFAULT_CATEGORY = {
   name: "",
   description: "",
   status: "",
+  brand: "",
   actions: "",
 };
 
@@ -26,6 +27,12 @@ const columns = [
   { field: "name", label: "Category Name" },
   { field: "description", label: "Description" },
   { field: "status", label: "Status" },
+  {
+    field: "brand",
+    label: "Brand",
+    type: "object",
+    property: "name",
+  },
   { field: "actions", label: "Actions" },
 ];
 

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
+import { fetchBrands } from "../../redux/brand/brand.actions";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -21,7 +22,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CategoryDialog = ({ category, opened, onClose, onSubmit }) => {
+const CategoryDialog = ({ category, brands, fetchBrands, opened, onClose, onSubmit }) => {
   const { control, handleSubmit } = useForm();
   const classes = useStyles();
 
@@ -33,6 +34,10 @@ const CategoryDialog = ({ category, opened, onClose, onSubmit }) => {
     onSubmit(d, category._id);
     onClose(false);
   };
+
+  useEffect(() => {
+    fetchBrands();
+  }, [fetchBrands]);
 
   return (
     <Dialog
@@ -96,6 +101,26 @@ const CategoryDialog = ({ category, opened, onClose, onSubmit }) => {
                 }
               />
             </FormControl>
+
+            <FormControl className={classes.formCtrl}>
+              <InputLabel id="category-brand-select-label">Brand</InputLabel>
+              <Controller
+                control={control}
+                name="brand"
+                rules={{ required: true }}
+                defaultValue={category.brand && category.brand._id}
+                as={
+                  <Select id="category-brand-select">
+                    {brands &&
+                      brands.map((brand) => (
+                        <MenuItem key={brand._id} value={brand._id}>
+                          {brand.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                }
+              />
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
@@ -113,6 +138,7 @@ const CategoryDialog = ({ category, opened, onClose, onSubmit }) => {
 
 const mapStateToProps = (state) => ({
   category: state.category,
+  brands: state.brands,
 });
 
-export default connect(mapStateToProps)(CategoryDialog);
+export default connect(mapStateToProps, { fetchBrands })(CategoryDialog);
