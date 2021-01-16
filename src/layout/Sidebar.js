@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -72,5 +73,10 @@ const Sidebar = ({ expanded, onToggle }) => {
     </Drawer>
   );
 };
+
+Sidebar.propTypes = {
+  expanded: PropTypes.any,
+  onToggle: PropTypes.func
+}
 
 export default Sidebar;

@@ -1,5 +1,6 @@
+import PropTypes from "prop-types";
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 // import './CartItemList.scss';
 
@@ -17,4 +18,10 @@ export const CartItemList = ({items}) => {
       )
     }
     </div>
+}
+CartItemList.propTypes = {
+  items: PropTypes.shape({
+    length: PropTypes.number,
+    map: PropTypes.func
+  })
 }

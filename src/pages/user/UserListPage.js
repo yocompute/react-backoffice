@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+// import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
-import { CartItemList } from "../../components/cart/CartItemList";
-import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect";
 
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
@@ -60,8 +58,6 @@ const UserListPage = ({
     fetchUsers();
   }, [fetchUsers]);
 
-  const handlePaymentMethodSelect = () => {};
-
   const handleOpenUserDialog = () => {
     setUser(DEFAULT_USER);
     setDialogOpen(true);
@@ -104,13 +100,18 @@ const UserListPage = ({
           onEditRow={handleEditRow}
         />
       )}
-      {/* <Header title={'User Page'}></Header>
-            <CartItemList items={cart.items}/>
-            <div className="label payment-label">Payment Method</div>
-            <PaymentMethodSelect onSelect={handlePaymentMethodSelect}></PaymentMethodSelect> */}
     </div>
   );
 };
+
+UserListPage.propTypes = {
+  createUser: PropTypes.func,
+  fetchUsers: PropTypes.func,
+  setUser: PropTypes.func,
+  updateUser: PropTypes.func,
+  user: PropTypes.any,
+  users: PropTypes.any
+}
 
 const mapStateToProps = (state) => ({
   user: state.user,

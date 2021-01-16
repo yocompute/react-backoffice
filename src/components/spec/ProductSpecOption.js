@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import PropTypes from "prop-types";
+import React from 'react';
 
 
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
+// import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
     wrapper:{
@@ -29,8 +30,8 @@ export const ProductSpecOption = ({ item, onSelect, onChange }) => {
         onChange({...item, price: v});
     }
 
-    const handleSelect = () => {
-        // onSelect(item);
+    const handleSelect = (item) => {
+        onSelect(item);
     }
 
     return (
@@ -40,4 +41,12 @@ export const ProductSpecOption = ({ item, onSelect, onChange }) => {
         </div>
     )
 
+}
+ProductSpecOption.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.any,
+    price: PropTypes.any
+  }),
+  onChange: PropTypes.func,
+  onSelect: PropTypes.any
 }

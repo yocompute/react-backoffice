@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
@@ -63,6 +64,13 @@ export const TableHeadCell = ({ sort, field, label, onSetSort }) => {
   );
 };
 
+TableHeadCell.propTypes = {
+  field: PropTypes.any,
+  label: PropTypes.any,
+  onSetSort: PropTypes.func,
+  sort: PropTypes.any
+}
+
 // data --- [{field:x, label:x}]
 const TableHeader = ({ data, sort, onSetSort }) => {
   return (
@@ -83,5 +91,14 @@ const TableHeader = ({ data, sort, onSetSort }) => {
     </TableHead>
   );
 };
+
+TableHeader.propTypes = {
+  data: PropTypes.shape({
+    length: PropTypes.number,
+    map: PropTypes.func
+  }),
+  onSetSort: PropTypes.any,
+  sort: PropTypes.any
+}
 
 export default TableHeader;

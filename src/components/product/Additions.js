@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -6,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // import Button from '@material-ui/core/Button';
 import Addition from './Addition';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root:{
         width: '100%',
         padding: '20px 0px'
@@ -74,6 +75,11 @@ const Additions = ({data, onChange}) => {
         :
         <div />
     )
+}
+
+Additions.propTypes = {
+  data: PropTypes.any,
+  onChange: PropTypes.func
 }
 
 // Additions.propTypes = {

@@ -25,7 +25,9 @@ export function* createCategory(action) {
     yield put(createCategorySuccess(category));
     const categories = yield call(CategoryApi.get, null);
     yield put(fetchCategoriesSuccess(categories));
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export function* updateCategory(action) {
@@ -35,7 +37,7 @@ export function* updateCategory(action) {
     const categories = yield call(CategoryApi.get, null);
     yield put(fetchCategoriesSuccess(categories));
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 

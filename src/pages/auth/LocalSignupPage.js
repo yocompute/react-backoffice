@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -69,6 +70,11 @@ const LocalSignupPage = ({isLoggedIn, signup}) => {
         }
         </Container>
     )    
+}
+
+LocalSignupPage.propTypes = {
+  isLoggedIn: PropTypes.any,
+  signup: PropTypes.func
 }
 const mapStateToProps = state => ({
     isLoggedIn: state.tokenId,

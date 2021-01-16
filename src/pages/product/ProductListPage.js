@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
-import { CartItemList } from "../../components/cart/CartItemList";
-import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect";
 
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
-import ProductFormPage from "./ProductFormPage";
+// import ProductFormPage from "./ProductFormPage";
 
 import {
   setProduct,
   fetchProducts,
-  createProduct,
-  updateProduct,
+  // createProduct,
+  // updateProduct,
   fetchAdditions
 } from "../../redux/product/product.actions";
 
@@ -63,23 +61,21 @@ const DEFAULT_PRODUCT = {
 };
 
 const ProductListPage = ({
-  product,
+  // product,
   products,
-  additions,
+  // additions,
   setProduct,
   fetchProducts,
-  createProduct,
-  updateProduct,
+  // createProduct,
+  // updateProduct,
   fetchAdditions
 }) => {
-  const [dialogOpened, setDialogOpen] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
-  const handlePaymentMethodSelect = () => {};
 
   const handleNewProductFormPage = () => {
     setProduct(DEFAULT_PRODUCT);
@@ -87,13 +83,13 @@ const ProductListPage = ({
     history.push("/products/new");
   };
 
-  const handleSave = (data, id) => {
-    if (id) {
-      updateProduct(data, id);
-    } else {
-      createProduct(data);
-    }
-  };
+  // const handleSave = (data, id) => {
+  //   if (id) {
+  //     updateProduct(data, id);
+  //   } else {
+  //     createProduct(data);
+  //   }
+  // };
 
   const handleEditRow = (row) => {
     setProduct(row);
@@ -127,6 +123,13 @@ const ProductListPage = ({
   );
 };
 
+ProductListPage.propTypes = {
+  fetchAdditions: PropTypes.func,
+  fetchProducts: PropTypes.func,
+  products: PropTypes.any,
+  setProduct: PropTypes.func,
+}
+
 const mapStateToProps = (state) => ({
   product: state.product,
   products: state.products,
@@ -136,7 +139,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setProduct,
   fetchProducts,
-  createProduct,
-  updateProduct,
+  // createProduct,
+  // updateProduct,
   fetchAdditions
 })(ProductListPage);

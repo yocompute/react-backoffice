@@ -7,7 +7,7 @@ export const SET_MERCHANT = 'merchant/SET_MERCHANT';
 
 
 // action creators
-export const fetchMerchants = (payload) => ({
+export const fetchMerchants = () => ({
     type: FETCH_MERCHANTS
 })
 

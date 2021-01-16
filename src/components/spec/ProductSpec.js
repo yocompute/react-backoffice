@@ -1,4 +1,5 @@
 
+import PropTypes from "prop-types";
 import React from 'react';
 // import { v4 as uuidv4 } from 'uuid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,7 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 // import AddIcon from '@material-ui/icons/Add';
 import { ProductSpecOption } from "./ProductSpecOption";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     spec: {
         width: '100%',
         display: 'flex'
@@ -60,9 +61,22 @@ export const ProductSpec = ({ spec, onChange, onRemove }) => {
             {
                 spec.options && spec.options.length > 0 &&
                 spec.options.map(option =>
-                    <ProductSpecOption key={option.name} item={option} onChange={handleOptionChange} />
+                    <ProductSpecOption key={option.name}
+                    item={option} onChange={handleOptionChange} />
                 )
             }
         </div>
     )
+}
+ProductSpec.propTypes = {
+  onChange: PropTypes.func,
+  onRemove: PropTypes.func,
+  spec: PropTypes.shape({
+    name: PropTypes.any,
+    options: PropTypes.shape({
+      forEach: PropTypes.func,
+      length: PropTypes.number,
+      map: PropTypes.func
+    })
+  })
 }

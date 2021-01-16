@@ -25,17 +25,7 @@ const SpecOptionApi = {
         ? "/specOptions.json"
         : Api.buildUrl(API_URL, `specOptions/${id}`);
     return await Api.put(url, data);
-  },
-
-  async upload(file, specOptionId) {
-    const formData = new FormData();
-    formData.append("upload", file);
-    const url =
-      process.env.REACT_APP_MODE === "local"
-        ? "/specOptions.json"
-        : Api.buildUrl(API_URL, `specOptions/upload/${specOptionId}`);
-    return await Api.post(url, formData);
-  },
+  }
 };
 
 export default SpecOptionApi;

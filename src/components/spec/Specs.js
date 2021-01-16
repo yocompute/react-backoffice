@@ -1,7 +1,8 @@
 
+import PropTypes from "prop-types";
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -12,7 +13,7 @@ import { ProductSpec } from "./ProductSpec";
 import { setSpec, fetchSpecs } from "../../redux/spec/spec.actions";
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     quantityCtrl: {
         width: '150px'
     },
@@ -58,7 +59,7 @@ const Specs = ({ fetchSpecs, setSpec, spec, specs, productSpecs, onChange }) => 
     //   setName(v);
     }
 
-    const handleAdd = (e) => {
+    const handleAdd = () => {
         if (list && !list.find(it => it._id === spec._id)) {
             const newList = [...list, spec];
             setList(newList);
@@ -110,6 +111,22 @@ const Specs = ({ fetchSpecs, setSpec, spec, specs, productSpecs, onChange }) => 
             }
         </div>
     )
+}
+
+Specs.propTypes = {
+  fetchSpecs: PropTypes.func,
+  onChange: PropTypes.func,
+  productSpecs: PropTypes.any,
+  setSpec: PropTypes.func,
+  spec: PropTypes.shape({
+    _id: PropTypes.any,
+    name: PropTypes.any
+  }),
+  specs: PropTypes.shape({
+    find: PropTypes.func,
+    map: PropTypes.func,
+    push: PropTypes.func
+  })
 }
 
 const mapStateToProps = (state) => ({

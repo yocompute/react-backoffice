@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import PropTypes from "prop-types";
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 
@@ -95,6 +96,11 @@ const EmailSignupForm = ({ onSubmit, btnText }) => {
 
     </form>
   )
+}
+
+EmailSignupForm.propTypes = {
+  btnText: PropTypes.any,
+  onSubmit: PropTypes.any
 }
 
 export default EmailSignupForm;

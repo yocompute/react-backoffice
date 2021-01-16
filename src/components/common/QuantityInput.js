@@ -1,7 +1,8 @@
+import PropTypes from "prop-types";
 import { makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   quantityCtrl: {
     width: '150px'
   },
@@ -68,4 +69,8 @@ export const QuantityInput = ({val, onChange}) => {
         </div>
       </div>
     )
+}
+QuantityInput.propTypes = {
+  onChange: PropTypes.func,
+  val: PropTypes.any
 }

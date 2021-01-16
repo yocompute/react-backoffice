@@ -1,4 +1,4 @@
-import { put, call, select, takeLatest } from 'redux-saga/effects';
+import { put, call, takeLatest } from 'redux-saga/effects';
 import Cookies from 'js-cookie';
 import AuthApi from '../../services/AuthApi';
 import { FETCH_AUTH, LOGIN, SIGNUP, LOGOUT,

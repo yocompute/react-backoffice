@@ -1,15 +1,15 @@
 import React from 'react';
-import { AccountAPI } from './API';
+// import { AccountAPI } from './API';
 
 const LoginPage = () => {
 
 
-    function handleChange(e) {
-        // const name = e.target.name;
-        // this.setState({ [name]: e.target.value });
-      }
+    // function handleChange(e) {
+    //     // const name = e.target.name;
+    //     // this.setState({ [name]: e.target.value });
+    //   }
     
-      function handleSubmit(e) {
+      function handleSubmit() {
         // e.preventDefault();
         // this.setState({ bSubmitted: true });
         // this.accountSvc.login(this.state.username, this.state.password).then(tokenId => {
@@ -20,8 +20,8 @@ const LoginPage = () => {
       }
       
     return (
-      <form className="login-form" onSubmit={this.handleSubmit}>
-        <div className="form-wrapper">
+      <form className="login-form" onSubmit={handleSubmit}>
+        {/* <div className="form-wrapper">
           <div className="field">
             <div className="label-s">用户名:</div>
             <div className="input-wapper">
@@ -35,7 +35,9 @@ const LoginPage = () => {
             </div>
           </div>
           <button className="btn" type="submit" disabled={this.state.bSubmitted}>登陆</button>
-        </div>
+        </div> */}
       </form>
     )
 }
+
+export default LoginPage;

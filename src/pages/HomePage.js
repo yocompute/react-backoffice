@@ -2,30 +2,30 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import clsx from 'clsx';
+// import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+// import Typography from '@material-ui/core/Typography';
+// import Link from '@material-ui/core/Link';
 
 import { setMerchant } from '../redux/merchant/merchant.actions';
 import { fetchProducts } from '../redux/product/product.actions';
 
 const DEFAULT_MERCHANT_ID = '5c9542ce0851a5096e044d16';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>
-      {' '}
-      {new Date().getFullYear()}
-      .
-    </Typography>
-  );
-}
+// function Copyright() {
+//   return (
+//     <Typography variant="body2" color="textSecondary" align="center">
+//       {'Copyright © '}
+//       <Link color="inherit" href="https://material-ui.com/">
+//         Your Website
+//       </Link>
+//       {' '}
+//       {new Date().getFullYear()}
+//       .
+//     </Typography>
+//   );
+// }
 
 const drawerWidth = 240;
 
@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomePage = ({
-  match, fetchProducts, products, setMerchant,
+  match, fetchProducts, setMerchant,
 }) => {
   useEffect(() => {
     if (match.params && match.params.id) {
@@ -123,9 +123,9 @@ const HomePage = ({
     }
   }, [fetchProducts]);
 
-  const handleNext = () => {
+  // const handleNext = () => {
 
-  };
+  // };
 
   const classes = useStyles();
   // const [open, setOpen] = React.useState(true);
@@ -179,13 +179,15 @@ const HomePage = ({
 };
 
 HomePage.propTypes = {
+  fetchProducts: PropTypes.func,
+  history: PropTypes.object,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
+      id: PropTypes.string
+    })
   }),
-  history: PropTypes.object,
-};
+  setMerchant: PropTypes.func
+}
 
 const mapStateToProps = (state) => ({
   products: state.products,
