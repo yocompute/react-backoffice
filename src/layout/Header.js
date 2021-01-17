@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import clsx from 'clsx';
 
-import Drawer from '@material-ui/core/Drawer';
+// import Drawer from '@material-ui/core/Drawer';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+// import Container from '@material-ui/core/Container';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -81,7 +82,7 @@ const Header = ({
   isLoggedIn, logout, sidebarExpanded, onToggle,
 }) => {
   const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   // const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -89,9 +90,9 @@ const Header = ({
     onToggle(true);
   };
 
-  const handleChange = (event) => {
-    // setAuth(event.target.checked);
-  };
+  // const handleChange = (event) => {
+  //   // setAuth(event.target.checked);
+  // };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -159,6 +160,13 @@ const Header = ({
     </AppBar>
   );
 };
+
+Header.propTypes = {
+  isLoggedIn: PropTypes.any,
+  logout: PropTypes.func,
+  onToggle: PropTypes.func,
+  sidebarExpanded: PropTypes.any
+}
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.tokenId,

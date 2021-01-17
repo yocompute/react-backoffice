@@ -15,7 +15,7 @@ export const SET_QRCODE = 'qrcode/SET_QRCODE';
 
 
 // action creators
-export const fetchQrcodes = (payload) => ({
+export const fetchQrcodes = () => ({
     type: FETCH_QRCODES
 })
 

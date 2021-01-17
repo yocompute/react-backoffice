@@ -1,4 +1,4 @@
-import { put, call, select, takeLatest } from 'redux-saga/effects'
+import { put, call } from 'redux-saga/effects'
 import MerchantApi from '../../services/MerchantApi'
 import { fetchMerchantsFail, fetchMerchantsSuccess } from './merchant.actions';
 

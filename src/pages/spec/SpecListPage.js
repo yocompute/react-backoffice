@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -104,6 +105,14 @@ const SpecListPage = ({
     </div>
   );
 };
+
+SpecListPage.propTypes = {
+  createSpec: PropTypes.func,
+  fetchSpecs: PropTypes.func,
+  setSpec: PropTypes.func,
+  specs: PropTypes.any,
+  updateSpec: PropTypes.func
+}
 
 const mapStateToProps = (state) => ({
   specs: state.specs,

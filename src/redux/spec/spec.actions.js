@@ -14,7 +14,7 @@ export const UPDATE_SPEC_FAIL = "spec/UPDATE_SPEC_FAIL";
 export const SET_SPEC = "spec/SET_SPEC";
 
 // action creators
-export const fetchSpecs = (payload) => ({
+export const fetchSpecs = () => ({
   type: FETCH_SPECS,
 });
 

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import CategoryDialog from "./CategoryDialog";
@@ -99,6 +100,14 @@ const CategoryListPage = ({
     </div>
   );
 };
+
+CategoryListPage.propTypes = {
+  categories: PropTypes.any,
+  createCategory: PropTypes.func,
+  fetchCategories: PropTypes.func,
+  setCategory: PropTypes.func,
+  updateCategory: PropTypes.func
+}
 
 const mapStateToProps = (state) => ({
   categories: state.categories,

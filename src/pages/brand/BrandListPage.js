@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
-import { CartItemList } from "../../components/cart/CartItemList";
-import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect";
 
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
@@ -63,7 +61,6 @@ const BrandListPage = ({
     fetchBrands();
   }, [fetchBrands]);
 
-  const handlePaymentMethodSelect = () => {};
 
   const handleOpenBrandDialog = () => {
     setBrand(DEFAULT_BRAND);
@@ -109,6 +106,14 @@ const BrandListPage = ({
     </div>
   );
 };
+
+BrandListPage.propTypes = {
+  brands: PropTypes.any,
+  createBrand: PropTypes.func,
+  fetchBrands: PropTypes.func,
+  setBrand: PropTypes.func,
+  updateBrand: PropTypes.func
+}
 
 const mapStateToProps = (state) => ({
   brands: state.brands,

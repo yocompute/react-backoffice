@@ -26,16 +26,6 @@ const SpecApi = {
         : Api.buildUrl(API_URL, `specs/${id}`);
     return await Api.put(url, data);
   },
-
-  async upload(file, specId) {
-    const formData = new FormData();
-    formData.append("upload", file);
-    const url =
-      process.env.REACT_APP_MODE === "local"
-        ? "/specs.json"
-        : Api.buildUrl(API_URL, `specs/upload/${specId}`);
-    return await Api.post(url, formData);
-  },
 };
 
 export default SpecApi;

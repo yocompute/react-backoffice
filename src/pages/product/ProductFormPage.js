@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import React, {  useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
@@ -25,7 +26,7 @@ import { fetchAdditions, setProduct, updateProduct, createProduct } from "../../
 import Additions from "../../components/product/Additions";
 import { selectAdditions } from "../../redux/product/product.selectors";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   formCtrl: {
     width: window.matchMedia(`(max-width: 768px)`).matches ? "100%" : "22%",
     paddingRight: window.matchMedia(`(max-width: 768px)`).matches ? "0px" : "20px"
@@ -49,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ProductFormPage({
-  match,
   brands,
   categories,
   additions,
@@ -58,7 +58,7 @@ function ProductFormPage({
   setProduct,
   fetchBrands,
   fetchCategories,
-  fetchAdditions,
+  // fetchAdditions,
   product,
   opened,
 }) {
@@ -410,6 +410,46 @@ function ProductFormPage({
       </div>
     </div>
   );
+}
+
+ProductFormPage.propTypes = {
+  additions: PropTypes.shape({
+    forEach: PropTypes.func,
+    push: PropTypes.func
+  }),
+  brands: PropTypes.shape({
+    map: PropTypes.func
+  }),
+  categories: PropTypes.shape({
+    map: PropTypes.func
+  }),
+  createProduct: PropTypes.func,
+  fetchBrands: PropTypes.func,
+  fetchCategories: PropTypes.func,
+  opened: PropTypes.any,
+  product: PropTypes.shape({
+    _id: PropTypes.any,
+    brand: PropTypes.shape({
+      _id: PropTypes.any
+    }),
+    category: PropTypes.shape({
+      _id: PropTypes.any
+    }),
+    cost: PropTypes.any,
+    description: PropTypes.any,
+    name: PropTypes.any,
+    pictures: PropTypes.shape({
+      length: PropTypes.number
+    }),
+    price: PropTypes.any,
+    purchaseTaxRate: PropTypes.any,
+    saleTaxRate: PropTypes.any,
+    specs: PropTypes.any,
+    status: PropTypes.any,
+    type: PropTypes.string
+  }),
+  setProduct: PropTypes.func,
+  updateProduct: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({

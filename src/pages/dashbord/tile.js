@@ -1,7 +1,7 @@
 
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux'
+import React from 'react'
+// import { Link } from 'react-router-dom';
+// import { connect } from 'react-redux'
 import PropTypes from "prop-types"
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -59,6 +59,13 @@ const Tile = ({data}) => {
       </Card>
       </div>
     )
+}
+
+Tile.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.any,
+    text: PropTypes.any
+  })
 }
 
 export default Tile;

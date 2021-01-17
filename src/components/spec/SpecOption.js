@@ -1,10 +1,11 @@
+import PropTypes from "prop-types";
 import React from 'react';
 
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     wrapper:{
         display: 'flex'
     },
@@ -45,4 +46,12 @@ export const SpecOption = ({ item, onSelect, onRemove }) => {
 
         </div>
     )
+}
+SpecOption.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.any,
+    name: PropTypes.any
+  }),
+  onRemove: PropTypes.func,
+  onSelect: PropTypes.func
 }

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form'
 import { connect } from 'react-redux'
@@ -16,7 +17,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { fetchUsers } from '../../redux/user/user.actions';
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     formCtrl: {
       width: '100%'
     },
@@ -117,6 +118,19 @@ function PaymentDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
             </form>
         </Dialog>
     );
+}
+
+PaymentDialog.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.any
+  }),
+  fetchUsers: PropTypes.func,
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
+  opened: PropTypes.any,
+  users: PropTypes.shape({
+    map: PropTypes.func
+  })
 }
 
 

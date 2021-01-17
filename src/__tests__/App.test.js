@@ -1,15 +1,15 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import createSagaMiddleware from 'redux-saga';
-import { render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
-import configureStore from 'redux-mock-store';
+// import React from 'react';
+// import { Provider } from 'react-redux';
+// import createSagaMiddleware from 'redux-saga';
+// import { render, screen } from '@testing-library/react';
+// import { act } from 'react-dom/test-utils';
+// import configureStore from 'redux-mock-store';
 
-import App from '../App';
+// import App from '../App';
 
-const sagaMiddleware = createSagaMiddleware();
+// const sagaMiddleware = createSagaMiddleware();
 
-const mockStore = configureStore([sagaMiddleware]);
+// const mockStore = configureStore([sagaMiddleware]);
 
 it('renders App with empty store', async () => {
   // const store = mockStore({});

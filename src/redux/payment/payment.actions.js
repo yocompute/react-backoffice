@@ -15,7 +15,7 @@ export const SET_PAYMENT = 'payment/SET_PAYMENT';
 
 
 // action creators
-export const fetchPayments = (payload) => ({
+export const fetchPayments = () => ({
     type: FETCH_PAYMENTS
 })
 

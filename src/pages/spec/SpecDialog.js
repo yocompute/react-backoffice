@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { connect } from "react-redux";
@@ -15,12 +16,12 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-import { setSpec } from "../../redux/spec/spec.actions";
+// import { setSpec } from "../../redux/spec/spec.actions";
 import { fetchBrands } from "../../redux/brand/brand.actions";
 
 import {SpecOptions} from "../../components/spec/SpecOptions";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   formCtrl: {
     width: "100%",
   },
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SpecDialog({
   brands,
-  setSpec,
+  // setSpec,
   fetchBrands,
   spec,
   opened,
@@ -172,12 +173,32 @@ function SpecDialog({
   );
 }
 
+SpecDialog.propTypes = {
+  brands: PropTypes.shape({
+    map: PropTypes.func
+  }),
+  fetchBrands: PropTypes.func,
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
+  opened: PropTypes.any,
+  spec: PropTypes.shape({
+    _id: PropTypes.any,
+    brand: PropTypes.shape({
+      _id: PropTypes.any
+    }),
+    description: PropTypes.any,
+    name: PropTypes.any,
+    options: PropTypes.any,
+    status: PropTypes.any
+  })
+}
+
 const mapStateToProps = (state) => ({
   spec: state.spec,
   brands: state.brands,
 });
 
 export default connect(mapStateToProps, {
-  setSpec,
+  // setSpec,
   fetchBrands,
 })(SpecDialog);

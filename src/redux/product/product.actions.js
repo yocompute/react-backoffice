@@ -19,7 +19,7 @@ export const FETCH_ADDITIONS_FAIL = "product/FETCH_ADDITIONS_FAIL";
 export const SET_ADDITIONS = "product/SET_ADDITIONS";
 
 // action creators
-export const fetchProducts = (payload) => ({
+export const fetchProducts = () => ({
   type: FETCH_PRODUCTS,
 });
 
@@ -70,7 +70,7 @@ export const setProduct = (product) => ({
 });
 
 // additions
-export const fetchAdditions = (payload) => ({
+export const fetchAdditions = () => ({
   type: FETCH_ADDITIONS,
 });
 
@@ -84,6 +84,7 @@ export const fetchAdditionsFail = (error) => ({
   error,
 });
 
-export const setAdditions = (payload) => ({
+export const setAdditions = (additions) => ({
   type: SET_ADDITIONS,
+  additions
 });

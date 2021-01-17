@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+import React from 'react';
+// import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form'
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -34,12 +35,12 @@ const useStyles = makeStyles((theme) => ({
 
   const PhoneForm = ({ onSubmit, btnText }) => {
     const classes = useStyles();
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit } = useForm();
 
-    const [type, setType] = useState(0);
-    const handleChange = () => {
+    // const [type, setType] = useState(0);
+    // const handleChange = () => {
 
-    }
+    // }
     return (
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
 
@@ -71,6 +72,11 @@ const useStyles = makeStyles((theme) => ({
             </Link>
         </form>
     )
+}
+
+PhoneForm.propTypes = {
+  btnText: PropTypes.any,
+  onSubmit: PropTypes.any
 }
 
 export default PhoneForm;

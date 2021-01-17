@@ -1,4 +1,5 @@
 
+import PropTypes from "prop-types";
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -7,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { SpecOption } from "./SpecOption";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   quantityCtrl: {
     width: '150px'
   },
@@ -40,7 +41,7 @@ export const SpecOptions = ({ options, onChange }) => {
     setName(v);
   }
 
-  const handleAdd = (e) => {
+  const handleAdd = () => {
     const newList = [...list, { name, id: uuidv4() }];
     setList(newList);
     onChange(newList);
@@ -53,7 +54,8 @@ export const SpecOptions = ({ options, onChange }) => {
   }
 
   const handleSelect = (it) => {
-    const item = it;
+    // const item = it;
+    console.log(it);
   }
 
   return (
@@ -83,4 +85,8 @@ export const SpecOptions = ({ options, onChange }) => {
       }
     </div>
   )
+}
+SpecOptions.propTypes = {
+  onChange: PropTypes.func,
+  options: PropTypes.any
 }

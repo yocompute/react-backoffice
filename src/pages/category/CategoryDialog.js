@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
@@ -135,6 +136,25 @@ const CategoryDialog = ({ category, brands, fetchBrands, opened, onClose, onSubm
     </Dialog>
   );
 };
+
+CategoryDialog.propTypes = {
+  brands: PropTypes.shape({
+    map: PropTypes.func
+  }),
+  category: PropTypes.shape({
+    _id: PropTypes.any,
+    brand: PropTypes.shape({
+      _id: PropTypes.any
+    }),
+    description: PropTypes.any,
+    name: PropTypes.any,
+    status: PropTypes.any
+  }),
+  fetchBrands: PropTypes.func,
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
+  opened: PropTypes.any
+}
 
 const mapStateToProps = (state) => ({
   category: state.category,

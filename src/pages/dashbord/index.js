@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux'
-import PropTypes from "prop-types"
+import React from 'react';
+// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+// import PropTypes from "prop-types";
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -39,7 +39,7 @@ const tiles = [
 const DashbordPage = () => {
 
     const classes = useStyles();
-    const bull = <span className={classes.bullet}>•</span>;
+    // const bull = <span className={classes.bullet}>•</span>;
     // useEffect(() => {
     //     fetchUsers();
     // }, [fetchUsers]);

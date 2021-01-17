@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import ImageUploader from "react-images-upload";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -22,7 +23,7 @@ import { fetchUsers } from "../../redux/user/user.actions";
 import BrandApi from "../../services/BrandApi";
 import ImageViewer from "../../components/common/ImageViewer";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   formCtrl: {
     width: "100%",
   },
@@ -210,6 +211,29 @@ function BrandDialog({
       </div>
     </Dialog>
   );
+}
+
+BrandDialog.propTypes = {
+  brand: PropTypes.shape({
+    _id: PropTypes.any,
+    description: PropTypes.any,
+    name: PropTypes.any,
+    owner: PropTypes.shape({
+      _id: PropTypes.any
+    }),
+    pictures: PropTypes.shape({
+      length: PropTypes.number
+    }),
+    status: PropTypes.any
+  }),
+  fetchUsers: PropTypes.func,
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
+  opened: PropTypes.any,
+  setBrand: PropTypes.func,
+  users: PropTypes.shape({
+    map: PropTypes.func
+  })
 }
 
 const mapStateToProps = (state) => ({
