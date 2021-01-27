@@ -102,7 +102,7 @@ const ProductListPage = ({
 
   return (
     <div>
-      <Button
+      <Button data-testid="add-btn"
         variant="contained"
         color="primary"
         onClick={handleNewProductFormPage}
