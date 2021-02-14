@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
+import { connect } from "react-redux";
+
 import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+
 import Sidebar from './Sidebar';
 import Header from './Header';
 import Routes from '../Routes';
+import { clearNotification } from '../redux/notification/notification.actions';
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -30,14 +35,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Layout() {
+function Layout({notification, clearNotification}) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleSidebarToggle = (expanded) => {
     setSidebarExpanded(expanded);
   };
+  const handleNotificationClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    clearNotification();
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    setOpen(notification ? notification.show: false);
+  }, [notification]);
+
   return (
     <div className={classes.page}>
       <Header
@@ -55,8 +73,29 @@ export default function Layout() {
         <div className={fixedHeightPaper}>
           <Routes />
         </div>
+        <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={open}
+        autoHideDuration={3000}
+        message={notification ? notification.error: ''}
+        onClose={handleNotificationClose}
+        />
       </div>
 
     </div>
   );
 }
+
+
+const mapStateToProps = (state) => ({
+  notification: state.notification,
+});
+
+export default connect(
+  mapStateToProps,
+  {clearNotification},
+)(Layout);
+

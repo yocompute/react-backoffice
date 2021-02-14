@@ -4,13 +4,13 @@ import { FETCH_USERS, CREATE_USER, UPDATE_USER,
     fetchUsersSuccess, createUserSuccess, updateUserSuccess } from './user.actions'
 import { setACL } from '../ACL/ACL.actions'
 import { selectACL } from '../ACL/ACL.selectors'
-
+import { httpSuccess } from '../notification/notification.sagas';
 export function* fetchUsers(action) {
     try {
-        const users = yield call(UserApi.get, action.query);
-        yield put(fetchUsersSuccess(users));
+        const {data, error, status} = yield call(UserApi.get, action.query);
+        yield put(fetchUsersSuccess(data));
         const { userId, role, permissions } = yield select(selectACL);
-        const user = users[0];
+        const user = data[0];
 
         if (role === user.role) {
             yield put(setACL(userId, role, permissions));
@@ -27,10 +27,16 @@ export function* fetchUsers(action) {
 
 export function* createUser(action) {
     try {
-        const user = yield call(UserApi.create, action.data);
-        yield put(createUserSuccess(user));
-        const users = yield call(UserApi.get, null);
-        yield put(fetchUsersSuccess(users));
+        const {data, error, status} = yield call(UserApi.create, action.data);
+        yield put(createUserSuccess(data));
+
+        if(httpSuccess(status)){
+            const {data, error, status} = yield call(UserApi.get, null);
+            yield put(fetchUsersSuccess(data));
+        }else{
+
+        }
+
     } catch (error) {
         // yield put(addError({
         //     ...error
@@ -40,10 +46,14 @@ export function* createUser(action) {
 
 export function* updateUser(action) {
     try {
-        const user = yield call(UserApi.update, action.data, action.id);
-        yield put(updateUserSuccess(user));
-        const users = yield call(UserApi.get, null);
-        yield put(fetchUsersSuccess(users));
+        const {data, error, status} = yield call(UserApi.update, action.data, action.id);
+        yield put(updateUserSuccess(data));
+        if(httpSuccess(status)){
+            const {data, error, status} = yield call(UserApi.get, null);
+            yield put(fetchUsersSuccess(data));
+        }else{
+
+        }
     } catch (error) {
         // yield put(addError({
         //     ...error

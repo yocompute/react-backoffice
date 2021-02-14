@@ -11,11 +11,17 @@ import {
 } from "./spec.actions";
 
 import SpecApi from "../../services/SpecApi";
+import { setNotification } from '../notification/notification.actions';
+import { httpSuccess } from '../notification/notification.sagas';
 
 export function* fetchSpecs(action) {
   try {
-    const specs = yield call(SpecApi.get, action.query);
-    yield put(fetchSpecsSuccess(specs));
+    const { data, error, status } = yield call(SpecApi.get, action.query);
+    if (httpSuccess(status)) {
+      yield put(fetchSpecsSuccess(data));
+    } else {
+      yield put(setNotification(error, status));
+    }
   } catch (error) {
     yield put(fetchSpecsFail(error));
   }
@@ -23,10 +29,14 @@ export function* fetchSpecs(action) {
 
 export function* createSpec(action) {
   try {
-    const spec = yield call(SpecApi.create, action.data);
-    yield put(createSpecSuccess(spec));
-    const specs = yield call(SpecApi.get, null);
-    yield put(fetchSpecsSuccess(specs));
+    const { data, error, status } = yield call(SpecApi.create, action.data);
+    yield put(createSpecSuccess(data));
+    if (httpSuccess(status)) {
+      const { data, error, status } = yield call(SpecApi.get, null);
+      yield put(fetchSpecsSuccess(data));
+    } else {
+      yield put(setNotification(error, status));
+    }
   } catch (error) {
     // yield put(addError({
     //     ...error
@@ -36,10 +46,14 @@ export function* createSpec(action) {
 
 export function* updateSpec(action) {
   try {
-    const spec = yield call(SpecApi.update, action.data, action.id);
-    yield put(updateSpecSuccess(spec));
-    const specs = yield call(SpecApi.get, null);
-    yield put(fetchSpecsSuccess(specs));
+    const { data, error, status } = yield call(SpecApi.update, action.data, action.id);
+    yield put(updateSpecSuccess(data));
+    if (httpSuccess(status)) {
+      const { data, error, status } = yield call(SpecApi.get, null);
+      yield put(fetchSpecsSuccess(data));
+    } else {
+      yield put(setNotification(error, status));
+    }
   } catch (error) {
     // yield put(addError({
     //     ...error
