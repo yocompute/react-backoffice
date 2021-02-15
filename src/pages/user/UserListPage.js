@@ -79,6 +79,7 @@ const UserListPage = ({
   return (
     <div>
       <Button
+        data-testid="add-btn"
         variant="contained"
         color="primary"
         onClick={handleOpenUserDialog}

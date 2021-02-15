@@ -4,42 +4,32 @@ import queryString from 'query-string';
 const Api = {
   /**
    * @param {*} url
+   * return { data, error, status }
    */
   async get(url) {
-    const { data, status, statusText } = await axios.get(url);
-
-    if (status === 200) {
-      return data.data;
+    try {
+      const r = await axios.get(url);
+      return { ...r.data, status: r.status };
+    } catch (e) {
+      return { ...e.response.data, status: e.response.status };
     }
-
-    // redirect to error page and log error message
-    console.log(statusText);
-    return null;
   },
 
+  /**
+   * @param {*} url
+   * return { data, error, status }
+   */
   async post(url, entity) {
-    const { data, status, statusText } = await axios.post(url, entity);
-
-    if (status === 200) {
-      return data.data;
+    try {
+      const { data } = await axios.post(url, entity);
+      return data;
+    } catch (e) {
+      return { ...e.response.data, status: e.response.status };
     }
-
-    // redirect to error page and log error message
-    console.log(statusText);
-    return null;
   },
-
 
   async put(url, entity) {
-    const { data, status, statusText } = await axios.put(url, entity);
-
-    if (status === 200) {
-      return data.data;
-    }
-
-    // redirect to error page and log error message
-    console.log(statusText);
-    return null;
+    return await axios.put(url, entity);
   },
 
   /**

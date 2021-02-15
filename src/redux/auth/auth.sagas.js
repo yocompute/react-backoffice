@@ -8,14 +8,20 @@ import { setLoading } from '../page/page.actions';
 
 // import { selectACL } from '../ACL/ACL.selectors'
 import {JWT_COOKIE, JWT_EXPIRY} from '../../const';
+import { setNotification } from '../notification/notification.actions';
+import { httpSuccess } from '../notification/notification.sagas';
 
 export function* fetchAuth() {
     try {
         const tokenId = Cookies.get(JWT_COOKIE);
         if(tokenId){
-            const user = yield call(AuthApi.getUserByTokenId, tokenId);
-            yield put(setUser(user && user._id ? user : null));
-            yield put(fetchAuthSuccess(user? tokenId : null));
+            const {data, error, status} = yield call(AuthApi.getUserByTokenId, tokenId);
+            if(httpSuccess(status)){
+                yield put(setUser(data && data._id ? data : null));
+                yield put(fetchAuthSuccess(data? tokenId : null));
+            }else{
+                yield put(setNotification(error, status));
+            }
         }else{
             yield put(setUser(null));
             yield put(fetchAuthSuccess(null));
@@ -30,14 +36,18 @@ export function* fetchAuth() {
 
 export function* login(action) {
     try {
-        const tokenId = yield call(AuthApi.login, action.data);
+        const {data, error, status} = yield call(AuthApi.login, action.data);
+        const tokenId = data;
+
         Cookies.set(JWT_COOKIE, tokenId, { expires: JWT_EXPIRY });
         yield put(loginSuccess(tokenId));
         if(tokenId){
-            const user = yield call(AuthApi.getUserByTokenId, tokenId);
+            const {data, error, status} = yield call(AuthApi.getUserByTokenId, tokenId);
+            const user = data;
             yield put(setUser(user && user._id ? user : null));
         }else{
             yield put(setUser(null));
+            yield put(setNotification(error, status));
         }
     } catch (error) {
         // yield put(addError({

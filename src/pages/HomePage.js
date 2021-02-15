@@ -8,7 +8,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 // import Typography from '@material-ui/core/Typography';
 // import Link from '@material-ui/core/Link';
 
-import { setMerchant } from '../redux/merchant/merchant.actions';
 import { fetchProducts } from '../redux/product/product.actions';
 
 const DEFAULT_MERCHANT_ID = '5c9542ce0851a5096e044d16';
@@ -109,16 +108,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomePage = ({
-  match, fetchProducts, setMerchant,
+  match, fetchProducts,
 }) => {
   useEffect(() => {
     if (match.params && match.params.id) {
       const merchantId = match.params.id;
-      setMerchant({ _id: merchantId });
       fetchProducts({ merchantId });
     } else {
       const merchantId = DEFAULT_MERCHANT_ID;
-      setMerchant({ _id: merchantId });
       fetchProducts({ merchantId });
     }
   }, [fetchProducts]);
@@ -195,5 +192,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  { fetchProducts, setMerchant },
+  { fetchProducts },
 )(HomePage);

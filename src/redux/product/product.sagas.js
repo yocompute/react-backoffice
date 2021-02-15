@@ -14,11 +14,17 @@ import {
 } from "./product.actions";
 
 import ProductApi from "../../services/ProductApi";
+import { setNotification } from '../notification/notification.actions';
+import { httpSuccess } from '../notification/notification.sagas';
 
 export function* fetchProducts(action) {
   try {
-    const products = yield call(ProductApi.get, action.query);
-    yield put(fetchProductsSuccess(products));
+    const { data, error, status } = yield call(ProductApi.get, action.query);
+    if (httpSuccess(status)) {
+      yield put(fetchProductsSuccess(data));
+    } else {
+      yield put(setNotification(error, status));
+    }
   } catch (error) {
     yield put(fetchProductsFail(error));
   }
@@ -26,10 +32,14 @@ export function* fetchProducts(action) {
 
 export function* createProduct(action) {
   try {
-    const product = yield call(ProductApi.create, action.data);
-    yield put(createProductSuccess(product));
-    const products = yield call(ProductApi.get, null);
-    yield put(fetchProductsSuccess(products));
+    const { data, error, status } = yield call(ProductApi.create, action.data);
+    yield put(createProductSuccess(data));
+    if (httpSuccess(status)) {
+      const { data, error, status } = yield call(ProductApi.get, null);
+      yield put(fetchProductsSuccess(data));
+    } else {
+      yield put(setNotification(error, status));
+    }
   } catch (error) {
     // yield put(addError({
     //     ...error
@@ -39,10 +49,14 @@ export function* createProduct(action) {
 
 export function* updateProduct(action) {
   try {
-    const product = yield call(ProductApi.update, action.data, action.id);
-    yield put(updateProductSuccess(product));
-    const products = yield call(ProductApi.get, null);
-    yield put(fetchProductsSuccess(products));
+    const { data, error, status } = yield call(ProductApi.update, action.data, action.id);
+    yield put(updateProductSuccess(data));
+    if (httpSuccess(status)) {  
+      const { data, error, status } = yield call(ProductApi.get, null);
+      yield put(fetchProductsSuccess(data));
+    } else {
+      yield put(setNotification(error, status));
+    }
   } catch (error) {
     // yield put(addError({
     //     ...error
@@ -54,8 +68,12 @@ export function* updateProduct(action) {
 
 export function* fetchAdditions(action) {
   try {
-    const additions = yield call(ProductApi.get, {...action.query, type: 'A' });
-    yield put(fetchAdditionsSuccess(additions));
+    const { data, error, status } = yield call(ProductApi.get, { ...action.query, type: 'A' });
+    if (httpSuccess(status)) {
+      yield put(fetchAdditionsSuccess(data));
+    } else {
+      yield put(setNotification(error, status));
+    }
   } catch (error) {
     yield put(fetchAdditionsFail(error));
   }
