@@ -19,17 +19,22 @@ const Api = {
    * @param {*} url
    * return { data, error, status }
    */
-  async post(url, entity) {
+   async post(url, entity) {
     try {
-      const { data } = await axios.post(url, entity);
-      return data;
+      const r = await axios.post(url, entity);
+      return { ...r.data, status: r.status };
     } catch (e) {
       return { ...e.response.data, status: e.response.status };
     }
   },
 
   async put(url, entity) {
-    return await axios.put(url, entity);
+    try {
+      const r = await axios.put(url, entity);
+      return { ...r.data, status: r.status };
+    } catch (e) {
+      return { ...e.response.data, status: e.response.status };
+    }
   },
 
   /**
