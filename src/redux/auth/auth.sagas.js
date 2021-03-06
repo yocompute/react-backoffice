@@ -41,7 +41,7 @@ export function* login(action) {
 
         Cookies.set(JWT_COOKIE, tokenId, { expires: JWT_EXPIRY });
         yield put(loginSuccess(tokenId));
-        if(tokenId){
+        if(httpSuccess(status)){
             const {data, error, status} = yield call(AuthApi.getUserByTokenId, tokenId);
             const user = data;
             yield put(setUser(user && user._id ? user : null));
@@ -58,11 +58,12 @@ export function* login(action) {
 
 export function* signup(action) {
     try {
-        const tokenId = yield call(AuthApi.signup, action.data);
-        yield put(signupSuccess(tokenId));
-        if(tokenId){
-            const user = yield call(AuthApi.getUserByTokenId, tokenId);
-            yield put(setUser(user && user._id ? user : null));
+        const {data, error, status} = yield call(AuthApi.signup, action.data);
+        const tokenId = data;
+        if(httpSuccess(status)){
+            yield put(signupSuccess(tokenId));
+            const {data, error, status} = yield call(AuthApi.getUserByTokenId, tokenId);
+            yield put(setUser(data && data._id ? data : null));
         }else{
             yield put(setUser(null));
         }

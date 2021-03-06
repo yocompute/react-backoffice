@@ -92,11 +92,14 @@ function ProductFormPage({
 
   const handleOk = (d) => {
     const ds = [];
-    additions.forEach(ad => {
-      if(ad.checked){
-        ds.push(ad._id);
-      }
-    });
+    if(additions){
+      additions.forEach(ad => {
+        if(ad.checked){
+          ds.push(ad._id);
+        }
+      });
+    }
+
     const data = product.type === 'C' ? 
     { ...d, specs: product.specs, additions: ds, type: product.type } 
     : { ...d, specs: product.specs, type: product.type, additions: null };
