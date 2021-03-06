@@ -1,6 +1,7 @@
 import axios from 'axios';
 import queryString from 'query-string';
-
+import Cookies from 'js-cookie';
+import {JWT_COOKIE} from '../const';
 const Api = {
   /**
    * @param {*} url
@@ -8,7 +9,11 @@ const Api = {
    */
   async get(url) {
     try {
-      const r = await axios.get(url);
+      const tokenId = Cookies.get(JWT_COOKIE);
+      const config = {
+        headers: { Authorization: `Bearer ${tokenId}` }
+      };
+      const r = await axios.get(url, config);
       return { ...r.data, status: r.status };
     } catch (e) {
       return { ...e.response.data, status: e.response.status };

@@ -9,6 +9,7 @@ const UserApi = {
         ? "/users.json"
         : Api.buildUrl(API_URL, "users", query);
 
+    
     return await Api.get(url);
   },
 

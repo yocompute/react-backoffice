@@ -44,6 +44,7 @@ const DEFAULT_BRAND = {
 };
 
 const BrandListPage = ({
+  tokenId,
   brands,
   setBrand,
   fetchBrands,
@@ -58,7 +59,7 @@ const BrandListPage = ({
   }, []);
 
   useEffect(() => {
-    fetchBrands();
+    fetchBrands(tokenId);
   }, [fetchBrands]);
 
 
@@ -117,6 +118,7 @@ BrandListPage.propTypes = {
 
 const mapStateToProps = (state) => ({
   brands: state.brands,
+  tokenId: state.tokenId,
 });
 
 export default connect(mapStateToProps, {
