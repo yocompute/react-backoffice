@@ -3,12 +3,22 @@ import PropTypes from "prop-types";
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { SpecOption } from "./SpecOption";
 
 const useStyles = makeStyles(() => ({
+  root:{
+    marginTop: '40px',
+  },
+  addOptionRow:{
+    padding: '10px',
+    // display: 'flex',
+  },
   quantityCtrl: {
     width: '150px'
   },
@@ -59,9 +69,21 @@ export const SpecOptions = ({ options, onChange }) => {
   }
 
   return (
-    <div>
+    <div className={classes.root}>
+      <div>Manage Spec Options:</div>
+            <FormControl className={classes.addOptionRow}>
+              {/* <InputLabel id="product-type-select-label">Spec Option Name</InputLabel> */}
+              {/* <input className={classes.name} type="text" value={name} onChange={handleChange} /> */}
+              <TextField
+                  autoFocus
+                  margin="dense"
+                  label="Option Name"
+                  type="text"
+                  fullWidth
+                  value={name} onChange={handleChange}
+                />
 
-      <input className={classes.name} type="text" value={name} onChange={handleChange} />
+
 
       <Button
         variant="contained"
@@ -69,9 +91,10 @@ export const SpecOptions = ({ options, onChange }) => {
         className={classes.button}
         startIcon={<AddIcon />}
         onClick={handleAdd}
-      >
+        >
         Add
       </Button>
+        </FormControl>
       {
         list && list.length > 0 &&
         list.map(it => (

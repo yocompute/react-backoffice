@@ -1,19 +1,14 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-// import PropTypes from "prop-types";
-
 import Button from "@material-ui/core/Button";
 
-// import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
-import SpecDialog from "./SpecDialog";
+// import SpecDialog from "./SpecDialog";
 import {
   setSpec,
   fetchSpecs,
-  createSpec,
-  updateSpec,
 } from "../../redux/spec/spec.actions";
 
 const columns = [
@@ -47,11 +42,8 @@ const SpecListPage = ({
   specs,
   setSpec,
   fetchSpecs,
-  createSpec,
-  updateSpec,
 }) => {
-  const [dialogOpened, setDialogOpen] = useState(false);
-  // const [data, setData] = useState(DEFAULT_SPEC);
+  const history = useHistory();
 
   useEffect(() => {
     setSpec(DEFAULT_SPEC);
@@ -63,20 +55,14 @@ const SpecListPage = ({
 
   const handleOpenSpecDialog = () => {
     setSpec(DEFAULT_SPEC);
-    setDialogOpen(true);
-  };
-
-  const handleSave = (data, id) => {
-    if (id) {
-      updateSpec(data, id);
-    } else {
-      createSpec(data);
-    }
+    history.push("/specs/new");
   };
 
   const handleEditRow = (row) => {
     setSpec(row);
-    setDialogOpen(true);
+    setTimeout(() => {
+      history.push(`/specs/${row._id}`);
+    }, 100)
   };
 
   return (
@@ -88,11 +74,6 @@ const SpecListPage = ({
       >
         Add
       </Button>
-      <SpecDialog
-        opened={dialogOpened}
-        onClose={setDialogOpen}
-        onSubmit={handleSave}
-      />
       {specs && (
         <ListTable
           label="spec"
@@ -107,11 +88,9 @@ const SpecListPage = ({
 };
 
 SpecListPage.propTypes = {
-  createSpec: PropTypes.func,
   fetchSpecs: PropTypes.func,
   setSpec: PropTypes.func,
   specs: PropTypes.any,
-  updateSpec: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({
@@ -121,6 +100,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setSpec,
   fetchSpecs,
-  createSpec,
-  updateSpec,
 })(SpecListPage);

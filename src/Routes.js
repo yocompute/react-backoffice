@@ -18,6 +18,7 @@ import ProductFormPage from './pages/product/ProductFormPage';
 import OrderListPage from './pages/order/OrderListPage'
 import QrcodeListPage from './pages/qrcode/QrcodeListPage';
 import SpecListPage from './pages/spec/SpecListPage';
+import SpecFormPage from './pages/spec/SpecFormPage';
 
 const Routes = () => {
     return (<Switch>
@@ -36,6 +37,7 @@ const Routes = () => {
             <Route path="/products/:id" component={ProductFormPage} />
             <Route path="/products" component={ProductListPage} />
             <Route path="/orders" component={OrderListPage} />
+            <Route path="/specs/:id" component={SpecFormPage} />
             <Route path="/specs" component={SpecListPage} />
             <Route exact path="/" component={DashbordPage} />
         </Switch>

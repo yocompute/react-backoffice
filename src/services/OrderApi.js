@@ -14,7 +14,7 @@ const OrderApi = {
           resolve(res.data);
         } else {
           // redirect to error page and log error message
-          console.log(res.statusText);
+          // console.log(res.statusText);
           resolve([]);
         }
       });
@@ -30,7 +30,7 @@ const OrderApi = {
           resolve(res.data);
         } else {
           // redirect to error page and log error message
-          console.log(res.statusText);
+          // console.log(res.statusText);
           resolve();
         }
       });
@@ -46,7 +46,7 @@ const OrderApi = {
           resolve(res.data);
         } else {
           // redirect to error page and log error message
-          console.log(res.statusText);
+          // console.log(res.statusText);
           resolve();
         }
       });

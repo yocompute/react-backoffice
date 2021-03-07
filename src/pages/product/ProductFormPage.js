@@ -60,7 +60,6 @@ function ProductFormPage({
   fetchCategories,
   // fetchAdditions,
   product,
-  opened,
 }) {
   const classes = useStyles();
   const { control, handleSubmit } = useForm();
@@ -174,7 +173,6 @@ function ProductFormPage({
 
   return (
     <div
-      open={opened}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
