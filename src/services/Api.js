@@ -26,16 +26,29 @@ const Api = {
    */
    async post(url, entity) {
     try {
-      const r = await axios.post(url, entity);
+      const tokenId = Cookies.get(JWT_COOKIE);
+      const config = {
+        headers: { Authorization: `Bearer ${tokenId}` }
+      };
+      const r = await axios.post(url, entity, config);
       return { ...r.data, status: r.status };
     } catch (e) {
       return { ...e.response.data, status: e.response.status };
     }
   },
 
-  async put(url, entity) {
+  /**
+   * 
+   * @param {*} url 
+   * @param {*} updates The object include the fields to be updated
+   */
+  async put(url, updates) {
     try {
-      const r = await axios.put(url, entity);
+      const tokenId = Cookies.get(JWT_COOKIE);
+      const config = {
+        headers: { Authorization: `Bearer ${tokenId}` }
+      };
+      const r = await axios.put(url, updates, config);
       return { ...r.data, status: r.status };
     } catch (e) {
       return { ...e.response.data, status: e.response.status };
