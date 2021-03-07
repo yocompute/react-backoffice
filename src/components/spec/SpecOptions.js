@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
+// import InputLabel from "@material-ui/core/InputLabel";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -17,7 +17,6 @@ const useStyles = makeStyles(() => ({
   },
   addOptionRow:{
     padding: '10px',
-    // display: 'flex',
   },
   quantityCtrl: {
     width: '150px'
