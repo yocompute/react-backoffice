@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { connect } from "react-redux";
@@ -87,6 +88,14 @@ function Layout({notification, clearNotification}) {
 
     </div>
   );
+}
+
+Layout.propTypes = {
+  clearNotification: PropTypes.func,
+  notification: PropTypes.shape({
+    error: PropTypes.any,
+    show: PropTypes.any
+  })
 }
 
 

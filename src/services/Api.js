@@ -2,6 +2,7 @@ import axios from 'axios';
 import queryString from 'query-string';
 import Cookies from 'js-cookie';
 import {JWT_COOKIE} from '../const';
+
 const Api = {
   /**
    * @param {*} url
