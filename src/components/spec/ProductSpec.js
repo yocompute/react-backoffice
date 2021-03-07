@@ -10,12 +10,17 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { ProductSpecOption } from "./ProductSpecOption";
 
 const useStyles = makeStyles(() => ({
+    wrapper:{
+        display: 'flex',
+        padding: '5px 0px',
+        borderTop: '1px solid #eee',
+    },
     spec: {
         width: '100%',
         display: 'flex'
     },
     specName: {
-        width: 'calc(100% - 120px)',
+        width: '240px',
         float: 'left'
     },
     button: {
@@ -45,12 +50,13 @@ export const ProductSpec = ({ spec, onChange, onRemove }) => {
     }
 
     return (
-        <div>
+        <div className={classes.wrapper}>
             <div className={classes.spec}>
             <div className={classes.specName}>{spec.name}</div>
             <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
+                size="small"
                 className={classes.button}
                 startIcon={<DeleteIcon />}
                 onClick={handleRemove}

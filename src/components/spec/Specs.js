@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 // import { v4 as uuidv4 } from 'uuid';
-
+import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from '@material-ui/core/Button';
@@ -14,6 +14,19 @@ import { setSpec, fetchSpecs } from "../../redux/spec/spec.actions";
 
 
 const useStyles = makeStyles(() => ({
+    root: {
+        marginTop: '40px',
+    },
+    addOptionRow: {
+        padding: '10px',
+        // width: '100%',
+    },
+    specSelect: {
+        width: '300px',
+    },
+    addButton: {
+        width: '150px',
+    },
     quantityCtrl: {
         width: '150px'
     },
@@ -55,8 +68,8 @@ const Specs = ({ fetchSpecs, setSpec, spec, specs, productSpecs, onChange }) => 
         });
         setList(specs);
         onChange(specs);
-    //   const v = e.target.value;
-    //   setName(v);
+        //   const v = e.target.value;
+        //   setName(v);
     }
 
     const handleAdd = () => {
@@ -68,9 +81,9 @@ const Specs = ({ fetchSpecs, setSpec, spec, specs, productSpecs, onChange }) => 
     }
 
     const handleRemove = (spec) => {
-      const newList = list.filter(it => it._id !== spec._id);
-      setList(newList);
-      onChange(newList);
+        const newList = list.filter(it => it._id !== spec._id);
+        setList(newList);
+        onChange(newList);
     }
 
     const handleSpecSelect = (e) => {
@@ -82,30 +95,36 @@ const Specs = ({ fetchSpecs, setSpec, spec, specs, productSpecs, onChange }) => 
 
 
     return (
-        <div>
-            <Select id="spec-select" onChange={handleSpecSelect}>
-                {specs &&
-                    specs.map((spec) => (
-                        <MenuItem key={spec._id} value={spec._id}>
-                            {spec.name}
-                        </MenuItem>
-                    ))}
-            </Select>
+        <div className={classes.root}>
+            <div>Manage Specs:</div>
+            <FormControl className={classes.addOptionRow}>
 
-            <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                startIcon={<AddIcon />}
-                onClick={handleAdd}
-            >
-                Add
-        </Button>
+                <Select id="spec-select" onChange={handleSpecSelect} className={classes.specSelect}>
+                    {specs &&
+                        specs.map((spec) => (
+                            <MenuItem key={spec._id} value={spec._id}>
+                                {spec.name}
+                            </MenuItem>
+                        ))}
+                </Select>
+
+                <Button
+                    className={classes.addButton}
+                    size="medium"
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<AddIcon />}
+                    onClick={handleAdd}
+                >
+                    Add
+                </Button>
+            </FormControl>
             {
                 list &&
                 list.map(it => (
                     <div key={it._id}>
-                        <ProductSpec spec={it} onChange={handleChange} onRemove={handleRemove}/>
+                        <ProductSpec spec={it} onChange={handleChange} onRemove={handleRemove} />
                     </div>
                 ))
             }
@@ -114,19 +133,19 @@ const Specs = ({ fetchSpecs, setSpec, spec, specs, productSpecs, onChange }) => 
 }
 
 Specs.propTypes = {
-  fetchSpecs: PropTypes.func,
-  onChange: PropTypes.func,
-  productSpecs: PropTypes.any,
-  setSpec: PropTypes.func,
-  spec: PropTypes.shape({
-    _id: PropTypes.any,
-    name: PropTypes.any
-  }),
-  specs: PropTypes.shape({
-    find: PropTypes.func,
-    map: PropTypes.func,
-    push: PropTypes.func
-  })
+    fetchSpecs: PropTypes.func,
+    onChange: PropTypes.func,
+    productSpecs: PropTypes.any,
+    setSpec: PropTypes.func,
+    spec: PropTypes.shape({
+        _id: PropTypes.any,
+        name: PropTypes.any
+    }),
+    specs: PropTypes.shape({
+        find: PropTypes.func,
+        map: PropTypes.func,
+        push: PropTypes.func
+    })
 }
 
 const mapStateToProps = (state) => ({
