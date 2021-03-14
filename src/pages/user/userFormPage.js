@@ -9,10 +9,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import Switch from "@material-ui/core/Switch";
+import Grid from "@material-ui/core/Grid";
+
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { connect } from "react-redux";
 import { createUser, updateUser, setUser } from "../../redux/user/user.actions";
-import { Grid } from "@material-ui/core";
 import theme from "../../theme";
 
 import { makeStyles } from "@material-ui/core/styles";

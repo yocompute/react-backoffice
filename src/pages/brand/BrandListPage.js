@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
-
-// import Header from '../../components/common/Header'
+import { useHistory } from "react-router-dom";
 import ListTable from "../../components/table/ListTable";
-import BrandDialog from "./BrandDialog";
 import {
   setBrand,
   fetchBrands,
@@ -19,7 +16,7 @@ const columns = [
   { field: "createUTC", label: "Created Date" },
   { field: "logoUrl", label: "Brand Logo", type: "image" },
   { field: "name", label: "Brand Name" },
-  { field: "description", label: "Description" },
+  // { field: "description", label: "Description" },
   { field: "status", label: "Status" },
   {
     field: "owner",
@@ -48,11 +45,8 @@ const BrandListPage = ({
   brands,
   setBrand,
   fetchBrands,
-  createBrand,
-  updateBrand,
 }) => {
-  const [dialogOpened, setDialogOpen] = useState(false);
-  // const [data, setData] = useState(DEFAULT_BRAND);
+  const history = useHistory();
 
   useEffect(() => {
     setBrand(DEFAULT_BRAND);
@@ -65,20 +59,14 @@ const BrandListPage = ({
 
   const handleOpenBrandDialog = () => {
     setBrand(DEFAULT_BRAND);
-    setDialogOpen(true);
-  };
-
-  const handleSave = (data, id) => {
-    if (id) {
-      updateBrand(data, id);
-    } else {
-      createBrand(data);
-    }
-  };
+    history.push('/brands/new')
+  }
 
   const handleEditRow = (row) => {
     setBrand(row);
-    setDialogOpen(true);
+    setTimeout(() => {
+      history.push(`/brands/${row._id}`);
+    }, 100)
   };
 
   return (
@@ -90,11 +78,7 @@ const BrandListPage = ({
       >
         Add
       </Button>
-      <BrandDialog
-        opened={dialogOpened}
-        onClose={setDialogOpen}
-        onSubmit={handleSave}
-      />
+
       {brands && (
         <ListTable
           label="brand"

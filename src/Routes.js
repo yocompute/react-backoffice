@@ -11,7 +11,8 @@ import LocalLoginPage from './pages/auth/LocalLoginPage'
 import LocalSignupPage from './pages/auth/LocalSignupPage';
 import DashbordPage from './pages/dashbord/index'
 import UserListPage from './pages/user/UserListPage'
-import BrandListPage from './pages/brand/BrandListPage'
+import BrandListPage from './pages/brand/BrandListPage';
+import BrandFormPage from './pages/brand/BrandFormPage';
 import CategoryListPage from './pages/category/CategoryListPage'
 import ProductListPage from './pages/product/ProductListPage';
 import ProductFormPage from './pages/product/ProductFormPage';
@@ -33,6 +34,7 @@ const Routes = () => {
             <Route path="/payments" component={PaymentListPage} />
             <Route path="/users/:id" component={userFormPage} />
             <Route path="/users" component={UserListPage} />
+            <Route path="/brands/:id" component={BrandFormPage} />
             <Route path="/brands" component={BrandListPage} />
             <Route path="/categories" component={CategoryListPage} />
             <Route path="/qrcodes" component={QrcodeListPage} />
