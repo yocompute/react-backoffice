@@ -6,12 +6,16 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { ThemeProvider } from '@material-ui/core/styles';
 import store from './redux/store';
+import theme from './theme';
 
 ReactDOM.render(
   <Provider store={store}>
     {/* <React.StrictMode> */}
+    <ThemeProvider theme={theme}>
       <App />
+    </ThemeProvider>
     {/* </React.StrictMode> */}
   </Provider>,
   document.getElementById('root')

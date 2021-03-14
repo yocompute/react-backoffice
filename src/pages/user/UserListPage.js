@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 // import PropTypes from "prop-types";
-
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
 // import Header from '../../components/common/Header'
@@ -48,7 +48,7 @@ const UserListPage = ({
   user,
   users,
 }) => {
-  const [dialogOpened, setDialogOpen] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     setUser(DEFAULT_USER);
@@ -58,10 +58,11 @@ const UserListPage = ({
     fetchUsers();
   }, [fetchUsers]);
 
-  const handleOpenUserDialog = () => {
+  const handleOpenUserFormPage = () => {
     setUser(DEFAULT_USER);
-    setDialogOpen(true);
+    history.push("/users/new");
   };
+
 
   const handleSave = (data, id) => {
     if (id) {
@@ -73,7 +74,9 @@ const UserListPage = ({
 
   const handleEditRow = (row) => {
     setUser(row);
-    setDialogOpen(true);
+    setTimeout(() => {
+      history.push(`/users/${row._id}`);
+    }, 100)
   };
 
   return (
@@ -82,16 +85,10 @@ const UserListPage = ({
         data-testid="add-btn"
         variant="contained"
         color="primary"
-        onClick={handleOpenUserDialog}
+        onClick={handleOpenUserFormPage}
       >
         Add
       </Button>
-      <UserDialog
-        data={user}
-        opened={dialogOpened}
-        onClose={setDialogOpen}
-        onSubmit={handleSave}
-      />
       {users && (
         <ListTable
           label="user"
