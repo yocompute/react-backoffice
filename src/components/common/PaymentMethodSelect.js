@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 
@@ -36,7 +37,7 @@ export const PaymentMethodSelect = ({onSelect}) => {
           <Link className={paymentMethod === PaymentMethod.CREDIT_CARD ? 'btn-toggle active' : 'btn-toggle'}
                 style={{ textDecoration: 'none' }}
                 to={{ pathname: "/creditcard" }}
-                onClick={e => handleSelect(PaymentMethod.CREDIT_CARD)} >
+                onClick={() => handleSelect(PaymentMethod.CREDIT_CARD)} >
 
             <div className="inner">
               <div className="payment-icon i-card">
@@ -50,7 +51,8 @@ export const PaymentMethodSelect = ({onSelect}) => {
           </Link>
         }
         {
-          <div className={paymentMethod === PaymentMethod.WECHAT ? 'btn-toggle active' : 'btn-toggle'} onClick={e => handleSelect(PaymentMethod.WECHAT)}>
+          <div className={paymentMethod === PaymentMethod.WECHAT ? 'btn-toggle active' : 'btn-toggle'}
+            onClick={() => handleSelect(PaymentMethod.WECHAT)}>
             <div className="inner">
               <div className="payment-icon i-wechat">
                 <svg className="icon" viewBox="0 0 1144 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="21" height="21">
@@ -76,5 +78,9 @@ export const PaymentMethodSelect = ({onSelect}) => {
   //     return 'orange';
   //   }
   // }
+}
+
+PaymentMethodSelect.propTypes = {
+  onSelect: PropTypes.func
 }
 

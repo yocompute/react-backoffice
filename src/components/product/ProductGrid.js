@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import PropTypes from "prop-types";
+import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -35,7 +36,7 @@ function ProductGrid({ data, setProduct }) {
   function handleSelect(product) {
     setProduct(product);
   }
-  const matches = useMediaQuery('(min-width:800px)');
+  // const matches = useMediaQuery('(min-width:800px)');
   return (
     <div className={classes.root}>
       <GridList cellHeight={240} className={classes.gridList} cols={useMediaQuery('(min-width:800px)') ? 4 : 1}>
@@ -45,7 +46,7 @@ function ProductGrid({ data, setProduct }) {
             <Link key={tile._id}
               style={{ textDecoration: 'none' }}
               to={{ pathname: `/products/${tile._id}` }}
-              onClick={e => handleSelect(tile)} 
+              onClick={() => handleSelect(tile)} 
             >
               <GridListTile key={tile._id} className="tile-cell">
                 <div>
@@ -59,6 +60,14 @@ function ProductGrid({ data, setProduct }) {
       </GridList>
     </div>
   );
+}
+
+ProductGrid.propTypes = {
+  data: PropTypes.shape({
+    length: PropTypes.number,
+    map: PropTypes.func
+  }),
+  setProduct: PropTypes.func
 }
 
 

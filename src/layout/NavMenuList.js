@@ -1,17 +1,11 @@
 import React from "react";
 import List from "@material-ui/core/List";
-import ListSubheader from "@material-ui/core/ListSubheader";
-
 import ViewListIcon from "@material-ui/icons/ViewList";
-import StoreIcon from "@material-ui/icons/Store";
 import BrandingWatermarkIcon from "@material-ui/icons/BrandingWatermark";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PeopleIcon from "@material-ui/icons/People";
 import CategoryIcon from "@material-ui/icons/Category";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import LayersIcon from "@material-ui/icons/Layers";
-import AssignmentIcon from "@material-ui/icons/Assignment";
 import NavMenuItem from "./NavMenuItem";
 
 const menus = [
@@ -44,6 +38,12 @@ const menus = [
     text: "Manage Qrcodes",
     icon: <BrandingWatermarkIcon />,
     tip: "Manage Qrcodes",
+  },
+  {
+    path: "/specs",
+    text: "Manage Specs",
+    icon: <ViewListIcon />,
+    tip: "Manage Specs",
   },
   {
     path: "/products",

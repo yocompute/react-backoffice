@@ -1,9 +1,10 @@
+import PropTypes from "prop-types";
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   BrowserRouter as Router, Switch, Route, Redirect,
 } from 'react-router-dom';
-
+import { ThemeProvider } from '@material-ui/core/styles';
 import './App.css';
 
 import LoginSelectPage from './pages/auth/LoginSelectPage';
@@ -38,6 +39,13 @@ function App({ isLoggedIn, isLoading, fetchAuth, setLoading }) {
         )
       }
     </Router>
+}
+
+App.propTypes = {
+  fetchAuth: PropTypes.func,
+  isLoading: PropTypes.any,
+  isLoggedIn: PropTypes.any,
+  setLoading: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({

@@ -8,12 +8,13 @@ import { authReducer } from './auth/auth.reducers';
 import { usersReducer, userReducer } from './user/user.reducers';
 import { brandsReducer, brandReducer } from './brand/brand.reducers';
 import { categoriesReducer, categoryReducer } from './category/category.reducers';
-import { productsReducer, productReducer } from './product/product.reducers';
+import { productsReducer, productReducer, additionsReducer } from './product/product.reducers';
 import { cartReducer } from './cart/cart.reducers';
-import { merchantReducer } from './merchant/merchant.reducers';
 import { pageReducer } from './page/page.reducers';
 import { paymentReducer, paymentsReducer } from './payment/payment.reducers';
 import { qrcodeReducer, qrcodesReducer } from './qrcode/qrcode.reducers';
+import { specsReducer, specReducer } from './spec/spec.reducers';
+import { notificationReducer } from './notification/notification.reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -27,13 +28,16 @@ export const rootReducer = combineReducers({
   category: categoryReducer,
   products: productsReducer,
   product: productReducer,
+  additions: additionsReducer,
   cart: cartReducer,
-  merchant: merchantReducer,
   page: pageReducer,
   payments: paymentsReducer,
   payment: paymentReducer,
   qrcodes: qrcodesReducer,
-  qrcode: qrcodeReducer
+  qrcode: qrcodeReducer,
+  specs: specsReducer,
+  spec: specReducer,
+  notification: notificationReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));

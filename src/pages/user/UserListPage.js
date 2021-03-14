@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+// import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import { CartItemList } from "../../components/cart/CartItemList";
-import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect";
 
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
@@ -50,7 +48,7 @@ const UserListPage = ({
   user,
   users,
 }) => {
-  const [dialogOpened, setDialogOpen] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     setUser(DEFAULT_USER);
@@ -60,12 +58,11 @@ const UserListPage = ({
     fetchUsers();
   }, [fetchUsers]);
 
-  const handlePaymentMethodSelect = () => {};
-
-  const handleOpenUserDialog = () => {
+  const handleOpenUserFormPage = () => {
     setUser(DEFAULT_USER);
-    setDialogOpen(true);
+    history.push("/users/new");
   };
+
 
   const handleSave = (data, id) => {
     if (id) {
@@ -77,24 +74,21 @@ const UserListPage = ({
 
   const handleEditRow = (row) => {
     setUser(row);
-    setDialogOpen(true);
+    setTimeout(() => {
+      history.push(`/users/${row._id}`);
+    }, 100)
   };
 
   return (
     <div>
       <Button
+        data-testid="add-btn"
         variant="contained"
         color="primary"
-        onClick={handleOpenUserDialog}
+        onClick={handleOpenUserFormPage}
       >
         Add
       </Button>
-      <UserDialog
-        data={user}
-        opened={dialogOpened}
-        onClose={setDialogOpen}
-        onSubmit={handleSave}
-      />
       {users && (
         <ListTable
           label="user"
@@ -104,13 +98,18 @@ const UserListPage = ({
           onEditRow={handleEditRow}
         />
       )}
-      {/* <Header title={'User Page'}></Header>
-            <CartItemList items={cart.items}/>
-            <div className="label payment-label">Payment Method</div>
-            <PaymentMethodSelect onSelect={handlePaymentMethodSelect}></PaymentMethodSelect> */}
     </div>
   );
 };
+
+UserListPage.propTypes = {
+  createUser: PropTypes.func,
+  fetchUsers: PropTypes.func,
+  setUser: PropTypes.func,
+  updateUser: PropTypes.func,
+  user: PropTypes.any,
+  users: PropTypes.any
+}
 
 const mapStateToProps = (state) => ({
   user: state.user,

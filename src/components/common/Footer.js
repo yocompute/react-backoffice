@@ -1,5 +1,6 @@
+import PropTypes from "prop-types";
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,7 +27,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Footer = ({ type, user, quantity }) => {
+const Footer = ({ type, quantity }) => {
   const classes = useStyles();
   const [menu, setMenu] = useState(Menu.HOME)
 
@@ -60,6 +61,11 @@ const Footer = ({ type, user, quantity }) => {
         </div>
       } */}
   </div>
+}
+
+Footer.propTypes = {
+  quantity: PropTypes.any,
+  type: PropTypes.string
 }
 
 

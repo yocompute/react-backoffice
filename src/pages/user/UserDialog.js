@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 import Button from "@material-ui/core/Button";
@@ -8,11 +9,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { SentimentVerySatisfiedOutlined } from "@material-ui/icons";
 import { connect } from "react-redux";
 
 function UserDialog({ user, opened, onClose, onSubmit }) {
-  const { register, handleSubmit, setValue, watch, errors } = useForm();
+  const { register, handleSubmit } = useForm();
   // const [model, setModel] = useState(data);
   const handleClose = () => {
     onClose(false);
@@ -23,10 +23,6 @@ function UserDialog({ user, opened, onClose, onSubmit }) {
     onClose(false);
   };
 
-  useEffect(() => {
-    let kk = user;
-    //setValue([user]);
-  }, []);
 
   return (
     <Dialog
@@ -97,6 +93,18 @@ function UserDialog({ user, opened, onClose, onSubmit }) {
       )}
     </Dialog>
   );
+}
+
+UserDialog.propTypes = {
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
+  opened: PropTypes.any,
+  user: PropTypes.shape({
+    _id: PropTypes.any,
+    email: PropTypes.any,
+    phone: PropTypes.any,
+    username: PropTypes.any
+  })
 }
 
 const mapStateToProps = (state) => ({

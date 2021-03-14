@@ -1,4 +1,4 @@
-import { put, call, select, takeLatest } from "redux-saga/effects";
+import { put, call, takeLatest } from "redux-saga/effects";
 
 import {
   FETCH_BRANDS,
@@ -11,11 +11,18 @@ import {
 } from "./brand.actions";
 
 import BrandApi from "../../services/BrandApi";
+import { setNotification } from '../notification/notification.actions';
+import { httpSuccess } from '../notification/notification.sagas';
 
 export function* fetchBrands(action) {
   try {
-    const brands = yield call(BrandApi.get, action.query);
-    yield put(fetchBrandsSuccess(brands));
+    const {data, error, status} = yield call(BrandApi.get, action.query);
+    if(httpSuccess(status)){
+      yield put(fetchBrandsSuccess(data));
+    }else{
+      yield put(setNotification(error, status));
+    }
+
   } catch (error) {
     yield put(fetchBrandsFail(error));
   }
@@ -23,10 +30,15 @@ export function* fetchBrands(action) {
 
 export function* createBrand(action) {
   try {
-    const brand = yield call(BrandApi.create, action.data);
-    yield put(createBrandSuccess(brand));
-    const brands = yield call(BrandApi.get, null);
-    yield put(fetchBrandsSuccess(brands));
+    const {data, error, status} = yield call(BrandApi.create, action.data);
+    yield put(createBrandSuccess(data));
+    if(httpSuccess(status)){
+      const {data, error, status} = yield call(BrandApi.get, null);
+      yield put(fetchBrandsSuccess(data));
+    }else{
+      yield put(setNotification(error, status));
+    }
+    
   } catch (error) {
     // yield put(addError({
     //     ...error
@@ -36,10 +48,14 @@ export function* createBrand(action) {
 
 export function* updateBrand(action) {
   try {
-    const brand = yield call(BrandApi.update, action.data, action.id);
-    yield put(updateBrandSuccess(brand));
-    const brands = yield call(BrandApi.get, null);
-    yield put(fetchBrandsSuccess(brands));
+    const {data, error, status} = yield call(BrandApi.update, action.data, action.id);
+    yield put(updateBrandSuccess(data));
+    if(httpSuccess(status)){
+      const {data, error, status} = yield call(BrandApi.get, null);
+      yield put(fetchBrandsSuccess(data));
+    }else{
+      yield put(setNotification(error, status));
+    }
   } catch (error) {
     // yield put(addError({
     //     ...error

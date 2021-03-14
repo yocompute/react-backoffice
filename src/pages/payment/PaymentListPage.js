@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 
 import Button from '@material-ui/core/Button';
-import { CartItemList } from '../../components/cart/CartItemList';
-import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect';
 
 // import Header from '../../components/common/Header';
 import ListTable from '../../components/table/ListTable';
@@ -45,9 +42,6 @@ const PaymentListPage = ({ fetchPayments, createPayment, updatePayment, payments
         fetchPayments();
     }, [fetchPayments]);
 
-    const handlePaymentMethodSelect = () => {
-
-    }
 
     const handleOpenPaymentDialog = () => {
         setData(DEFAULT_BRAND);
@@ -88,6 +82,13 @@ const PaymentListPage = ({ fetchPayments, createPayment, updatePayment, payments
             }
         </div>
     )
+}
+
+PaymentListPage.propTypes = {
+  createPayment: PropTypes.func,
+  fetchPayments: PropTypes.func,
+  payments: PropTypes.any,
+  updatePayment: PropTypes.func
 }
 
 const mapStateToProps = state => ({

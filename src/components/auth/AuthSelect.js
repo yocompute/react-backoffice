@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -43,4 +44,7 @@ export const AuthSelect = ({type}) => {
         </Paper>
         </Container>
     )
+}
+AuthSelect.propTypes = {
+  type: PropTypes.string
 }

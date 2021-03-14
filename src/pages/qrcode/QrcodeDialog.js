@@ -1,7 +1,7 @@
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { connect } from "react-redux";
-import ImageUploader from "react-images-upload";
 import { makeStyles } from "@material-ui/core/styles";
 
 import FormControl from "@material-ui/core/FormControl";
@@ -23,7 +23,7 @@ import { CLIENT_HOST } from "../../const";
 
 var QRCode = require("qrcode-react");
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   formCtrl: {
     width: "100%",
   },
@@ -64,18 +64,18 @@ function QrcodeDialog({
     const newModel = { ...qrcode };
     newModel.brand = e.target.value;
     setQrcode(newModel);
-    setValue(`${CLIENT_HOST}/${e.target.value}/${qrcode._id}`);
+    setValue(`${CLIENT_HOST}/?brandId=${e.target.value}&qrcode=${qrcode._id}`);
   };
 
-  const handleStatusChange = (e) => {
-    const newModel = { ...qrcode };
-    newModel.status = e.target.value;
-    setQrcode(newModel);
-  };
+  // const handleStatusChange = (e) => {
+  //   const newModel = { ...qrcode };
+  //   newModel.status = e.target.value;
+  //   setQrcode(newModel);
+  // };
 
   useEffect(() => {
     if (qrcode && qrcode._id && qrcode.brand) {
-      setValue(`${CLIENT_HOST}/${qrcode.brand}/${qrcode._id}`);
+      setValue(`${CLIENT_HOST}/?brandId=${qrcode.brand}&qrcode=${qrcode._id}`);
     }
   }, [qrcode]);
 
@@ -157,7 +157,7 @@ function QrcodeDialog({
                 name="brand"
                 rules={{ required: true }}
                 defaultValue={qrcode.brand && qrcode.brand._id}
-                render={({ onChange, value, onBlur, name }) => (
+                render={({ onChange, value }) => (
                   <Select
                     id="qrcode-brand-select"
                     value={value}
@@ -195,6 +195,26 @@ function QrcodeDialog({
       </div>
     </Dialog>
   );
+}
+
+QrcodeDialog.propTypes = {
+  brands: PropTypes.shape({
+    map: PropTypes.func
+  }),
+  fetchBrands: PropTypes.func,
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
+  opened: PropTypes.any,
+  qrcode: PropTypes.shape({
+    _id: PropTypes.any,
+    brand: PropTypes.shape({
+      _id: PropTypes.any
+    }),
+    description: PropTypes.any,
+    name: PropTypes.any,
+    status: PropTypes.any
+  }),
+  setQrcode: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({

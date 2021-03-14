@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import PropTypes from "prop-types";
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
+import { connect } from "react-redux";
+
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import Snackbar from '@material-ui/core/Snackbar';
+import Paper from '@material-ui/core/Paper';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import Routes from '../Routes';
-
-const drawerWidth = 240;
+import { clearNotification } from '../redux/notification/notification.actions';
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -16,28 +19,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
-  // appBar: {
-  //     zIndex: theme.zIndex.drawer + 1,
-  //     transition: theme.transitions.create(['width', 'margin'], {
-  //         easing: theme.transitions.easing.sharp,
-  //         duration: theme.transitions.duration.leavingScreen,
-  //     }),
-  // },
-  // appBarShift: {
-  //     marginLeft: drawerWidth,
-  //     width: `calc(100% - ${drawerWidth}px)`,
-  //     transition: theme.transitions.create(['width', 'margin'], {
-  //         easing: theme.transitions.easing.sharp,
-  //         duration: theme.transitions.duration.enteringScreen,
-  //     }),
-  // },
   appBarSpacer: theme.mixins.toolbar,
-  // menuButton: {
-  //     marginRight: 36,
-  // },
-  // menuButtonHidden: {
-  //     display: 'none',
-  // },
   content: {
     flexGrow: 1,
     height: '100vh',
@@ -46,37 +28,35 @@ const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(4),
   },
-  // leftNav:{
-  //     padding: theme.spacing(2),
-  //     display: 'flex',
-  //     overflow: 'auto',
-  //     flexDirection: 'column',
-  // }
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
-  // drawerPaper: {
-  //     position: 'relative',
-  //     whiteSpace: 'nowrap',
-  //     width: drawerWidth,
-  //     transition: theme.transitions.create('width', {
-  //         easing: theme.transitions.easing.sharp,
-  //         duration: theme.transitions.duration.enteringScreen,
-  //     }),
-  // },
 }));
 
-export default function Layout() {
+function Layout({notification, clearNotification}) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleSidebarToggle = (expanded) => {
     setSidebarExpanded(expanded);
   };
+  const handleNotificationClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    clearNotification();
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    setOpen(notification ? notification.show: false);
+  }, [notification]);
+
   return (
     <div className={classes.page}>
       <Header
@@ -89,13 +69,42 @@ export default function Layout() {
         onToggle={handleSidebarToggle}
       />
 
-      <div className={classes.content}>
+      <Paper className={classes.content}>
         <div className={classes.appBarSpacer} />
         <div className={fixedHeightPaper}>
           <Routes />
         </div>
-      </div>
+        <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={open}
+        autoHideDuration={3000}
+        message={notification ? notification.error: ''}
+        onClose={handleNotificationClose}
+        />
+      </Paper>
 
     </div>
   );
 }
+
+Layout.propTypes = {
+  clearNotification: PropTypes.func,
+  notification: PropTypes.shape({
+    error: PropTypes.any,
+    show: PropTypes.any
+  })
+}
+
+
+const mapStateToProps = (state) => ({
+  notification: state.notification,
+});
+
+export default connect(
+  mapStateToProps,
+  {clearNotification},
+)(Layout);
+

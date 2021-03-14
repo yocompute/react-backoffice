@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux'
-import PropTypes from "prop-types"
+import React from 'react';
+// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+// import PropTypes from "prop-types"
 
-import Button from '@material-ui/core/Button'
-import { CartItemList } from '../../components/cart/CartItemList';
-import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect'
+// import Button from '@material-ui/core/Button'
+// import { CartItemList } from '../../components/cart/CartItemList';
+// import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect'
 
 // import Header from '../../components/common/Header'
 // import SwaggerUI from 'swagger-ui'
@@ -21,10 +21,8 @@ import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect
 // import SwaggerUI from "swagger-ui-react"
 // import "swagger-ui-react/swagger-ui.css"
 
-const OrderListPage = ({cart}) => {
-    const handlePaymentMethodSelect = () => {
+const OrderListPage = () => {
 
-    }
 
     return (
         <div>Order List

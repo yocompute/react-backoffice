@@ -1,5 +1,7 @@
-import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import React, {  useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import ImageUploader from "react-images-upload";
 
@@ -11,22 +13,27 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 
 import ProductApi from "../../services/ProductApi";
 import ImageViewer from "../../components/common/ImageViewer";
-
+import Specs from "../../components/spec/Specs";
 import { fetchBrands } from "../../redux/brand/brand.actions";
-import { setProduct } from "../../redux/product/product.actions";
 import { fetchCategories } from "../../redux/category/category.actions";
+import { fetchAdditions, setProduct, updateProduct, createProduct } from "../../redux/product/product.actions";
+import Additions from "../../components/product/Additions";
+import { selectAdditions } from "../../redux/product/product.selectors";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   formCtrl: {
-    width: "100%",
+    width: window.matchMedia(`(max-width: 768px)`).matches ? "100%" : "22%",
+    paddingRight: window.matchMedia(`(max-width: 768px)`).matches ? "0px" : "20px"
+  },
+  numberCtrl: {
+    width: window.matchMedia(`(max-width: 768px)`).matches ? "100%" : "22%",
+    paddingRight: window.matchMedia(`(max-width: 768px)`).matches ? "0px" : "20px"
   },
   uploadRow: {
     paddingBottom: "25px",
@@ -42,27 +49,65 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProductDialog({
+function ProductFormPage({
   brands,
   categories,
+  additions,
+  updateProduct,
+  createProduct,
   setProduct,
   fetchBrands,
   fetchCategories,
+  // fetchAdditions,
   product,
-  opened,
-  onClose,
-  onSubmit,
 }) {
   const classes = useStyles();
   const { control, handleSubmit } = useForm();
+  const history = useHistory();
+  // useEffect(() => {
+  //   if (match.params && match.params.id) {
+  //     const productId = match.params.id;
+  //     setProduct({ _id: productId });
+  //     fetchProducts({ productId });
+  //   } else {
+  //     const productId = DEFAULT_MERCHANT_ID;
+  //     setMerchant({ _id: productId });
+  //     fetchProducts({ productId });
+  //   }
+  // }, [fetchProducts]);
+
+
   const handleClose = () => {
-    onClose(false);
+    // onClose(false);
+    history.push('/products');
+  };
+  const handleSave = (data, id) => {
+    if (id) {
+      updateProduct(data, id);
+    } else {
+      createProduct(data);
+    }
   };
 
   const handleOk = (d) => {
-    onSubmit(d, product._id);
-    onClose(false);
+    const ds = [];
+    if(additions){
+      additions.forEach(ad => {
+        if(ad.checked){
+          ds.push(ad._id);
+        }
+      });
+    }
+
+    const data = product.type === 'C' ? 
+    { ...d, specs: product.specs, additions: ds, type: product.type } 
+    : { ...d, specs: product.specs, type: product.type, additions: null };
+
+    handleSave(data, product._id);
+    // onClose(false);
+    history.push('/products');
   };
+
   const handleRemovePicture = () => {
     const confirm = window.confirm("Do you really want to remove this image?");
     if (confirm) {
@@ -89,6 +134,35 @@ function ProductDialog({
     });
   };
 
+  const handleSpecsChange = (specs) => {
+    const newModel = { ...product, specs };
+    setProduct(newModel);
+  }
+
+  const handleAdditionsChange = (datas) => {
+    const additions = [];
+    if (datas && datas.length > 0) {
+      datas.forEach(d => {
+        if (d.checked) {
+          additions.push(d);
+        }
+      })
+    }
+    const newModel = { ...product, additions };
+    setProduct(newModel);
+  }
+
+  const handleTypeChange = (e) => {
+    const type = e.target.value;
+    if(type !== 'C'){
+      const newModel = { ...product, type, additions: null };
+      setProduct(newModel);
+    }else{
+      const newModel = { ...product, type };
+      setProduct(newModel);
+    }
+  }
+
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
@@ -98,12 +172,11 @@ function ProductDialog({
   }, []);
 
   return (
-    <Dialog
-      open={opened}
+    <div
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">Add New Product</DialogTitle>
+      <div id="form-dialog-title">Add New Product</div>
       {product && (
         <form onSubmit={handleSubmit(handleOk)}>
           <DialogContent>
@@ -142,6 +215,7 @@ function ProductDialog({
             />
 
             <Controller
+              className={classes.numberCtrl}
               control={control}
               name="price"
               defaultValue={product.price}
@@ -158,6 +232,7 @@ function ProductDialog({
             />
 
             <Controller
+              className={classes.numberCtrl}
               control={control}
               name="cost"
               defaultValue={product.cost}
@@ -174,6 +249,7 @@ function ProductDialog({
             />
 
             <Controller
+              className={classes.numberCtrl}
               control={control}
               name="purchaseTaxRate"
               defaultValue={product.purchaseTaxRate}
@@ -190,6 +266,7 @@ function ProductDialog({
             />
 
             <Controller
+              className={classes.numberCtrl}
               control={control}
               name="saleTaxRate"
               defaultValue={product.saleTaxRate}
@@ -204,7 +281,32 @@ function ProductDialog({
                 />
               }
             />
-
+            <FormControl className={classes.formCtrl}>
+              <InputLabel id="product-type-select-label">Type</InputLabel>
+              {/* <Controller
+                control={control}
+                name="type"
+                defaultValue={product.type ? product.type : 'S'}
+                rules={{ required: true }}
+                as={ */}
+                  <Select id="product-type-select"
+                    defaultValue={product && product.type ? product.type : 'S'}
+                    value={product && product.type ? product.type : 'S'}
+                    onChange={handleTypeChange}
+                    >
+                    <MenuItem key={"S"} value={"S"}>
+                      Single
+                    </MenuItem>
+                    <MenuItem key={"C"} value={"C"}>
+                      Compound
+                    </MenuItem>
+                    <MenuItem key={"A"} value={"A"}>
+                      Addition
+                    </MenuItem>
+                  </Select>
+                {/* }
+              /> */}
+            </FormControl>
             <FormControl className={classes.formCtrl}>
               <InputLabel id="product-status-select-label">Status</InputLabel>
               <Controller
@@ -266,6 +368,13 @@ function ProductDialog({
                 }
               />
             </FormControl>
+
+            {
+              additions && product && product.type === 'C' &&
+              <Additions data={additions} onChange={handleAdditionsChange} />
+            }
+
+            <Specs productSpecs={product.specs} onChange={handleSpecsChange} />
           </DialogContent>
 
           <DialogActions>
@@ -300,18 +409,62 @@ function ProductDialog({
           />
         </div>
       </div>
-    </Dialog>
+    </div>
   );
+}
+
+ProductFormPage.propTypes = {
+  additions: PropTypes.shape({
+    forEach: PropTypes.func,
+    push: PropTypes.func
+  }),
+  brands: PropTypes.shape({
+    map: PropTypes.func
+  }),
+  categories: PropTypes.shape({
+    map: PropTypes.func
+  }),
+  createProduct: PropTypes.func,
+  fetchBrands: PropTypes.func,
+  fetchCategories: PropTypes.func,
+  opened: PropTypes.any,
+  product: PropTypes.shape({
+    _id: PropTypes.any,
+    brand: PropTypes.shape({
+      _id: PropTypes.any
+    }),
+    category: PropTypes.shape({
+      _id: PropTypes.any
+    }),
+    cost: PropTypes.any,
+    description: PropTypes.any,
+    name: PropTypes.any,
+    pictures: PropTypes.shape({
+      length: PropTypes.number
+    }),
+    price: PropTypes.any,
+    purchaseTaxRate: PropTypes.any,
+    saleTaxRate: PropTypes.any,
+    specs: PropTypes.any,
+    status: PropTypes.any,
+    type: PropTypes.string
+  }),
+  setProduct: PropTypes.func,
+  updateProduct: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({
   brands: state.brands,
   categories: state.categories,
   product: state.product,
+  additions: selectAdditions(state)
 });
 
 export default connect(mapStateToProps, {
   fetchBrands,
   fetchCategories,
   setProduct,
-})(ProductDialog);
+  updateProduct,
+  createProduct,
+  fetchAdditions
+})(ProductFormPage);

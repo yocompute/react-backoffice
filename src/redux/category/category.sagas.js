@@ -10,10 +10,17 @@ import {
 } from "./category.actions";
 import CategoryApi from "../../services/CategoryApi";
 
+import { setNotification } from '../notification/notification.actions';
+import { httpSuccess } from '../notification/notification.sagas';
+
 export function* fetchCategories(action) {
   try {
-    const categories = yield call(CategoryApi.get, action.query);
-    yield put(fetchCategoriesSuccess(categories));
+    const {data, error, status} = yield call(CategoryApi.get, action.query);
+    if(httpSuccess(status)){
+      yield put(fetchCategoriesSuccess(data));
+    }else{
+      yield put(setNotification(error, status));
+    }
   } catch (error) {
     yield put(fetchCategoriesFail(error));
   }
@@ -21,21 +28,31 @@ export function* fetchCategories(action) {
 
 export function* createCategory(action) {
   try {
-    const category = yield call(CategoryApi.create, action.data);
-    yield put(createCategorySuccess(category));
-    const categories = yield call(CategoryApi.get, null);
-    yield put(fetchCategoriesSuccess(categories));
-  } catch (error) {}
+    const {data, error, status} = yield call(CategoryApi.create, action.data);
+    yield put(createCategorySuccess(data));
+    if(httpSuccess(status)){
+      const {data, error, status} = yield call(CategoryApi.get, null);
+      yield put(fetchCategoriesSuccess(data));
+    }else{
+      yield put(setNotification(error, status));
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export function* updateCategory(action) {
   try {
-    const category = yield call(CategoryApi.update, action.data, action.id);
-    yield put(updateCategorySuccess(category));
-    const categories = yield call(CategoryApi.get, null);
-    yield put(fetchCategoriesSuccess(categories));
+    const {data, error, status} = yield call(CategoryApi.update, action.data, action.id);
+    if(httpSuccess(status)){
+      yield put(updateCategorySuccess(data));
+      const {data, error, status} = yield call(CategoryApi.get, null);
+      yield put(fetchCategoriesSuccess(data));
+    }else{
+      yield put(setNotification(error, status));
+    }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 

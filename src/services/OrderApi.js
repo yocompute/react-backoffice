@@ -14,7 +14,7 @@ const OrderApi = {
           resolve(res.data);
         } else {
           // redirect to error page and log error message
-          console.log(res.statusText);
+          // console.log(res.statusText);
           resolve([]);
         }
       });
@@ -22,8 +22,7 @@ const OrderApi = {
   },
 
   createOrder(data) {
-    // const url = `/orders.json`;
-    const url = Api.buildUrl(API_URL, 'orders', query);
+    const url = Api.buildUrl(API_URL, 'orders');
 
     return new Promise((resolve) => {
       Api.post(url, data).then((res) => {
@@ -31,7 +30,7 @@ const OrderApi = {
           resolve(res.data);
         } else {
           // redirect to error page and log error message
-          console.log(res.statusText);
+          // console.log(res.statusText);
           resolve();
         }
       });
@@ -39,8 +38,7 @@ const OrderApi = {
   },
 
   updateOrder(data) {
-    // const url = `/orders.json`;
-    const url = Api.buildUrl(API_URL, 'orders', query);
+    const url = Api.buildUrl(API_URL, 'orders');
 
     return new Promise((resolve) => {
       Api.put(url, data).then((res) => {
@@ -48,7 +46,7 @@ const OrderApi = {
           resolve(res.data);
         } else {
           // redirect to error page and log error message
-          console.log(res.statusText);
+          // console.log(res.statusText);
           resolve();
         }
       });

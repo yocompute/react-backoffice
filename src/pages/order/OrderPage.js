@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux'
-import PropTypes from "prop-types"
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 
-import Button from '@material-ui/core/Button'
 import { CartItemList } from '../../components/cart/CartItemList';
 import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect'
 
@@ -23,6 +21,12 @@ const OrderPage = ({cart}) => {
             <PaymentMethodSelect onSelect={handlePaymentMethodSelect}></PaymentMethodSelect>
         </div>
     )
+}
+
+OrderPage.propTypes = {
+  cart: PropTypes.shape({
+    items: PropTypes.any
+  })
 }
 
 const mapStateToProps = state => ({

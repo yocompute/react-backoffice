@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
-import { CartItemList } from "../../components/cart/CartItemList";
-import { PaymentMethodSelect } from "../../components/common/PaymentMethodSelect";
 
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
-import ProductDialog from "./ProductDialog";
+// import ProductFormPage from "./ProductFormPage";
 
 import {
   setProduct,
   fetchProducts,
-  createProduct,
-  updateProduct,
+  // createProduct,
+  // updateProduct,
+  fetchAdditions
 } from "../../redux/product/product.actions";
 
 const columns = [
   { field: "createUTC", label: "Created Date" },
-  { field: "pictures", label: "Picture" },
+  { field: "pictures", label: "Picture", type: "picture" },
   { field: "name", label: "Product Name" },
   { field: "description", label: "Description" },
   { field: "price", label: "Price" },
@@ -62,54 +61,55 @@ const DEFAULT_PRODUCT = {
 };
 
 const ProductListPage = ({
-  product,
+  // product,
   products,
+  // additions,
   setProduct,
   fetchProducts,
-  createProduct,
-  updateProduct,
+  // createProduct,
+  // updateProduct,
+  fetchAdditions
 }) => {
-  const [dialogOpened, setDialogOpen] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
-  const handlePaymentMethodSelect = () => {};
 
-  const handleOpenProductDialog = () => {
+  const handleNewProductFormPage = () => {
     setProduct(DEFAULT_PRODUCT);
-    setDialogOpen(true);
+    // setDialogOpen(true);
+    history.push("/products/new");
   };
 
-  const handleSave = (data, id) => {
-    if (id) {
-      updateProduct(data, id);
-    } else {
-      createProduct(data);
-    }
-  };
+  // const handleSave = (data, id) => {
+  //   if (id) {
+  //     updateProduct(data, id);
+  //   } else {
+  //     createProduct(data);
+  //   }
+  // };
 
   const handleEditRow = (row) => {
     setProduct(row);
-    setDialogOpen(true);
+    fetchAdditions({brand: row.brand});
+    // setDialogOpen(true);
+    setTimeout(() => {
+      history.push(`/products/${row._id}`);
+    }, 100)
   };
 
   return (
     <div>
-      <Button
+      <Button data-testid="add-btn"
         variant="contained"
         color="primary"
-        onClick={handleOpenProductDialog}
+        onClick={handleNewProductFormPage}
       >
         Add
       </Button>
-      <ProductDialog
-        data={product}
-        opened={dialogOpened}
-        onClose={setDialogOpen}
-        onSubmit={handleSave}
-      />
+
       {products && (
         <ListTable
           label="product"
@@ -123,14 +123,23 @@ const ProductListPage = ({
   );
 };
 
+ProductListPage.propTypes = {
+  fetchAdditions: PropTypes.func,
+  fetchProducts: PropTypes.func,
+  products: PropTypes.any,
+  setProduct: PropTypes.func,
+}
+
 const mapStateToProps = (state) => ({
   product: state.product,
   products: state.products,
+  additions: state.additions
 });
 
 export default connect(mapStateToProps, {
   setProduct,
   fetchProducts,
-  createProduct,
-  updateProduct,
+  // createProduct,
+  // updateProduct,
+  fetchAdditions
 })(ProductListPage);

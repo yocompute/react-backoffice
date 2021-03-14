@@ -1,50 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import clsx from 'clsx';
+// import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems, NavMenuList } from '../layout/NavMenuList';
+// import Typography from '@material-ui/core/Typography';
+// import Link from '@material-ui/core/Link';
 
-import ProductList from '../components/product/ProductList';
-import ProductGrid from '../components/product/ProductGrid';
-// import Header from '../components/common/Header'
-import Footer from '../components/common/Footer';
-
-import { setMerchant } from '../redux/merchant/merchant.actions';
 import { fetchProducts } from '../redux/product/product.actions';
 
 const DEFAULT_MERCHANT_ID = '5c9542ce0851a5096e044d16';
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>
-      {' '}
-      {new Date().getFullYear()}
-      .
-    </Typography>
-  );
-}
+
+// function Copyright() {
+//   return (
+//     <Typography variant="body2" color="textSecondary" align="center">
+//       {'Copyright © '}
+//       <Link color="inherit" href="https://material-ui.com/">
+//         Your Website
+//       </Link>
+//       {' '}
+//       {new Date().getFullYear()}
+//       .
+//     </Typography>
+//   );
+// }
 
 const drawerWidth = 240;
 
@@ -128,33 +108,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomePage = ({
-  match, fetchProducts, products, setMerchant,
+  match, fetchProducts,
 }) => {
   useEffect(() => {
     if (match.params && match.params.id) {
       const merchantId = match.params.id;
-      setMerchant({ _id: merchantId });
       fetchProducts({ merchantId });
     } else {
       const merchantId = DEFAULT_MERCHANT_ID;
-      setMerchant({ _id: merchantId });
       fetchProducts({ merchantId });
     }
   }, [fetchProducts]);
 
-  const handleNext = () => {
+  // const handleNext = () => {
 
-  };
+  // };
 
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  // const [open, setOpen] = React.useState(true);
+  // const handleDrawerOpen = () => {
+  //   setOpen(true);
+  // };
+  // const handleDrawerClose = () => {
+  //   setOpen(false);
+  // };
+  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -198,13 +176,15 @@ const HomePage = ({
 };
 
 HomePage.propTypes = {
+  fetchProducts: PropTypes.func,
+  history: PropTypes.object,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
+      id: PropTypes.string
+    })
   }),
-  history: PropTypes.object,
-};
+  setMerchant: PropTypes.func
+}
 
 const mapStateToProps = (state) => ({
   products: state.products,
@@ -212,5 +192,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  { fetchProducts, setMerchant },
+  { fetchProducts },
 )(HomePage);

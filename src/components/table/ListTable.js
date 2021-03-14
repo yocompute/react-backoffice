@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { connect } from "react-redux";
+import React, { useState } from "react";
+// import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import {
-  Avatar,
-  Chip,
+  // Avatar,
+  // Chip,
   Table,
-  TableCell,
-  TableContainer,
+  // TableCell,
+  // TableContainer,
   TableBody,
   TableRow,
-  Switch,
-  IconButton,
+  // Switch,
+  // IconButton,
 } from "@material-ui/core";
 
-import EditIcon from "@material-ui/icons/Edit";
+// import EditIcon from "@material-ui/icons/Edit";
 
 import TableHeader from "./TableHeader";
 import ListCell from "./ListCell";
@@ -72,5 +72,18 @@ const ListTable = ({ label, defaultSort, columns, rows, onEditRow }) => {
     </Table>
   );
 };
+
+ListTable.propTypes = {
+  columns: PropTypes.shape({
+    map: PropTypes.func
+  }),
+  defaultSort: PropTypes.any,
+  label: PropTypes.any,
+  onEditRow: PropTypes.any,
+  rows: PropTypes.shape({
+    length: PropTypes.number,
+    sort: PropTypes.func
+  })
+}
 
 export default ListTable;

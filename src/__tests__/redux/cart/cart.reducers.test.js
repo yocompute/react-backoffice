@@ -1,4 +1,4 @@
-import {UPDATE_CART} from '../../../redux/cart/cart.actions'
+// import {UPDATE_CART} from '../../../redux/cart/cart.actions';
 import {cartReducer} from '../../../redux/cart/cart.reducers'
 
 it('initial cart is empty', ()=>{
