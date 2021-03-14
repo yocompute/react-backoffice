@@ -19,6 +19,7 @@ import OrderListPage from './pages/order/OrderListPage'
 import QrcodeListPage from './pages/qrcode/QrcodeListPage';
 import SpecListPage from './pages/spec/SpecListPage';
 import SpecFormPage from './pages/spec/SpecFormPage';
+import userFormPage from './pages/user/userFormPage';
 
 const Routes = () => {
     return (<Switch>
@@ -30,6 +31,7 @@ const Routes = () => {
             <Route path="/local-signup" component={LocalSignupPage} />
             <Route path="/verify-code" component={VerificationCodePage} />
             <Route path="/payments" component={PaymentListPage} />
+            <Route path="/users/:id" component={userFormPage} />
             <Route path="/users" component={UserListPage} />
             <Route path="/brands" component={BrandListPage} />
             <Route path="/categories" component={CategoryListPage} />

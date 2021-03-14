@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
-
+import Paper from '@material-ui/core/Paper';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import Routes from '../Routes';
@@ -69,7 +69,7 @@ function Layout({notification, clearNotification}) {
         onToggle={handleSidebarToggle}
       />
 
-      <div className={classes.content}>
+      <Paper className={classes.content}>
         <div className={classes.appBarSpacer} />
         <div className={fixedHeightPaper}>
           <Routes />
@@ -84,7 +84,7 @@ function Layout({notification, clearNotification}) {
         message={notification ? notification.error: ''}
         onClose={handleNotificationClose}
         />
-      </div>
+      </Paper>
 
     </div>
   );
