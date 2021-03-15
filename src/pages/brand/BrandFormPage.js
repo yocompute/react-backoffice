@@ -27,6 +27,8 @@ import { fetchUsers } from "../../redux/user/user.actions";
 
 import BrandApi from "../../services/BrandApi";
 import ImageViewer from "../../components/common/ImageViewer";
+import BusinessHoursSetting from "../../components/common/BusinessHoursSetting";
+import { DEFAULT_BUSINESS_HOURS } from "./BrandListPage";
 
 const useStyles = makeStyles(() => ({
   formCtrl: {
@@ -62,7 +64,7 @@ function BrandFormPage({
     history.push('/brands');
   };
   const handleSave = (data, id) => {
-    const d = {...data, deliverMethods: brand.deliverMethods};
+    const d = {...data, deliverMethods: brand.deliverMethods, businessHours: brand.businessHours};
     if (id) {
       updateBrand(d, id);
     } else {
@@ -130,6 +132,35 @@ function BrandFormPage({
       }
     }
   }
+
+
+  const handleWeekdayChange = (e) => {
+    const day = e.target.name;
+    const checked = e.target.checked;
+    const businessHours = { ...brand.businessHours };
+    businessHours[day].opening = checked;
+
+    setBrand({...brand, businessHours});
+  }
+
+  const handleStartChange = (e) => {
+    const day = e.target.name;
+    const v = e.target.value;
+    const businessHours = { ...brand.businessHours };
+    businessHours[day].start = v;
+  
+    setBrand({...brand, businessHours});
+  }
+  
+  const handleEndChange = (e) => {
+    const day = e.target.name;
+    const v = e.target.value;
+    const businessHours = { ...brand.businessHours };
+    businessHours[day].end = v;
+  
+    setBrand({...brand, businessHours});
+  }
+ 
 
   useEffect(() => {
     fetchUsers();
@@ -283,6 +314,16 @@ function BrandFormPage({
                 }
               />
             </Grid>
+
+            <Grid item xs={12}>
+              <h4>Business Hours:</h4>
+                <BusinessHoursSetting 
+                  businessHours={brand.businessHours}
+                  onWeekdayChange={handleWeekdayChange}
+                  onStartChange={handleStartChange}
+                  onEndChange={handleEndChange}
+                />
+            </Grid>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Cancel
@@ -342,8 +383,16 @@ BrandFormPage.propTypes = {
   })
 }
 
+function initBrand(brand){
+  if(!brand.businessHours){
+    return {...brand, businessHours: DEFAULT_BUSINESS_HOURS};
+  }else{
+    return brand;
+  }
+}
+
 const mapStateToProps = (state) => ({
-  brand: state.brand,
+  brand: initBrand(state.brand),
   users: state.users,
 });
 
