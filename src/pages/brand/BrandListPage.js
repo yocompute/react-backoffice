@@ -29,6 +29,15 @@ const columns = [
 
 const defaultSort = ["createUTC", 1];
 
+export const DEFAULT_BUSINESS_HOURS = {
+  "MON": {opening: true, start:'', end: ''}, 
+  "TUE": {opening: true, start:'', end: ''},
+  "WED": {opening: true, start:'', end: ''},
+  "THU": {opening: true, start:'', end: ''},
+  "FRI": {opening: true, start:'', end: ''},
+  "SAT": {opening: true, start:'', end: ''},
+  "SUN": {opening: false, start:'', end: ''},
+}
 const DEFAULT_BRAND = {
   _id: "",
   logoUrl: "",
@@ -36,6 +45,10 @@ const DEFAULT_BRAND = {
   description: "",
   status: "",
   owner: "",
+  deliverMethods: [],
+  maxDeliverDistance: 5,
+  minConsumption: 0,
+  businessHours: DEFAULT_BUSINESS_HOURS,
   createUTC: "",
   actions: "",
 };
@@ -99,6 +112,8 @@ BrandListPage.propTypes = {
   setBrand: PropTypes.func,
   updateBrand: PropTypes.func
 }
+
+
 
 const mapStateToProps = (state) => ({
   brands: state.brands,
