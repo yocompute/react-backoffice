@@ -256,8 +256,7 @@ function BrandFormPage({
               />
             </Grid>
 
-
-            <Grid item xs={12}>
+            <Grid item xs={3}>
               <div>Deliver Method:</div>
               <FormGroup>
 
@@ -275,10 +274,8 @@ function BrandFormPage({
                 />
               </FormGroup>
             </Grid>
-          </Grid>
 
-
-          <Grid item xs={3}>
+            <Grid item xs={3}>
               <Controller
                 control={control}
                 name="maxDeliverDistance"
@@ -324,6 +321,8 @@ function BrandFormPage({
                   onEndChange={handleEndChange}
                 />
             </Grid>
+          </Grid>
+
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Cancel
