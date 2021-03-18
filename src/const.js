@@ -19,3 +19,5 @@ export const PaymentMethod = {
     CREDIT_CARD: 'CC',
     WECHAT: 'W'
 }
+
+export const Roles = ["Super", "Admin", "Customer Service", "Driver"];

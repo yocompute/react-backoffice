@@ -15,11 +15,14 @@ import { paymentReducer, paymentsReducer } from './payment/payment.reducers';
 import { qrcodeReducer, qrcodesReducer } from './qrcode/qrcode.reducers';
 import { specsReducer, specReducer } from './spec/spec.reducers';
 import { notificationReducer } from './notification/notification.reducers';
+import { roleReducer, rolesReducer } from './role/role.reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const rootReducer = combineReducers({
   tokenId: authReducer,
+  roles: rolesReducer,
+  role: roleReducer,
   users: usersReducer,
   user: userReducer,
   brands: brandsReducer,

@@ -6,21 +6,23 @@ import VerificationCodePage from './pages/auth/VerificationCodePage';
 import OrderPage from './pages/order/OrderPage';
 import CreditCardPage from './pages/payment/CreditCardPage';
 import PaymentListPage from './pages/payment/PaymentListPage';
-import LoginSelectPage from './pages/auth/LoginSelectPage'
-import LocalLoginPage from './pages/auth/LocalLoginPage'
+import LoginSelectPage from './pages/auth/LoginSelectPage';
+import LocalLoginPage from './pages/auth/LocalLoginPage';
 import LocalSignupPage from './pages/auth/LocalSignupPage';
-import DashbordPage from './pages/dashbord/index'
-import UserListPage from './pages/user/UserListPage'
+import DashbordPage from './pages/dashbord/index';
+import RoleListPage from './pages/role/RoleListPage';
+import RoleFormPage from './pages/role/RoleFormPage';
+import UserListPage from './pages/user/UserListPage';
+import userFormPage from './pages/user/userFormPage';
 import BrandListPage from './pages/brand/BrandListPage';
 import BrandFormPage from './pages/brand/BrandFormPage';
-import CategoryListPage from './pages/category/CategoryListPage'
+import CategoryListPage from './pages/category/CategoryListPage';
 import ProductListPage from './pages/product/ProductListPage';
 import ProductFormPage from './pages/product/ProductFormPage';
-import OrderListPage from './pages/order/OrderListPage'
+import OrderListPage from './pages/order/OrderListPage';
 import QrcodeListPage from './pages/qrcode/QrcodeListPage';
 import SpecListPage from './pages/spec/SpecListPage';
 import SpecFormPage from './pages/spec/SpecFormPage';
-import userFormPage from './pages/user/userFormPage';
 
 const Routes = () => {
     return (<Switch>
@@ -32,6 +34,8 @@ const Routes = () => {
             <Route path="/local-signup" component={LocalSignupPage} />
             <Route path="/verify-code" component={VerificationCodePage} />
             <Route path="/payments" component={PaymentListPage} />
+            <Route path="/roles/:id" component={RoleFormPage} />
+            <Route path="/roles" component={RoleListPage} />
             <Route path="/users/:id" component={userFormPage} />
             <Route path="/users" component={UserListPage} />
             <Route path="/brands/:id" component={BrandFormPage} />

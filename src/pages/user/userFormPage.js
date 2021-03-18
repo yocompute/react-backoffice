@@ -6,10 +6,18 @@ import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
+import MenuItem from "@material-ui/core/MenuItem";
+import Checkbox from "@material-ui/core/Checkbox";
+import ListItemText from "@material-ui/core/ListItemText";
+
+import Input from "@material-ui/core/Input";
+import Select from "@material-ui/core/Select";
 
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { connect } from "react-redux";
@@ -17,6 +25,7 @@ import { createUser, updateUser, setUser } from "../../redux/user/user.actions";
 import theme from "../../theme";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { Roles } from "../../const";
 
 const useStyles = makeStyles(() => ({
     root:{
@@ -24,6 +33,9 @@ const useStyles = makeStyles(() => ({
     },
     form: {
       padding: "25px",
+    },
+    formControl:{
+        width: "100%",
     },
     uploadRow: {
       paddingBottom: "25px",
@@ -49,7 +61,7 @@ function UserFormPage({ user, createUser, updateUser, setUser }) {
     };
 
     const handleSave = (data, id) => {
-        const d = {...data, status: user.status};
+        const d = {...data, status: user.status, roles: user.roles};
         if (id) {
             updateUser(d, id);
         } else {
@@ -64,6 +76,10 @@ function UserFormPage({ user, createUser, updateUser, setUser }) {
 
     const handleStatusChange = (d) => {
         setUser({...user, status: d.target.checked? 'A': 'I'});
+    }
+
+    const handleRolesChange = (event) => {
+        setUser({...user, roles: event.target.value});
     }
 
     return (
@@ -93,7 +109,6 @@ function UserFormPage({ user, createUser, updateUser, setUser }) {
                         />
                     </Grid>
                     <Grid item xs={3}>
-
                         <TextField
                             autoFocus
                             margin="dense"
@@ -101,7 +116,6 @@ function UserFormPage({ user, createUser, updateUser, setUser }) {
                             defaultValue={user.phone}
                             label="Phone Number"
                             type="phone"
-                            // value={model.phone}
                             fullWidth
                             inputRef={register}
                         />
@@ -145,6 +159,30 @@ function UserFormPage({ user, createUser, updateUser, setUser }) {
                         label="Status"
                     />
                     </FormGroup>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="mutiple-chip-label">Roles</InputLabel>
+                            {
+                            <Select multiple
+                                labelId="mutiple-chip-label"
+                                id="mutiple-chip"
+                                value={user.roles}
+                                onChange={handleRolesChange}
+                                input={<Input />}
+                                renderValue={(selected) => selected.join(', ')}
+                            >
+                            {
+                            
+                            Roles.map((name) => (
+                                <MenuItem key={name} value={name} >
+                                    <Checkbox checked={user.roles.indexOf(name) > -1}/>
+                                    <ListItemText primary={name} />
+                                </MenuItem>
+                            ))}
+                            </Select>}
+                        </FormControl>
                     </Grid>
                     <DialogActions>
                         <Button onClick={handleClose} color="primary">

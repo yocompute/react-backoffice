@@ -5,6 +5,7 @@ import BrandingWatermarkIcon from "@material-ui/icons/BrandingWatermark";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PeopleIcon from "@material-ui/icons/People";
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import CategoryIcon from "@material-ui/icons/Category";
 import NavMenuItem from "./NavMenuItem";
 
@@ -14,6 +15,12 @@ const menus = [
     text: "Dashbord",
     icon: <DashboardIcon />,
     tip: "Dashbord",
+  },
+  {
+    path: "/roles",
+    text: "Manage Roles",
+    icon: <PermIdentityIcon />,
+    tip: "Manage Roles",
   },
   {
     path: "/users",

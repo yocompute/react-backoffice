@@ -9,72 +9,67 @@ import Button from "@material-ui/core/Button";
 import ListTable from "../../components/table/ListTable";
 
 import {
-  setUser,
-  fetchUsers,
-  createUser,
-  updateUser,
-} from "../../redux/user/user.actions";
+  setRole,
+  fetchRoles,
+  createRole,
+  updateRole,
+} from "../../redux/role/role.actions";
 
 const columns = [
   { field: "createUTC", label: "Created Date" },
-  { field: "imageurl", label: "Portrait", type: "image" },
-  { field: "username", label: "Username" },
-  { field: "email", label: "Email" },
-  { field: "phone", label: "Phone" },
-  { field: "type", label: "Type" },
-  { field: "balance", label: "Balance" },
+  { field: "name", label: "Name" },
+  { field: "description", label: "Description" },
   { field: "status", label: "Status" },
-  // { field: "attribute", label: "Attribute" },
   { field: "actions", label: "Actions" },
 ];
 
 const defaultSort = ["createUTC", -1];
 
-const DEFAULT_USER = {
+const DEFAULT_ROLE = {
   _id: "",
   createUTC: "",
-  username: "",
-  email: "",
-  phone: "",
-  password: "",
+  name: "",
+  description: "",
+  permissions: [],
+  status: "",
 };
 
-const UserListPage = ({
-  setUser,
-  fetchUsers,
-  createUser,
-  updateUser,
-  user,
-  users,
+const RoleListPage = ({
+  setRole,
+  fetchRoles,
+  createRole,
+  updateRole,
+  role,
+  roles,
 }) => {
   const history = useHistory();
 
   useEffect(() => {
-    setUser(DEFAULT_USER);
+    setRole(DEFAULT_ROLE);
   }, []);
 
   useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+    fetchRoles();
+  }, [fetchRoles]);
 
-  const handleOpenUserFormPage = () => {
-    setUser(DEFAULT_USER);
-    history.push("/users/new");
+  const handleOpenRoleFormPage = () => {
+    setRole(DEFAULT_ROLE);
+    history.push("/roles/new");
   };
 
 
   const handleSave = (data, id) => {
     if (id) {
-      updateUser(data, id);
+      updateRole(data, id);
     } else {
-      createUser(data);
+      createRole(data);
     }
   };
 
   const handleEditRow = (row) => {
-    setUser(row);
+    setRole(row);
     setTimeout(() => {
-      history.push(`/users/${row._id}`);
+      history.push(`/roles/${row._id}`);
     }, 100)
   };
 
@@ -84,16 +79,16 @@ const UserListPage = ({
         data-testid="add-btn"
         variant="contained"
         color="primary"
-        onClick={handleOpenUserFormPage}
+        onClick={handleOpenRoleFormPage}
       >
         Add
       </Button>
-      {users && (
+      {roles && (
         <ListTable
-          label="user"
+          label="role"
           defaultSort={defaultSort}
           columns={columns}
-          rows={users}
+          rows={roles}
           onEditRow={handleEditRow}
         />
       )}
@@ -101,23 +96,23 @@ const UserListPage = ({
   );
 };
 
-UserListPage.propTypes = {
-  createUser: PropTypes.func,
-  fetchUsers: PropTypes.func,
-  setUser: PropTypes.func,
-  updateUser: PropTypes.func,
-  user: PropTypes.any,
-  users: PropTypes.any
+RoleListPage.propTypes = {
+  createRole: PropTypes.func,
+  fetchRoles: PropTypes.func,
+  setRole: PropTypes.func,
+  updateRole: PropTypes.func,
+  role: PropTypes.any,
+  roles: PropTypes.any
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user,
-  users: state.users,
+  role: state.role,
+  roles: state.roles,
 });
 
 export default connect(mapStateToProps, {
-  setUser,
-  fetchUsers,
-  createUser,
-  updateUser,
-})(UserListPage);
+  setRole,
+  fetchRoles,
+  createRole,
+  updateRole,
+})(RoleListPage);
