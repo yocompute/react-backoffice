@@ -119,16 +119,15 @@ function BrandFormPage({
           setBrand({ ...brand, deliverMethods });
         }
       } else {
-        setBrand({ ...brand, deliverMethods: [name] });
-      }
-    } else {
-      if (brand.deliverMethods) {
-        if (brand.deliverMethods.indexOf(name) !== -1) {
-          const deliverMethods = brand.deliverMethods.filter(dm => dm !== name);
-          setBrand({ ...brand, deliverMethods });
+        setBrand({ ...brand, deliverMethods: [name] });                        
+        if (brand.deliverMethods) {
+          if (brand.deliverMethods.indexOf(name) !== -1) {
+            const deliverMethods = brand.deliverMethods.filter(dm => dm !== name);
+            setBrand({ ...brand, deliverMethods });
+          }
+        } else {
+          setBrand({ ...brand, deliverMethods: [] });
         }
-      } else {
-        setBrand({ ...brand, deliverMethods: [] });
       }
     }
   }
@@ -286,7 +285,7 @@ function BrandFormPage({
                     autoFocus
                     margin="dense"
                     label="Max deliver distance(KM)"
-                    type="number"
+                    type="number"Phone Number
                     fullWidth
                   />
                 }
