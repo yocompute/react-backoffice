@@ -70,7 +70,7 @@ Footer.propTypes = {
 
 
 const mapStateToProps = state => ({
-  user: state.user,
+  user: state.auth.user,
   quantity: selectQuantity(state)
 });
 

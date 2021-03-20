@@ -14,8 +14,9 @@ export const UPDATE_BRAND_FAIL = "brand/UPDATE_BRAND_FAIL";
 export const SET_BRAND = "brand/SET_BRAND";
 
 // action creators
-export const fetchBrands = () => ({
+export const fetchBrands = (query) => ({
   type: FETCH_BRANDS,
+  query
 });
 
 export const fetchBrandsSuccess = (brands = []) => ({

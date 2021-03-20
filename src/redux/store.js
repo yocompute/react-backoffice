@@ -1,4 +1,4 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux';
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 
 import createSagaMiddleware from 'redux-saga';
 
@@ -20,7 +20,7 @@ import { roleReducer, rolesReducer } from './role/role.reducers';
 const sagaMiddleware = createSagaMiddleware();
 
 export const rootReducer = combineReducers({
-  tokenId: authReducer,
+  auth: authReducer,
   roles: rolesReducer,
   role: roleReducer,
   users: usersReducer,
@@ -43,7 +43,8 @@ export const rootReducer = combineReducers({
   notification: notificationReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
 
 sagaMiddleware.run(rootSaga);
 

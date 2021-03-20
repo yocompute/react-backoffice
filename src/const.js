@@ -20,4 +20,19 @@ export const PaymentMethod = {
     WECHAT: 'W'
 }
 
+export const Role = {
+    "Super": "Super",
+    "Admin": "Admin",
+    "CustomerService": "Customer Service",
+    "Driver": "Driver"
+}
+
 export const Roles = ["Super", "Admin", "Customer Service", "Driver"];
+
+export const Permissions = {
+    "/brands/new": ["Super"],
+    "/roles": ["Super", "Admin"],
+    "/roles/new": ["Super"],
+    "/roles/:id": ["Super"],
+    "/payments": ["Super"]
+}
