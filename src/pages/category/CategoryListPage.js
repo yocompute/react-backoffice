@@ -11,7 +11,7 @@ import {
 } from "../../redux/category/category.actions";
 import Button from "@material-ui/core/Button";
 
-import { selecAuthRoles } from "../../redux/auth/auth.selectors";
+import { selectAuthRoles } from "../../redux/auth/auth.selectors";
 import { Role } from "../../const";
 
 const DEFAULT_CATEGORY = {
@@ -119,7 +119,7 @@ CategoryListPage.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  roles: selecAuthRoles(state),
+  roles: selectAuthRoles(state),
   brand: state.brand,
   categories: state.categories,
 });

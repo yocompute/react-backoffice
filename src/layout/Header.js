@@ -17,7 +17,7 @@ import Menu from '@material-ui/core/Menu';
 
 import { logout } from '../redux/auth/auth.actions';
 
-import { selectTokenId } from '../redux/auth/auth.selectors';
+import { selectAuthUser, selectTokenId } from '../redux/auth/auth.selectors';
 
 const drawerWidth = 240;
 
@@ -77,11 +77,15 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     marginLeft: 'auto',
     order: 2,
+    float: 'right',
   },
+  user:{
+    float: 'right'
+  }
 }));
 
 const Header = ({
-  isLoggedIn, logout, sidebarExpanded, onToggle,
+  isLoggedIn, user, logout, sidebarExpanded, onToggle,
 }) => {
   const classes = useStyles();
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -127,6 +131,7 @@ const Header = ({
         {isLoggedIn
           ? (
             <div className={classes.iconButton}>
+              <div className={classes.user}>{user ? user.username: ''}</div>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -172,6 +177,7 @@ Header.propTypes = {
 
 const mapStateToProps = (state) => ({
   isLoggedIn: selectTokenId(state),
+  user: selectAuthUser(state),
 });
 
 export default connect(
