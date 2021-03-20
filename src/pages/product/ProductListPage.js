@@ -16,7 +16,7 @@ import {
   // updateProduct,
   fetchAdditions
 } from "../../redux/product/product.actions";
-import { selecAuthRoles } from "../../redux/auth/auth.selectors";
+import { selectAuthRoles } from "../../redux/auth/auth.selectors";
 import { Role } from "../../const";
 
 const columns = [
@@ -138,7 +138,7 @@ ProductListPage.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  roles: selecAuthRoles(state),
+  roles: selectAuthRoles(state),
   brand: state.brand,
   products: state.products,
   // additions: state.additions

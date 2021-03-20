@@ -14,7 +14,7 @@ import Layout from './layout/index';
 import { fetchAuth } from './redux/auth/auth.actions';
 import { setLoading } from './redux/page/page.actions';
 
-import { selectTokenId, selecAuthRoles, selectAuthUser } from './redux/auth/auth.selectors';
+import { selectTokenId, selectAuthRoles, selectAuthUser } from './redux/auth/auth.selectors';
 import {
   setBrand,
   fetchBrands,
@@ -71,7 +71,7 @@ App.propTypes = {
 const mapStateToProps = (state) => ({
   isLoggedIn: selectTokenId(state),
   user: selectAuthUser(state),
-  roles: selecAuthRoles(state),
+  roles: selectAuthRoles(state),
   brands: state.brands,
   isLoading: state.page.loading
 });

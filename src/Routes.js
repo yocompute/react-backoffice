@@ -24,7 +24,7 @@ import QrcodeListPage from './pages/qrcode/QrcodeListPage';
 import SpecListPage from './pages/spec/SpecListPage';
 import SpecFormPage from './pages/spec/SpecFormPage';
 
-import WithAuthorize from './hocs/WithAuthorize';
+import WithAuthorize from './utils/WithAuthorize';
 
 const Routes = () => {
     return (<Switch>

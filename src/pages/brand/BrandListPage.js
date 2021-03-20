@@ -11,7 +11,7 @@ import {
   createBrand,
   updateBrand,
 } from "../../redux/brand/brand.actions";
-import { selectAuthUser, selecAuthRoles } from "../../redux/auth/auth.selectors";
+import { selectAuthUser, selectAuthRoles } from "../../redux/auth/auth.selectors";
 
 import {Role} from "../../const";
 
@@ -130,7 +130,7 @@ BrandListPage.propTypes = {
 
 const mapStateToProps = (state) => ({
   user: selectAuthUser(state),
-  roles: selecAuthRoles(state),
+  roles: selectAuthRoles(state),
   brands: state.brands,
 });
 
