@@ -14,6 +14,8 @@ import EmailLoginForm from '../../components/auth/EmailLoginForm';
 
 import { login } from '../../redux/auth/auth.actions';
 
+import { selectTokenId } from '../../redux/auth/auth.selectors';
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(1),
@@ -77,7 +79,7 @@ LocalLoginPage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    isLoggedIn: state.tokenId
+    isLoggedIn: selectTokenId(state)
 });
 
 export default connect(

@@ -24,6 +24,8 @@ import QrcodeListPage from './pages/qrcode/QrcodeListPage';
 import SpecListPage from './pages/spec/SpecListPage';
 import SpecFormPage from './pages/spec/SpecFormPage';
 
+import WithAuthorize from './hocs/WithAuthorize';
+
 const Routes = () => {
     return (<Switch>
             <Route path="/merchants/:id" component={HomePage} />
@@ -33,11 +35,13 @@ const Routes = () => {
             <Route path="/local-login" component={LocalLoginPage} />
             <Route path="/local-signup" component={LocalSignupPage} />
             <Route path="/verify-code" component={VerificationCodePage} />
-            <Route path="/payments" component={PaymentListPage} />
-            <Route path="/roles/:id" component={RoleFormPage} />
-            <Route path="/roles" component={RoleListPage} />
+            <Route path="/payments" component={WithAuthorize(PaymentListPage, "/payments")} />
+            <Route path="/roles/new" component={WithAuthorize(RoleFormPage, "/roles/new")} />
+            <Route path="/roles/:id" component={WithAuthorize(RoleFormPage, "/roles/:id")} />
+            <Route path="/roles" component={WithAuthorize(RoleListPage, "/roles")} />
             <Route path="/users/:id" component={userFormPage} />
             <Route path="/users" component={UserListPage} />
+            <Route path="/brands/new" component={WithAuthorize(BrandFormPage, "/brands/new")} />
             <Route path="/brands/:id" component={BrandFormPage} />
             <Route path="/brands" component={BrandListPage} />
             <Route path="/categories" component={CategoryListPage} />

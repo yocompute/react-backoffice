@@ -17,6 +17,8 @@ import Menu from '@material-ui/core/Menu';
 
 import { logout } from '../redux/auth/auth.actions';
 
+import { selectTokenId } from '../redux/auth/auth.selectors';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -169,7 +171,7 @@ Header.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: state.tokenId,
+  isLoggedIn: selectTokenId(state),
 });
 
 export default connect(

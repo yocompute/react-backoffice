@@ -11,6 +11,9 @@ import {
   createBrand,
   updateBrand,
 } from "../../redux/brand/brand.actions";
+import { selectAuthUser, selecAuthRoles } from "../../redux/auth/auth.selectors";
+
+import {Role} from "../../const";
 
 const columns = [
   { field: "createUTC", label: "Created Date" },
@@ -54,7 +57,8 @@ const DEFAULT_BRAND = {
 };
 
 const BrandListPage = ({
-  tokenId,
+  user,
+  roles,
   brands,
   setBrand,
   fetchBrands,
@@ -66,7 +70,16 @@ const BrandListPage = ({
   }, []);
 
   useEffect(() => {
-    fetchBrands(tokenId);
+    if(!roles){
+      return;
+    }
+    if(roles.indexOf(Role.Super) !== -1){
+      fetchBrands();
+    }else if(roles.indexOf(Role.Admin) !== -1){
+      fetchBrands({owner: user._id});
+    }else{
+      
+    }
   }, [fetchBrands]);
 
 
@@ -116,8 +129,9 @@ BrandListPage.propTypes = {
 
 
 const mapStateToProps = (state) => ({
+  user: selectAuthUser(state),
+  roles: selecAuthRoles(state),
   brands: state.brands,
-  tokenId: state.tokenId,
 });
 
 export default connect(mapStateToProps, {
