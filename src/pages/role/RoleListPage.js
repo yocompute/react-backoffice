@@ -16,7 +16,7 @@ import {
 } from "../../redux/role/role.actions";
 
 const columns = [
-  { field: "createUTC", label: "Created Date" },
+  { field: "createUTC", label: "Created Date", type: "date" },
   { field: "name", label: "Name" },
   { field: "description", label: "Description" },
   { field: "status", label: "Status" },

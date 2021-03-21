@@ -16,7 +16,7 @@ import { selectAuthUser, selectAuthRoles } from "../../redux/auth/auth.selectors
 import {Role} from "../../const";
 
 const columns = [
-  { field: "createUTC", label: "Created Date" },
+  { field: "createUTC", label: "Created Date", type: "date" },
   { field: "not", label: "Note"},
   { field: "total", label: "Total" },
   // { field: "description", label: "Description" },

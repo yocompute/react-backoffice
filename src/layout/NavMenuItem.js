@@ -15,13 +15,18 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const NavMenuItem = ({ data }) => {
+const NavMenuItem = ({ data, onSelect }) => {
   const classes = useStyles();
+  const handleClick = () => {
+    onSelect(data.path);
+  }
   return (
-    <NavLink to={data.path} className={classes.link}>
+    <NavLink to={data.path} className={classes.link} onClick={handleClick}>
       <Tooltip title={data.tip} TransitionComponent={Fade} placement="right">
-        <ListItem button>
-          <ListItemIcon>{data.icon}</ListItemIcon>
+        <ListItem button selected={data.selected}>
+          <ListItemIcon >
+            <data.icon color="primary"/>
+            </ListItemIcon>
           <ListItemText>{data.text}</ListItemText>
         </ListItem>
       </Tooltip>

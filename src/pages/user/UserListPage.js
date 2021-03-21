@@ -16,7 +16,7 @@ import {
 } from "../../redux/user/user.actions";
 
 const columns = [
-  { field: "createUTC", label: "Created Date" },
+  { field: "createUTC", label: "Created Date", type:"date" },
   { field: "imageurl", label: "Portrait", type: "image" },
   { field: "username", label: "Username" },
   { field: "email", label: "Email" },

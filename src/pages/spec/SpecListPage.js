@@ -12,7 +12,7 @@ import {
 } from "../../redux/spec/spec.actions";
 
 const columns = [
-  { field: "createUTC", label: "Created Date" },
+  { field: "createUTC", label: "Created Date", type: "date" },
   { field: "name", label: "Spec Name" },
   { field: "description", label: "Description" },
   { field: "status", label: "Status" },

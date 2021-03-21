@@ -25,6 +25,9 @@ import { selectAuthRoles } from "../../redux/auth/auth.selectors";
 import { Role } from "../../const";
 
 const useStyles = makeStyles(() => ({
+  root:{
+    height: '100%',
+  },
   formCtrl: {
     width: "100%",
   },
@@ -95,7 +98,7 @@ function OrderFormPage({
   }, [fetchProducts]);
 
   return (
-    <div>
+    <div className={classes.root}>
       <h2>{order._id? "Edit Order":"Add New Order"}</h2>
       {order && (
         <form onSubmit={handleSubmit(handleOk)}>
