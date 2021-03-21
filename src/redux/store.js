@@ -1,4 +1,4 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux';
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 
 import createSagaMiddleware from 'redux-saga';
 
@@ -15,11 +15,15 @@ import { paymentReducer, paymentsReducer } from './payment/payment.reducers';
 import { qrcodeReducer, qrcodesReducer } from './qrcode/qrcode.reducers';
 import { specsReducer, specReducer } from './spec/spec.reducers';
 import { notificationReducer } from './notification/notification.reducers';
+import { roleReducer, rolesReducer } from './role/role.reducers';
+import { orderReducer, ordersReducer } from './order/order.reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const rootReducer = combineReducers({
-  tokenId: authReducer,
+  auth: authReducer,
+  roles: rolesReducer,
+  role: roleReducer,
   users: usersReducer,
   user: userReducer,
   brands: brandsReducer,
@@ -33,6 +37,8 @@ export const rootReducer = combineReducers({
   page: pageReducer,
   payments: paymentsReducer,
   payment: paymentReducer,
+  orders: ordersReducer,
+  order: orderReducer,
   qrcodes: qrcodesReducer,
   qrcode: qrcodeReducer,
   specs: specsReducer,
@@ -40,7 +46,8 @@ export const rootReducer = combineReducers({
   notification: notificationReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
 
 sagaMiddleware.run(rootSaga);
 

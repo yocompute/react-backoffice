@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import {
   BrowserRouter as Router, Switch, Route, Redirect,
 } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/core/styles';
 import './App.css';
 
 import LoginSelectPage from './pages/auth/LoginSelectPage';
@@ -15,12 +14,33 @@ import Layout from './layout/index';
 import { fetchAuth } from './redux/auth/auth.actions';
 import { setLoading } from './redux/page/page.actions';
 
-function App({ isLoggedIn, isLoading, fetchAuth, setLoading }) {
+import { selectTokenId, selectAuthRoles, selectAuthUser } from './redux/auth/auth.selectors';
+import {
+  setBrand,
+  fetchBrands,
+} from "./redux/brand/brand.actions";
+import {Role} from "./const";
+
+function App({ isLoggedIn, roles, user, brands, isLoading, fetchAuth, setLoading, fetchBrands, setBrand }) {
   useEffect(() => {
     setLoading(true);
     fetchAuth(); // checking if cookie has valid tokenId
   }, [fetchAuth]);
 
+  useEffect(() => {
+    if(!roles){
+      return;
+    }
+    if(roles.indexOf(Role.Admin) !== -1){
+      fetchBrands({owner: user._id});
+    }
+  }, [fetchBrands, roles, user]);
+
+  useEffect(() => {
+    if(brands && brands.length >0){
+      setBrand(brands[0]);
+    }
+  }, [brands]);
 
   return isLoading ?
     <div>Loading...</div>
@@ -49,11 +69,14 @@ App.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: state.tokenId,
+  isLoggedIn: selectTokenId(state),
+  user: selectAuthUser(state),
+  roles: selectAuthRoles(state),
+  brands: state.brands,
   isLoading: state.page.loading
 });
 
 export default connect(
   mapStateToProps,
-  { fetchAuth, setLoading },
+  { fetchAuth, setLoading, fetchBrands, setBrand },
 )(App);

@@ -7,7 +7,6 @@ import Button from "@material-ui/core/Button";
 
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
-import UserDialog from "./UserDialog";
 
 import {
   setUser,
@@ -17,7 +16,7 @@ import {
 } from "../../redux/user/user.actions";
 
 const columns = [
-  { field: "createUTC", label: "Created Date" },
+  { field: "createUTC", label: "Created Date", type:"date" },
   { field: "imageurl", label: "Portrait", type: "image" },
   { field: "username", label: "Username" },
   { field: "email", label: "Email" },

@@ -2,7 +2,7 @@ import { put, call, takeLatest } from 'redux-saga/effects';
 import Cookies from 'js-cookie';
 import AuthApi from '../../services/AuthApi';
 import { FETCH_AUTH, LOGIN, SIGNUP, LOGOUT,
-    fetchAuthSuccess, loginSuccess, signupSuccess, logoutSuccess } from './auth.actions';
+    setAuth, fetchAuthSuccess, loginSuccess, signupSuccess, logoutSuccess } from './auth.actions';
 import { setUser } from '../user/user.actions';
 import { setLoading } from '../page/page.actions';
 
@@ -17,14 +17,14 @@ export function* fetchAuth() {
         if(tokenId){
             const {data, error, status} = yield call(AuthApi.getUserByTokenId, tokenId);
             if(httpSuccess(status)){
-                yield put(setUser(data && data._id ? data : null));
-                yield put(fetchAuthSuccess(data? tokenId : null));
+                const user = data && data._id ? data : null;
+                const token = data? tokenId : null;
+                yield put(fetchAuthSuccess(token, user));
             }else{
                 yield put(setNotification(error, status));
             }
         }else{
-            yield put(setUser(null));
-            yield put(fetchAuthSuccess(null));
+            yield put(fetchAuthSuccess(null, null));
         }
         yield put(setLoading(false));
     } catch (error) {
@@ -43,10 +43,11 @@ export function* login(action) {
         yield put(loginSuccess(tokenId));
         if(httpSuccess(status)){
             const {data, error, status} = yield call(AuthApi.getUserByTokenId, tokenId);
-            const user = data;
-            yield put(setUser(user && user._id ? user : null));
+            const user = data && data._id ? data : null;
+            const token = data? tokenId : null;
+            yield put(setAuth(token, user));
         }else{
-            yield put(setUser(null));
+            yield put(setAuth(null, null));
             yield put(setNotification(error, status));
         }
     } catch (error) {
@@ -63,9 +64,12 @@ export function* signup(action) {
         if(httpSuccess(status)){
             yield put(signupSuccess(tokenId));
             const {data, error, status} = yield call(AuthApi.getUserByTokenId, tokenId);
-            yield put(setUser(data && data._id ? data : null));
+            const user = data && data._id ? data : null;
+            const token = data? tokenId : null;
+            yield put(setAuth(token, user));
         }else{
-            yield put(setUser(null));
+            yield put(setAuth(null, null));
+            yield put(setNotification(error, status));
         }
     } catch (error) {
         // yield put(addError({

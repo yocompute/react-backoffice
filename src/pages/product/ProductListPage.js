@@ -16,9 +16,11 @@ import {
   // updateProduct,
   fetchAdditions
 } from "../../redux/product/product.actions";
+import { selectAuthRoles } from "../../redux/auth/auth.selectors";
+import { Role } from "../../const";
 
 const columns = [
-  { field: "createUTC", label: "Created Date" },
+  { field: "createUTC", label: "Created Date", type: "date" },
   { field: "pictures", label: "Picture", type: "picture" },
   { field: "name", label: "Product Name" },
   { field: "description", label: "Description" },
@@ -61,7 +63,8 @@ const DEFAULT_PRODUCT = {
 };
 
 const ProductListPage = ({
-  // product,
+  roles,
+  brand,
   products,
   // additions,
   setProduct,
@@ -73,7 +76,11 @@ const ProductListPage = ({
   const history = useHistory();
 
   useEffect(() => {
-    fetchProducts();
+    if(roles.indexOf(Role.Super) !== -1){
+      fetchProducts();
+    }else if(roles.indexOf(Role.Admin) !== -1){
+      fetchProducts({brand: brand._id});
+    }
   }, [fetchProducts]);
 
 
@@ -131,9 +138,10 @@ ProductListPage.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  product: state.product,
+  roles: selectAuthRoles(state),
+  brand: state.brand,
   products: state.products,
-  additions: state.additions
+  // additions: state.additions
 });
 
 export default connect(mapStateToProps, {

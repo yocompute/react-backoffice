@@ -173,7 +173,7 @@ function SpecFormPage({
             <Button variant="contained" color="primary" type="submit">
               Submit
             </Button>
-          </DialogActions>
+          </DialogActions>handleOk
         </form>
       )}
 

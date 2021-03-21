@@ -14,9 +14,11 @@ import {
   updateQrcode,
   setQrcode,
 } from "../../redux/qrcode/qrcode.actions";
+import { selectAuthRoles } from "../../redux/auth/auth.selectors";
+import { Role } from "../../const";
 
 const columns = [
-  { field: "createUTC", label: "Created Date" },
+  { field: "createUTC", label: "Created Date", type: "date" },
   { field: "name", label: "Qrcode name" },
   { field: "description", label: "Description" },
   { field: "status", label: "Status" },
@@ -42,6 +44,8 @@ const DEFAULT_QRCODE = {
 };
 
 const QrcodeListPage = ({
+  roles,
+  brand,
   setQrcode,
   fetchQrcodes,
   createQrcode,
@@ -52,7 +56,11 @@ const QrcodeListPage = ({
   const [dialogOpened, setDialogOpen] = useState(false);
 
   useEffect(() => {
-    fetchQrcodes();
+    if(roles.indexOf(Role.Super) !== -1){
+      fetchQrcodes();
+    }else if(roles.indexOf(Role.Admin) !== -1){
+      fetchQrcodes({brand: brand._id});
+    }
   }, [fetchQrcodes]);
 
 
@@ -112,6 +120,8 @@ QrcodeListPage.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
+  roles: selectAuthRoles(state),
+  brand: state.brand,
   qrcode: state.qrcode,
   qrcodes: state.qrcodes,
 });

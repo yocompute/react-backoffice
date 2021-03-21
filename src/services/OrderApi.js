@@ -1,58 +1,41 @@
-import Api from './Api';
+import Api from "./Api";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 const OrderApi = {
-
-  getOrders(query = null) {
-    // const url = `/orders.json`;
-    const url = Api.buildUrl(API_URL, 'orders', query);
-
-    return new Promise((resolve) => {
-      Api.get(url).then((res) => {
-        if (res && res.status === 200) {
-          resolve(res.data);
-        } else {
-          // redirect to error page and log error message
-          // console.log(res.statusText);
-          resolve([]);
-        }
-      });
-    });
+  async get(query) {
+    const url =
+      process.env.REACT_APP_MODE === "local"
+        ? "/orders.json"
+        : Api.buildUrl(API_URL, "orders", query);
+    return await Api.get(url);
   },
 
-  createOrder(data) {
-    const url = Api.buildUrl(API_URL, 'orders');
-
-    return new Promise((resolve) => {
-      Api.post(url, data).then((res) => {
-        if (res && res.status === 200) {
-          resolve(res.data);
-        } else {
-          // redirect to error page and log error message
-          // console.log(res.statusText);
-          resolve();
-        }
-      });
-    });
+  async create(entity) {
+    const url =
+      process.env.REACT_APP_MODE === "local"
+        ? "/orders.json"
+        : Api.buildUrl(API_URL, "orders");
+    return await Api.post(url, entity);
   },
 
-  updateOrder(data) {
-    const url = Api.buildUrl(API_URL, 'orders');
-
-    return new Promise((resolve) => {
-      Api.put(url, data).then((res) => {
-        if (res && res.status === 200) {
-          resolve(res.data);
-        } else {
-          // redirect to error page and log error message
-          // console.log(res.statusText);
-          resolve();
-        }
-      });
-    });
+  async update(data, id) {
+    const url =
+      process.env.REACT_APP_MODE === "local"
+        ? "/orders.json"
+        : Api.buildUrl(API_URL, `orders/${id}`);
+    return await Api.put(url, data);
   },
 
+  async upload(file, orderId) {
+    const formData = new FormData();
+    formData.append("upload", file);
+    const url =
+      process.env.REACT_APP_MODE === "local"
+        ? "/orders.json"
+        : Api.buildUrl(API_URL, `orders/upload/${orderId}`);
+    return await Api.post(url, formData);
+  },
 };
 
 export default OrderApi;

@@ -11,7 +11,7 @@ import PaymentDialog from './PaymentDialog';
 import { fetchPayments, createPayment, updatePayment } from '../../redux/payment/payment.actions';
 import { selectPopulatedPayments } from '../../redux/payment/payment.selectors';
 const columns = [
-    { field: "createUTC", label: "Created Date" },
+    { field: "createUTC", label: "Created Date", type: "date" },
     { field: "user", label: "User", type: 'object', property:'username' },
     { field: "total", label: "Total" },
     { field: "description", label: "Description" },

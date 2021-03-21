@@ -1,4 +1,5 @@
 import {
+    SET_AUTH,
     FETCH_AUTH_SUCCESS,
     LOGIN_SUCCESS, 
     SIGNUP_SUCCESS,
@@ -6,17 +7,20 @@ import {
 } from './auth.actions';
 
 export const authReducer = (state = null, action) => {
+    if(action && action.type === SET_AUTH){
+        return {tokenId: action.tokenId, user: action.user};
+    }
     if(action && action.type === FETCH_AUTH_SUCCESS){
-        return action.tokenId;
+        return {tokenId: action.tokenId, user: action.user};
     }
     if(action && action.type === LOGIN_SUCCESS){
-        return action.tokenId;
+        return {...state, tokenId: action.tokenId};
     }
     if(action && action.type === SIGNUP_SUCCESS){
-        return action.tokenId;
+        return {...state, tokenId: action.tokenId};
     }
     if(action && action.type === LOGOUT_SUCCESS){
-        return null; // clean up tokenId
+        return {tokenId:null, user: null}; // clean up tokenId
     }
     return state;
 }

@@ -1,47 +1,131 @@
-import React from 'react';
-// import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-// import PropTypes from "prop-types"
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-// import Button from '@material-ui/core/Button'
-// import { CartItemList } from '../../components/cart/CartItemList';
-// import { PaymentMethodSelect } from '../../components/common/PaymentMethodSelect'
+import Button from "@material-ui/core/Button";
+import { useHistory } from "react-router-dom";
+import ListTable from "../../components/table/ListTable";
+import {
+  setOrder,
+  fetchOrders,
+  createOrder,
+  updateOrder,
+} from "../../redux/order/order.actions";
+import { selectAuthUser, selectAuthRoles } from "../../redux/auth/auth.selectors";
 
-// import Header from '../../components/common/Header'
-// import SwaggerUI from 'swagger-ui'
-// import 'swagger-ui/dist/swagger-ui.css';
+import {Role} from "../../const";
 
-// const spec = require('./swagger.json');
+const columns = [
+  { field: "createUTC", label: "Created Date", type: "date" },
+  { field: "not", label: "Note"},
+  { field: "total", label: "Total" },
+  // { field: "description", label: "Description" },
+  { field: "status", label: "Status" },
+  {
+    field: "user",
+    label: "Client",
+    type: "object",
+    property: "username",
+  },
+  { field: "actions", label: "Actions" },
+];
 
-// const ui = SwaggerUI({
-//     spec,
-//     dom_id: '#swagger',
-//   });
+const defaultSort = ["createUTC", 1];
 
-// import SwaggerUI from "swagger-ui-react"
-// import "swagger-ui-react/swagger-ui.css"
+const DEFAULT_ORDER = {
+  _id: "",
+  note: "",
+  total: 0,
+  cost: 0,
+  status: "",
+  user: "",
+  brand: "",
+  items: [],
+  createUTC: "",
+  actions: "",
+};
 
-const OrderListPage = () => {
+const OrderListPage = ({
+  brand,
+  roles,
+  orders,
+  setOrder,
+  fetchOrders,
+}) => {
+  const history = useHistory();
+
+  useEffect(() => {
+    setOrder(DEFAULT_ORDER);
+  }, []);
+
+  useEffect(() => {
+    if(!roles){
+      return;
+    }
+    if(roles.indexOf(Role.Super) !== -1){
+      fetchOrders();
+    }else if(roles.indexOf(Role.Admin) !== -1){
+      fetchOrders({brand: brand._id});
+    }else{
+      
+    }
+  }, [fetchOrders]);
 
 
-    return (
-        <div>Order List
-             {/* <div id="swagger"></div>
-              */}
-              {/* <SwaggerUI url="/swagger.json" /> */}
-            {/* <Header title={'Order Page'}></Header>
-            <CartItemList items={cart.items}/>
-            <div className="label payment-label">Payment Method</div>
-            <PaymentMethodSelect onSelect={handlePaymentMethodSelect}></PaymentMethodSelect> */}
-        </div>
-    )
+  const handleOpenOrderDialog = () => {
+    setOrder(DEFAULT_ORDER);
+    history.push('/orders/new')
+  }
+
+  const handleEditRow = (row) => {
+    setOrder(row);
+    setTimeout(() => {
+      history.push(`/orders/${row._id}`);
+    }, 100)
+  };
+
+  return (
+    <div>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleOpenOrderDialog}
+      >
+        Add
+      </Button>
+
+      {orders && (
+        <ListTable
+          label="order"
+          defaultSort={defaultSort}
+          columns={columns}
+          rows={orders}
+          onEditRow={handleEditRow}
+        />
+      )}
+    </div>
+  );
+};
+
+OrderListPage.propTypes = {
+  orders: PropTypes.any,
+  createOrder: PropTypes.func,
+  fetchOrders: PropTypes.func,
+  setOrder: PropTypes.func,
+  updateOrder: PropTypes.func
 }
 
-const mapStateToProps = state => ({
-    cart: state.cart
+
+
+const mapStateToProps = (state) => ({
+  brand: state.brand,
+  roles: selectAuthRoles(state),
+  orders: state.orders,
 });
 
-export default connect(
-    mapStateToProps,
-    null
-)(OrderListPage);
+export default connect(mapStateToProps, {
+  setOrder,
+  fetchOrders,
+  createOrder,
+  updateOrder,
+})(OrderListPage);

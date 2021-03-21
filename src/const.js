@@ -19,3 +19,43 @@ export const PaymentMethod = {
     CREDIT_CARD: 'CC',
     WECHAT: 'W'
 }
+
+export const Role = {
+    "Super": "Super",
+    "Admin": "Admin",
+    "CustomerService": "Customer Service",
+    "Driver": "Driver"
+}
+
+export const Roles = ["Super", "Admin", "Customer Service", "Driver"];
+
+
+
+export const Path = {
+    Home: '/',
+    Brands: '/brands',
+    Qrcodes: '/qrcodes',
+    Roles: '/roles',
+    Users: '/users',
+    Categories: '/categories',
+    Products: '/products',
+    Specs: '/specs',
+    Payments: '/payments',
+    Orders: '/orders'
+}
+
+export const Permissions = {
+    [Path.Home]: ["Super", "Admin"],
+    "/brands/new": ["Super"],
+    [Path.Brands]: ["Super", "Admin"],
+    [Path.Roles]: ["Super"],
+    "/roles/new": ["Super"],
+    "/roles/:id": ["Super"],
+    [Path.Payments]: ["Super"],
+    [Path.Orders]: ["Super", "Admin"],
+    [Path.Categories]: ["Super", "Admin"],
+    [Path.Products]: ["Super", "Admin"],
+    [Path.Qrcodes]: ["Super", "Admin"],
+    [Path.Specs]: ["Super", "Admin"],
+    [Path.Users]: ["Super"],
+}

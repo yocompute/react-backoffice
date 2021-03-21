@@ -11,6 +11,9 @@ import {
 } from "../../redux/category/category.actions";
 import Button from "@material-ui/core/Button";
 
+import { selectAuthRoles } from "../../redux/auth/auth.selectors";
+import { Role } from "../../const";
+
 const DEFAULT_CATEGORY = {
   _id: "",
   createUTC: "",
@@ -23,7 +26,7 @@ const DEFAULT_CATEGORY = {
 };
 
 const columns = [
-  { field: "createUTC", label: "Created Date" },
+  { field: "createUTC", label: "Created Date", type: "date" },
   { field: "imageUrl", label: "Category Image", type: "image" },
   { field: "name", label: "Category Name" },
   { field: "description", label: "Description" },
@@ -40,6 +43,8 @@ const columns = [
 const defaultSort = ["createUTC", 1];
 
 const CategoryListPage = ({
+  roles,
+  brand,
   categories,
   setCategory,
   fetchCategories,
@@ -53,7 +58,11 @@ const CategoryListPage = ({
   }, []);
 
   useEffect(() => {
-    fetchCategories();
+    if(roles.indexOf(Role.Super) !== -1){
+      fetchCategories();
+    }else if(roles.indexOf(Role.Admin) !== -1){
+      fetchCategories({brand: brand._id});
+    }
   }, [fetchCategories]);
 
   const handleOpenCategsoryDialog = () => {
@@ -110,6 +119,8 @@ CategoryListPage.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
+  roles: selectAuthRoles(state),
+  brand: state.brand,
   categories: state.categories,
 });
 

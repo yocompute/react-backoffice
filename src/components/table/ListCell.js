@@ -16,6 +16,11 @@ const ListCell = ({ col, row, onEditRow }) => {
         onEditRow(row);
     }
 
+    const toDateString = (s) => {
+        const d = s.split('T');
+        return d ? d[0] : '';
+    }
+
     if (col.field !== 'actions' && !data) {
         return <TableCell key={col.field} />
     } else {
@@ -49,6 +54,12 @@ const ListCell = ({ col, row, onEditRow }) => {
             return <TableCell key={col.field}>
                 {data[col.property]}
             </TableCell>
+        } else if(col.type === 'date'){
+            return (
+                <TableCell key={col.field}>
+                    {toDateString(data ? data : '')}
+                </TableCell>
+            )
         } else {
             return (
                 <TableCell key={col.field}>

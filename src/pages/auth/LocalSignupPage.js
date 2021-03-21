@@ -13,6 +13,7 @@ import PhoneForm from '../../components/auth/PhoneForm';
 import EmailSignupForm from '../../components/auth/EmailSignupForm';
 
 import { signup } from '../../redux/auth/auth.actions'
+import { selectTokenId } from '../../redux/auth/auth.selectors';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -77,7 +78,7 @@ LocalSignupPage.propTypes = {
   signup: PropTypes.func
 }
 const mapStateToProps = state => ({
-    isLoggedIn: state.tokenId,
+    isLoggedIn: selectTokenId(state),
 });
 
 export default connect(

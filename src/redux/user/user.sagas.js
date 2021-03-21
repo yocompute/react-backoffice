@@ -4,8 +4,6 @@ import {
     FETCH_USERS, CREATE_USER, UPDATE_USER,
     fetchUsersSuccess, createUserSuccess, updateUserSuccess
 } from './user.actions'
-import { setACL } from '../ACL/ACL.actions'
-import { selectACL } from '../ACL/ACL.selectors'
 import { httpSuccess } from '../notification/notification.sagas';
 import { setNotification } from '../notification/notification.actions';
 
@@ -15,13 +13,6 @@ export function* fetchUsers(action) {
 
         if (httpSuccess(status)) {
             yield put(fetchUsersSuccess(data));
-            const { userId, role, permissions } = yield select(selectACL);
-            const user = data[0];
-            if (role === user.role) {
-                yield put(setACL(userId, role, permissions));
-            } else {
-                yield put(setACL(user.id, user.role, user.permissions));
-            }
         } else {
             yield put(setNotification(error, 500));
         }
