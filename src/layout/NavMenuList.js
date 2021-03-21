@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { connect } from 'react-redux';
 import List from "@material-ui/core/List";
 import ViewListIcon from "@material-ui/icons/ViewList";
@@ -6,7 +6,11 @@ import BrandingWatermarkIcon from "@material-ui/icons/BrandingWatermark";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PeopleIcon from "@material-ui/icons/People";
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+// import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import StoreIcon from '@material-ui/icons/Store';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+import ShopIcon from '@material-ui/icons/Shop';
 import CategoryIcon from "@material-ui/icons/Category";
 import NavMenuItem from "./NavMenuItem";
 import {Path} from "../const";
@@ -18,83 +22,95 @@ const menus = [
   {
     path: Path.Home,
     text: "Dashbord",
-    icon: <DashboardIcon />,
+    icon: DashboardIcon,
     tip: "Dashbord",
   },
   {
     path: Path.Roles,
     text: "Manage Roles",
-    icon: <PermIdentityIcon />,
+    icon: LocalOfferIcon,
     tip: "Manage Roles",
   },
   {
     path: Path.Users,
     text: "Manage Users",
-    icon: <PeopleIcon />,
+    icon: PeopleIcon,
     tip: "Manage Users",
   },
   {
     path: Path.Brands,
     text: "Manage Brands",
-    icon: <BrandingWatermarkIcon />,
+    icon: StoreIcon,
     tip: "Manage Brands",
   },
   {
     path: Path.Categories,
     text: "Manage Categories",
-    icon: <CategoryIcon />,
+    icon: CategoryIcon,
     tip: "Manage Categories",
   },
   {
     path: Path.Qrcodes,
     text: "Manage Qrcodes",
-    icon: <BrandingWatermarkIcon />,
+    icon: BrandingWatermarkIcon,
     tip: "Manage Qrcodes",
   },
   {
     path: Path.Specs,
     text: "Manage Specs",
-    icon: <ViewListIcon />,
+    icon: ViewListIcon,
     tip: "Manage Specs",
   },
   {
     path: Path.Products,
     text: "Manage Products",
-    icon: <ViewListIcon />,
+    icon: ViewComfyIcon,
     tip: "Manage Products",
   },
   {
     path: Path.Orders,
     text: "Manage Orders",
-    icon: <ShoppingCartIcon />,
+    icon: ShopIcon,
     tip: "Manage Orders",
   },
   {
     path: Path.Payments,
     text: "Manage Payments",
-    icon: <ShoppingCartIcon />,
+    icon: ShoppingCartIcon,
     tip: "Manage Payments",
   },
   // {
   //   path: '/orders',
   //   text: 'Manage Orders',
-  //   icon: <ShoppingCartIcon />,
-  //   tip: 'Manage Orders',
-  // },
+  //   icon: <ShoppingCartIconforEach
 ];
 
-const NavMenuList = ({roles}) => (
-  <List>
+const NavMenuList = ({roles}) => {
+  const [data, setData] = useState(menus);
+
+  const handleSelect = (path) => {
+    const ms = menus.map(m => {
+      if(m.path === path){
+        m.selected = true;
+      }else{
+        m.selected = false;
+      }
+      return m;
+    });
+    setData(ms);
+  }
+
+  return <List>
     {menus &&
       menus.length &&
       menus.map((menu) => {
         if(hasPermission(roles, menu.path)){
-          return <NavMenuItem key={menu.text} data={menu} />
+          return <NavMenuItem key={menu.text} data={menu} onSelect={handleSelect}/>
         }
       })
     }
   </List>
-);
+};
 
 
 const mapStateToProps = (state) => ({

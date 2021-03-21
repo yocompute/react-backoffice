@@ -27,6 +27,9 @@ import Additions from "../../components/product/Additions";
 import { selectAdditions } from "../../redux/product/product.selectors";
 
 const useStyles = makeStyles(() => ({
+  root:{
+    height: "100%"
+  },
   formCtrl: {
     width: window.matchMedia(`(max-width: 768px)`).matches ? "100%" : "22%",
     paddingRight: window.matchMedia(`(max-width: 768px)`).matches ? "0px" : "20px"
@@ -172,10 +175,7 @@ function ProductFormPage({
   }, []);
 
   return (
-    <div
-      onClose={handleClose}
-      aria-labelledby="form-dialog-title"
-    >
+    <div className={classes.root}>
       <div id="form-dialog-title">Add New Product</div>
       {product && (
         <form onSubmit={handleSubmit(handleOk)}>

@@ -26,7 +26,7 @@ const DEFAULT_CATEGORY = {
 };
 
 const columns = [
-  { field: "createUTC", label: "Created Date" },
+  { field: "createUTC", label: "Created Date", type: "date" },
   { field: "imageUrl", label: "Category Image", type: "image" },
   { field: "name", label: "Category Name" },
   { field: "description", label: "Description" },

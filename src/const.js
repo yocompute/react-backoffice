@@ -45,6 +45,7 @@ export const Path = {
 }
 
 export const Permissions = {
+    [Path.Home]: ["Super", "Admin"],
     "/brands/new": ["Super"],
     [Path.Brands]: ["Super", "Admin"],
     [Path.Roles]: ["Super"],

@@ -9,6 +9,7 @@ import { watchPayments } from "./payment/payment.sagas";
 import { watchQrcodes } from './qrcode/qrcode.sagas';
 import { watchSpecs } from "./spec/spec.sagas";
 import { watchSpecOptions } from "./spec/specOption.sagas";
+import { watchOrders } from "./order/order.sagas";
 
 export default function* rootSaga() {
   // const [auth, users, products, brands, categories] = 
@@ -20,6 +21,7 @@ export default function* rootSaga() {
     watchCategories(),
     watchProducts(),
     watchPayments(),
+    watchOrders(),
     watchQrcodes(),
     watchSpecs(),
     watchSpecOptions()

@@ -16,6 +16,7 @@ import { qrcodeReducer, qrcodesReducer } from './qrcode/qrcode.reducers';
 import { specsReducer, specReducer } from './spec/spec.reducers';
 import { notificationReducer } from './notification/notification.reducers';
 import { roleReducer, rolesReducer } from './role/role.reducers';
+import { orderReducer, ordersReducer } from './order/order.reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -36,6 +37,8 @@ export const rootReducer = combineReducers({
   page: pageReducer,
   payments: paymentsReducer,
   payment: paymentReducer,
+  orders: ordersReducer,
+  order: orderReducer,
   qrcodes: qrcodesReducer,
   qrcode: qrcodeReducer,
   specs: specsReducer,
