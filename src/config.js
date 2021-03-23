@@ -1,4 +1,4 @@
 import {AppMode} from "./const";
 export const cfg = {
-    appMode: AppMode.DEV
+    appMode: AppMode.PROD
 }

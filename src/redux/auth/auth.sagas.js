@@ -1,8 +1,8 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
 import Cookies from 'js-cookie';
 import AuthApi from '../../services/AuthApi';
-import UserApi from '../../services/UserApi';
-import { Role } from '../../const';
+import { cfg } from '../../config';
+import { AppMode } from '../../const';
 
 import { FETCH_AUTH, LOGIN, SIGNUP, LOGOUT,
     setAuth, fetchAuthSuccess, loginSuccess, signupSuccess, logoutSuccess } from './auth.actions';
@@ -14,7 +14,6 @@ import {JWT_COOKIE, JWT_EXPIRY} from '../../const';
 import { setNotification } from '../notification/notification.actions';
 import { httpSuccess } from '../notification/notification.sagas';
 
-import { createBrand } from '../../redux/brand/brand.sagas';
 
 export function* fetchAuth() {
     try {
@@ -124,6 +123,6 @@ export function* logout(){
 export function* watchAuth() {
     yield takeLatest(FETCH_AUTH, fetchAuth);
     yield takeLatest(LOGIN, login);
-    yield takeLatest(SIGNUP, signupBrand);
+    yield takeLatest(SIGNUP, cfg.appMode === AppMode.PROD ? signupBrand : signup);
     yield takeLatest(LOGOUT, logout);
 }

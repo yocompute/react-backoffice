@@ -1,8 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom';
 
-import {cfg} from './config';
-import {AppMode} from './const';
+// import {cfg} from './config';
+// import {AppMode} from './const';
 
 import HomePage from './pages/HomePage';
 import VerificationCodePage from './pages/auth/VerificationCodePage';
@@ -35,11 +35,7 @@ const Routes = () => {
             <Route path="/creditcard" component={CreditCardPage} />
             <Route path="/login-select" component={LoginSelectPage} />
             <Route path="/local-login" component={LocalLoginPage} />
-            {
-                cfg.appMode === AppMode.DEV &&
-                <Route path="/local-signup" component={LocalSignupPage} />
-            }
-
+            <Route path="/local-signup" component={LocalSignupPage} />
             <Route path="/verify-code" component={VerificationCodePage} />
             <Route path="/payments" component={WithAuthorize(PaymentListPage, "/payments")} />
             <Route path="/roles/new" component={WithAuthorize(RoleFormPage, "/roles/new")} />
