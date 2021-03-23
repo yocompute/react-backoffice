@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -6,16 +6,14 @@ import Button from "@material-ui/core/Button";
 
 // import Header from '../../components/common/Header'
 import ListTable from "../../components/table/ListTable";
-import QrcodeDialog from "./QrcodeDialog";
 
 import {
   fetchQrcodes,
-  createQrcode,
-  updateQrcode,
   setQrcode,
 } from "../../redux/qrcode/qrcode.actions";
 import { selectAuthRoles } from "../../redux/auth/auth.selectors";
 import { Role } from "../../const";
+import { useHistory } from "react-router-dom";
 
 const columns = [
   { field: "createUTC", label: "Created Date", type: "date" },
@@ -48,13 +46,10 @@ const QrcodeListPage = ({
   brand,
   setQrcode,
   fetchQrcodes,
-  createQrcode,
-  updateQrcode,
   qrcode,
   qrcodes,
 }) => {
-  const [dialogOpened, setDialogOpen] = useState(false);
-
+  const history = useHistory();
   useEffect(() => {
     if(roles.indexOf(Role.Super) !== -1){
       fetchQrcodes();
@@ -64,22 +59,16 @@ const QrcodeListPage = ({
   }, [fetchQrcodes]);
 
 
-  const handleOpenQrcodeDialog = () => {
+  const handleOpenQrcodeForm = () => {
     setQrcode(DEFAULT_QRCODE);
-    setDialogOpen(true);
-  };
-
-  const handleSave = (data, id) => {
-    if (id) {
-      updateQrcode(data, id);
-    } else {
-      createQrcode(data);
-    }
+    history.push('/qrcodes/new');
   };
 
   const handleEditRow = (row) => {
     setQrcode(row);
-    setDialogOpen(true);
+    setTimeout(() => {
+      history.push(`/qrcodes/${row._id}`);
+    }, 100)
   };
 
   return (
@@ -87,16 +76,11 @@ const QrcodeListPage = ({
       <Button
         variant="contained"
         color="primary"
-        onClick={handleOpenQrcodeDialog}
+        onClick={handleOpenQrcodeForm}
       >
         Add
       </Button>
-      <QrcodeDialog
-        data={qrcode}
-        opened={dialogOpened}
-        onClose={setDialogOpen}
-        onSubmit={handleSave}
-      />
+
       {qrcodes && (
         <ListTable
           label="qrcode"
@@ -111,12 +95,10 @@ const QrcodeListPage = ({
 };
 
 QrcodeListPage.propTypes = {
-  createQrcode: PropTypes.func,
   fetchQrcodes: PropTypes.func,
   qrcode: PropTypes.any,
   qrcodes: PropTypes.any,
   setQrcode: PropTypes.func,
-  updateQrcode: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({
@@ -129,6 +111,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setQrcode,
   fetchQrcodes,
-  createQrcode,
-  updateQrcode,
 })(QrcodeListPage);

@@ -18,12 +18,14 @@ import UserListPage from './pages/user/UserListPage';
 import userFormPage from './pages/user/userFormPage';
 import BrandListPage from './pages/brand/BrandListPage';
 import BrandFormPage from './pages/brand/BrandFormPage';
+import CategoryFormPage from './pages/category/CategoryFormPage';
 import CategoryListPage from './pages/category/CategoryListPage';
 import ProductListPage from './pages/product/ProductListPage';
 import ProductFormPage from './pages/product/ProductFormPage';
 import OrderListPage from './pages/order/OrderListPage';
 import OrderFormPage from './pages/order/OrderFormPage';
 import QrcodeListPage from './pages/qrcode/QrcodeListPage';
+import QrcodeFormPage from './pages/qrcode/QrcodeFormPage';
 import SpecListPage from './pages/spec/SpecListPage';
 import SpecFormPage from './pages/spec/SpecFormPage';
 
@@ -46,7 +48,9 @@ const Routes = () => {
             <Route path="/brands/new" component={WithAuthorize(BrandFormPage, "/brands/new")} />
             <Route path="/brands/:id" component={BrandFormPage} />
             <Route path="/brands" component={BrandListPage} />
+            <Route path="/categories/:id" component={CategoryFormPage} />
             <Route path="/categories" component={CategoryListPage} />
+            <Route path="/qrcodes/:id" component={QrcodeFormPage} />
             <Route path="/qrcodes" component={QrcodeListPage} />
             <Route path="/products/:id" component={ProductFormPage} />
             <Route path="/products" component={ProductListPage} />

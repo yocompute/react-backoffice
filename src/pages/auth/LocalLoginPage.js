@@ -13,7 +13,6 @@ import Container from '@material-ui/core/Container';
 import EmailLoginForm from '../../components/auth/EmailLoginForm';
 
 import { login } from '../../redux/auth/auth.actions';
-
 import { selectTokenId } from '../../redux/auth/auth.selectors';
 
 const useStyles = makeStyles((theme) => ({

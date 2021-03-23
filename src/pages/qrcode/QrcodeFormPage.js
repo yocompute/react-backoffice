@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,16 +11,16 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
+import Grid from "@material-ui/core/Grid";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { setQrcode } from "../../redux/qrcode/qrcode.actions";
 import { fetchBrands } from "../../redux/brand/brand.actions";
-
+import { updateQrcode, createQrcode} from "../../redux/qrcode/qrcode.actions";
 import { CLIENT_HOST } from "../../const";
+import {Role} from "../../const";
+import { selectAuthUser, selectAuthRoles } from "../../redux/auth/auth.selectors";
+
 
 var QRCode = require("qrcode-react");
 
@@ -36,28 +37,35 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function QrcodeDialog({
+function QrcodeFormPage({
+  user,
+  roles,
   qrcode,
   brands,
   setQrcode,
   fetchBrands,
-  opened,
-  onClose,
-  onSubmit,
+  updateQrcode,
+  createQrcode,
 }) {
   const classes = useStyles();
   const { control, handleSubmit } = useForm();
   const [val, setValue] = useState();
   // qrcode && qrcode._id && qrcode.brand ?
   // `${CLIENT_HOST}/${qrcode.brand}/${qrcode._id}` : null);
-
+  const history = useHistory();
   const handleClose = () => {
-    onClose(false);
+    history.push('/qrcodes');
   };
-
+  const handleSave = (data, id) => {
+    if (id) {
+      updateQrcode(data, id);
+    } else {
+      createQrcode(data);
+    }
+  };
   const handleOk = (d) => {
-    onSubmit(d, qrcode._id);
-    onClose(false);
+    handleSave(d, qrcode._id);
+    history.push('/qrcodes');
   };
 
   const handleBrandChange = (e) => {
@@ -80,23 +88,30 @@ function QrcodeDialog({
   }, [qrcode]);
 
   useEffect(() => {
-    fetchBrands();
+    if(!roles){
+      return;
+    }
+    if(roles.indexOf(Role.Super) !== -1){
+      fetchBrands();
+    }else if(roles.indexOf(Role.Admin) !== -1){
+      fetchBrands({owner: user._id});
+    }else{
+      
+    }
   }, [fetchBrands]);
 
   return (
-    <Dialog
-      open={opened}
-      onClose={handleClose}
-      aria-labelledby="form-dialog-title"
-    >
-      <DialogTitle id="form-dialog-title">Add New Qrcode</DialogTitle>
+    <div className={classes.root}>
+      <h3 id="form-dialog-title">Add New Qrcode</h3>
       {qrcode && (
         <form onSubmit={handleSubmit(handleOk)}>
-          <DialogContent>
-            <DialogContentText>
+          <Grid container spacing={5}>
+            <Grid item xs={12}>
+            <h5>
               To add a qrcode, please enter the name and description here.
-            </DialogContentText>
-
+            </h5>
+            </Grid>
+            <Grid item xs={3}>
             <Controller
               control={control}
               name="name"
@@ -111,22 +126,25 @@ function QrcodeDialog({
                 />
               }
             />
+            </Grid>
 
+            <Grid item xs={12}>
             <Controller
               control={control}
               name="description"
               defaultValue={qrcode.description}
               as={
                 <TextField
-                  autoFocus
-                  margin="dense"
-                  label="Description"
-                  type="text"
-                  fullWidth
+                autoFocus
+                margin="dense"
+                label="Description"
+                type="text"
+                fullWidth
                 />
               }
-            />
-
+              />
+              </Grid>
+              <Grid item xs={3}>
             <FormControl className={classes.formCtrl}>
               <InputLabel id="qrcode-status-select-label">Status</InputLabel>
               <Controller
@@ -149,7 +167,8 @@ function QrcodeDialog({
                 }
               />
             </FormControl>
-
+                </Grid>
+                <Grid item xs={3}>
             <FormControl className={classes.formCtrl}>
               <InputLabel id="qrcode-brand-select-label">Brand</InputLabel>
               <Controller
@@ -177,7 +196,8 @@ function QrcodeDialog({
                 )}
               />
             </FormControl>
-          </DialogContent>
+            </Grid>
+          </Grid>
 
           <DialogActions>
             <Button onClick={handleClose} color="primary">
@@ -193,11 +213,11 @@ function QrcodeDialog({
       <div className={classes.qrcodeRow}>
         <div className={classes.qrcodeCol}>{val && <QRCode value={val} />}</div>
       </div>
-    </Dialog>
+    </div>
   );
 }
 
-QrcodeDialog.propTypes = {
+QrcodeFormPage.propTypes = {
   brands: PropTypes.shape({
     map: PropTypes.func
   }),
@@ -218,6 +238,8 @@ QrcodeDialog.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
+  user: selectAuthUser(state),
+  roles: selectAuthRoles(state),
   qrcode: state.qrcode,
   brands: state.brands,
 });
@@ -225,4 +247,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setQrcode,
   fetchBrands,
-})(QrcodeDialog);
+  updateQrcode,
+  createQrcode
+})(QrcodeFormPage);
