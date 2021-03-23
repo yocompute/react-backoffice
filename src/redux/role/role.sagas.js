@@ -31,8 +31,8 @@ export function* createRole(action) {
         yield put(createRoleSuccess(data));
 
         if (httpSuccess(status)) {
-            const { data, error, status } = yield call(RoleApi.get, null);
-            yield put(fetchRolesSuccess(data));
+            // const { data, error, status } = yield call(RoleApi.get, null);
+            // yield put(fetchRolesSuccess(data));
         } else {
             yield put(setNotification(error, status));
         }
@@ -46,8 +46,8 @@ export function* updateRole(action) {
         const { data, error, status } = yield call(RoleApi.update, action.data, action.id);
         yield put(updateRoleSuccess(data));
         if (httpSuccess(status)) {
-            const { data, error, status } = yield call(RoleApi.get, null);
-            yield put(fetchRolesSuccess(data));
+            // const { data, error, status } = yield call(RoleApi.get, null);
+            // yield put(fetchRolesSuccess(data));
         } else {
             yield put(setNotification(error, status));
         }

@@ -14,6 +14,7 @@ import {
   fetchProducts,
   fetchAdditions
 } from "../../redux/product/product.actions";
+
 import { selectAuthRoles } from "../../redux/auth/auth.selectors";
 import { Role } from "../../const";
 
@@ -67,11 +68,25 @@ const ProductListPage = ({
   // additions,
   setProduct,
   fetchProducts,
-  // createProduct,
-  // updateProduct,
   fetchAdditions
 }) => {
   const history = useHistory();
+
+  const handleNewProductFormPage = () => {
+    setProduct(DEFAULT_PRODUCT);
+    // setDialogOpen(true);
+    history.push("/products/new");
+  };
+
+  const handleEditRow = (row) => {
+    setProduct(row);
+    // fetchAdditions({brand: row.brand._id});
+    // setDialogOpen(true);
+    setTimeout(() => {
+      history.push(`/products/${row._id}`);
+    }, 100)
+  };
+
 
   useEffect(() => {
     if(roles.indexOf(Role.Super) !== -1){
@@ -81,30 +96,7 @@ const ProductListPage = ({
     }
   }, [fetchProducts]);
 
-
-  const handleNewProductFormPage = () => {
-    setProduct(DEFAULT_PRODUCT);
-    // setDialogOpen(true);
-    history.push("/products/new");
-  };
-
-  // const handleSave = (data, id) => {
-  //   if (id) {
-  //     updateProduct(data, id);
-  //   } else {
-  //     createProduct(data);
-  //   }
-  // };
-
-  const handleEditRow = (row) => {
-    setProduct(row);
-    fetchAdditions({brand: row.brand});
-    // setDialogOpen(true);
-    setTimeout(() => {
-      history.push(`/products/${row._id}`);
-    }, 100)
-  };
-
+  
   return (
     <div>
       <Button data-testid="add-btn"

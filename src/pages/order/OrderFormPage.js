@@ -85,9 +85,9 @@ function OrderFormPage({
     // setModel({ ...model, ...charge, items });
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+  // useEffect(() => {
+  //   fetchUsers();
+  // }, [fetchUsers]);
 
   useEffect(() => {
     if(roles.indexOf(Role.Super) !== -1){

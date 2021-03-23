@@ -46,7 +46,6 @@ const QrcodeListPage = ({
   brand,
   setQrcode,
   fetchQrcodes,
-  qrcode,
   qrcodes,
 }) => {
   const history = useHistory();

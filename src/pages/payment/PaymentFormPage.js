@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import { Controller, useForm } from 'react-hook-form'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,28 +11,35 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
+import Grid from '@material-ui/core/Grid';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { fetchUsers } from '../../redux/user/user.actions';
+import { updatePayment, createPayment} from '../../redux/payment/payment.actions';
+
 const useStyles = makeStyles(() => ({
     formCtrl: {
       width: '100%'
     },
 }));
-function PaymentDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
+function PaymentFormPage({ users, fetchUsers, data, updatePayment, createPayment }) {
     const classes = useStyles();
     const { control, handleSubmit } = useForm();
+    const history = useHistory();
     const handleClose = () => {
-        onClose(false);
+        history.push('/payments');
     };
 
+    const handleSave = (data) => {
+        if(data && data._id){
+            updatePayment(data);
+        }else{
+            createPayment(data);
+        }
+    }
     const handleOk = (d) => {
-        onSubmit(d);
-        onClose(false);
+        handleSave(d);
+        history.push('/payments');
     }
 
     useEffect(() => {
@@ -39,14 +47,15 @@ function PaymentDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
     }, [fetchUsers]);
 
     return (
-        <Dialog open={opened} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Add New Payment</DialogTitle>
+        <div className={classes.root}>
+            <h3 id="form-dialog-title">Add New Payment</h3>
             <form onSubmit={handleSubmit(handleOk)}>
-                <DialogContent>
-                    <DialogContentText>
+                <Grid container spacing={5}>
+                    <Grid item xs={12}>
                         To add a payment, please enter the name and description here.
-                    </DialogContentText>
+                    </Grid>
 
+                    <Grid item xs={3}>
                     <Controller
                         control={control}
                         name="name"
@@ -59,7 +68,8 @@ function PaymentDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                             fullWidth
                         />}
                     />
-
+                    </Grid>
+                    <Grid item xs={12}>
                     <Controller
                         control={control}
                         name="description"
@@ -71,7 +81,8 @@ function PaymentDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                             fullWidth
                         />}
                     />
-
+                    </Grid>
+                    <Grid item xs={3}>
                     <FormControl className={classes.formCtrl}>
                         <InputLabel id="product-status-select-label">Status</InputLabel>
                         <Controller
@@ -86,7 +97,8 @@ function PaymentDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                             }
                         />
                     </FormControl>
-
+                    </Grid>
+                    <Grid item xs={3}>
                     <FormControl className={classes.formCtrl}>
                         <InputLabel id="payment-user-select-label">Owner</InputLabel>
                         <Controller
@@ -105,8 +117,8 @@ function PaymentDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                             }
                         />
                     </FormControl>
-
-                </DialogContent>
+                    </Grid>
+                </Grid>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel
@@ -116,18 +128,15 @@ function PaymentDialog({ users, fetchUsers, data, opened, onClose, onSubmit }) {
                     </Button>
                 </DialogActions>
             </form>
-        </Dialog>
+        </div>
     );
 }
 
-PaymentDialog.propTypes = {
+PaymentFormPage.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.any
   }),
   fetchUsers: PropTypes.func,
-  onClose: PropTypes.func,
-  onSubmit: PropTypes.func,
-  opened: PropTypes.any,
   users: PropTypes.shape({
     map: PropTypes.func
   })
@@ -136,12 +145,15 @@ PaymentDialog.propTypes = {
 
 
 const mapStateToProps = state => ({
-    users: state.users
+    users: state.users,
+    data: state.payment,
 });
 
 export default connect(
     mapStateToProps,
     {
-        fetchUsers
+        fetchUsers,
+        updatePayment,
+        createPayment,
     }
-)(PaymentDialog);
+)(PaymentFormPage);

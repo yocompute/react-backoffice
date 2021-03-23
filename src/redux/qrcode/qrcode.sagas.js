@@ -32,8 +32,8 @@ export function* createQrcode(action) {
     const { data, error, status } =  yield call(QrcodeApi.create, action.data);
     yield put(createQrcodeSuccess(data));
     if (httpSuccess(status)) {
-      const { data, error, status } =  yield call(QrcodeApi.get, null);
-      yield put(fetchQrcodesSuccess(data));
+      // const { data, error, status } =  yield call(QrcodeApi.get, null);
+      // yield put(fetchQrcodesSuccess(data));
     } else {
       yield put(setNotification(error, status));
     }
@@ -49,8 +49,8 @@ export function* updateQrcode(action) {
     const { data, error, status } =  yield call(QrcodeApi.update, action.data, action.id);
     yield put(updateQrcodeSuccess(data));
     if (httpSuccess(status)) {
-      const { data, error, status } =  yield call(QrcodeApi.get, null);
-      yield put(fetchQrcodesSuccess(data));
+      // const { data, error, status } =  yield call(QrcodeApi.get, null);
+      // yield put(fetchQrcodesSuccess(data));
     } else {
       yield put(setNotification(error, status));
     }

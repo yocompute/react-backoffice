@@ -35,8 +35,8 @@ export function* createProduct(action) {
     const { data, error, status } = yield call(ProductApi.create, action.data);
     yield put(createProductSuccess(data));
     if (httpSuccess(status)) {
-      const { data, error, status } = yield call(ProductApi.get, null);
-      yield put(fetchProductsSuccess(data));
+      // const { data, error, status } = yield call(ProductApi.get, null);
+      // yield put(fetchProductsSuccess(data));
     } else {
       yield put(setNotification(error, status));
     }
@@ -52,8 +52,8 @@ export function* updateProduct(action) {
     const { data, error, status } = yield call(ProductApi.update, action.data, action.id);
     yield put(updateProductSuccess(data));
     if (httpSuccess(status)) {  
-      const { data, error, status } = yield call(ProductApi.get, null);
-      yield put(fetchProductsSuccess(data));
+      // const { data, error, status } = yield call(ProductApi.get, null);
+      // yield put(fetchProductsSuccess(data));
     } else {
       yield put(setNotification(error, status));
     }

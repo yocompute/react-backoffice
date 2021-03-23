@@ -5,8 +5,6 @@ import ListTable from "../../components/table/ListTable";
 import {
   setCategory,
   fetchCategories,
-  createCategory,
-  updateCategory,
 } from "../../redux/category/category.actions";
 import Button from "@material-ui/core/Button";
 
@@ -99,10 +97,8 @@ const CategoryListPage = ({
 
 CategoryListPage.propTypes = {
   categories: PropTypes.any,
-  createCategory: PropTypes.func,
   fetchCategories: PropTypes.func,
   setCategory: PropTypes.func,
-  updateCategory: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({
@@ -114,6 +110,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setCategory,
   fetchCategories,
-  createCategory,
-  updateCategory,
 })(CategoryListPage);
