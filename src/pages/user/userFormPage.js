@@ -177,7 +177,7 @@ function UserFormPage({ user, createUser, updateUser, setUser }) {
                             
                             Roles.map((name) => (
                                 <MenuItem key={name} value={name} >
-                                    <Checkbox checked={user.roles.indexOf(name) > -1}/>
+                                    <Checkbox checked={user.roles && user.roles.indexOf(name) !== -1}/>
                                     <ListItemText primary={name} />
                                 </MenuItem>
                             ))}

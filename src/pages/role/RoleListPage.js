@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 // import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
@@ -39,14 +39,13 @@ const RoleListPage = ({
   fetchRoles,
   createRole,
   updateRole,
-  role,
   roles,
 }) => {
   const history = useHistory();
 
-  useEffect(() => {
-    setRole(DEFAULT_ROLE);
-  }, []);
+  // useEffect(() => {
+  //   setRole(DEFAULT_ROLE);
+  // }, []);
 
   useEffect(() => {
     fetchRoles();
@@ -83,7 +82,7 @@ const RoleListPage = ({
       >
         Add
       </Button>
-      {roles && (
+      {roles && roles.length > 0 && (
         <ListTable
           label="role"
           defaultSort={defaultSort}
@@ -97,16 +96,14 @@ const RoleListPage = ({
 };
 
 RoleListPage.propTypes = {
+  setRole: PropTypes.func,
   createRole: PropTypes.func,
   fetchRoles: PropTypes.func,
-  setRole: PropTypes.func,
   updateRole: PropTypes.func,
-  role: PropTypes.any,
   roles: PropTypes.any
 }
 
 const mapStateToProps = (state) => ({
-  role: state.role,
   roles: state.roles,
 });
 

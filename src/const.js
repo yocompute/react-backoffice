@@ -21,10 +21,10 @@ export const PaymentMethod = {
 }
 
 export const Role = {
-    "Super": "Super",
-    "Admin": "Admin",
-    "CustomerService": "Customer Service",
-    "Driver": "Driver"
+    Super: "Super",
+    Admin: "Admin",
+    CustomerService: "Customer Service",
+    Driver: "Driver"
 }
 
 export const Roles = ["Super", "Admin", "Customer Service", "Driver"];
@@ -58,4 +58,9 @@ export const Permissions = {
     [Path.Qrcodes]: ["Super", "Admin"],
     [Path.Specs]: ["Super", "Admin"],
     [Path.Users]: ["Super"],
+}
+
+export const AppMode = {
+    DEV: 'dev',
+    PROD: 'prod'
 }

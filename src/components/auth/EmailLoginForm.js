@@ -11,6 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import AgreementLink from './AgreementLink';
+import {cfg} from '../../config';
+import {AppMode} from '../../const';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -84,11 +86,14 @@ const EmailLoginForm = ({ onSubmit, btnText }) => {
               Forgot password?
             </Link>
           </Grid>
-          <Grid item>
-            <Link variant="body2" to={"/local-signup"}>
-              {"Don't have an account? Sign Up"}
-            </Link>
-          </Grid>
+          {
+            cfg.appMode === AppMode.DEV &&
+            <Grid item>
+              <Link variant="body2" to={"/local-signup"}>
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          }
         </Grid>
     </form>
   )

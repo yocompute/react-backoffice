@@ -24,6 +24,7 @@ const menus = [
     text: "Dashbord",
     icon: DashboardIcon,
     tip: "Dashbord",
+    selected: true
   },
   {
     path: Path.Roles,

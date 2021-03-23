@@ -39,6 +39,14 @@ const EmailSignupForm = ({ onSubmit, btnText }) => {
 
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+      <TextField
+        fullWidth
+        name="brand"
+        label="Brand Name"
+        variant="outlined"
+        margin="normal"
+        inputRef={register}
+      />
       
       <TextField
         fullWidth
@@ -60,6 +68,7 @@ const EmailSignupForm = ({ onSubmit, btnText }) => {
 
       <TextField
         fullWidth
+        type="password"
         name="password"
         label="Password"
         variant="outlined"

@@ -1,5 +1,5 @@
 import { put, call, select, takeLatest } from 'redux-saga/effects'
-import UserApi from '../../services/UserApi'
+import UserApi from '../../services/UserApi';
 import {
     FETCH_USERS, CREATE_USER, UPDATE_USER,
     fetchUsersSuccess, createUserSuccess, updateUserSuccess

@@ -23,9 +23,14 @@ const AuthApi = {
 
   async signup(entity = null) {
     const url = process.env.REACT_APP_MODE === 'local' ? '/auth.json' : Api.buildUrl(API_URL, 'auth/signup');
-
     return await Api.post(url, entity);
   },
+
+  async signupBrand(entity = null) {
+    const url = process.env.REACT_APP_MODE === 'local' ? '/auth.json' : Api.buildUrl(API_URL, 'auth/signupBrand');
+    return await Api.post(url, entity);
+  },
+  
 };
 
 export default AuthApi;
