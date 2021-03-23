@@ -176,6 +176,15 @@ function ProductFormPage({
     }
   }, [fetchCategories]);
 
+
+  useEffect(() => {
+    if(roles.indexOf(Role.Super) !== -1){
+      fetchAdditions();
+    }else if(roles.indexOf(Role.Admin) !== -1){
+      fetchAdditions({brand: brand._id});
+    }
+  }, [fetchAdditions]);
+
   return (
     <div className={classes.root}>
       <div id="form-dialog-title">Add New Product</div>

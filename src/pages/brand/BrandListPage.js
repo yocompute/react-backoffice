@@ -8,8 +8,6 @@ import ListTable from "../../components/table/ListTable";
 import {
   setBrand,
   fetchBrands,
-  createBrand,
-  updateBrand,
 } from "../../redux/brand/brand.actions";
 import { selectAuthUser, selectAuthRoles } from "../../redux/auth/auth.selectors";
 
@@ -120,13 +118,9 @@ const BrandListPage = ({
 
 BrandListPage.propTypes = {
   brands: PropTypes.any,
-  createBrand: PropTypes.func,
   fetchBrands: PropTypes.func,
   setBrand: PropTypes.func,
-  updateBrand: PropTypes.func
 }
-
-
 
 const mapStateToProps = (state) => ({
   user: selectAuthUser(state),
@@ -137,6 +131,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setBrand,
   fetchBrands,
-  createBrand,
-  updateBrand,
 })(BrandListPage);

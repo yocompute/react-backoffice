@@ -110,15 +110,15 @@ const useStyles = makeStyles((theme) => ({
 const HomePage = ({
   match, fetchProducts,
 }) => {
-  useEffect(() => {
-    if (match.params && match.params.id) {
-      const merchantId = match.params.id;
-      fetchProducts({ merchantId });
-    } else {
-      const merchantId = DEFAULT_MERCHANT_ID;
-      fetchProducts({ merchantId });
-    }
-  }, [fetchProducts]);
+  // useEffect(() => {
+  //   if (match.params && match.params.id) {
+  //     const merchantId = match.params.id;
+  //     fetchProducts({ merchantId });
+  //   } else {
+  //     const merchantId = DEFAULT_MERCHANT_ID;
+  //     fetchProducts({ merchantId });
+  //   }
+  // }, [fetchProducts]);
 
   // const handleNext = () => {
 

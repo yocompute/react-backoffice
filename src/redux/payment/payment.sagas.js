@@ -27,8 +27,8 @@ export function* createPayment(action) {
         const { data, error, status } = yield call(PaymentApi.create, action.data);
         yield put(createPaymentSuccess(data));
         if (httpSuccess(status)) {
-            const { data, error, status } = yield call(PaymentApi.get, null);
-            yield put(fetchPaymentsSuccess(data));
+            // const { data, error, status } = yield call(PaymentApi.get, null);
+            // yield put(fetchPaymentsSuccess(data));
         } else {
             yield put(setNotification(error, status));
         }

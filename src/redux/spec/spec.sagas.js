@@ -32,8 +32,8 @@ export function* createSpec(action) {
     const { data, error, status } = yield call(SpecApi.create, action.data);
     yield put(createSpecSuccess(data));
     if (httpSuccess(status)) {
-      const { data, error, status } = yield call(SpecApi.get, null);
-      yield put(fetchSpecsSuccess(data));
+      // const { data, error, status } = yield call(SpecApi.get, null);
+      // yield put(fetchSpecsSuccess(data));
     } else {
       yield put(setNotification(error, status));
     }
@@ -49,8 +49,8 @@ export function* updateSpec(action) {
     const { data, error, status } = yield call(SpecApi.update, action.data, action.id);
     yield put(updateSpecSuccess(data));
     if (httpSuccess(status)) {
-      const { data, error, status } = yield call(SpecApi.get, null);
-      yield put(fetchSpecsSuccess(data));
+      // const { data, error, status } = yield call(SpecApi.get, null);
+      // yield put(fetchSpecsSuccess(data));
     } else {
       yield put(setNotification(error, status));
     }

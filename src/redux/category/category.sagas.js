@@ -31,8 +31,8 @@ export function* createCategory(action) {
     const {data, error, status} = yield call(CategoryApi.create, action.data);
     yield put(createCategorySuccess(data));
     if(httpSuccess(status)){
-      const {data, error, status} = yield call(CategoryApi.get, null);
-      yield put(fetchCategoriesSuccess(data));
+      // const {data, error, status} = yield call(CategoryApi.get, null);
+      // yield put(fetchCategoriesSuccess(data));
     }else{
       yield put(setNotification(error, status));
     }
@@ -46,8 +46,8 @@ export function* updateCategory(action) {
     const {data, error, status} = yield call(CategoryApi.update, action.data, action.id);
     if(httpSuccess(status)){
       yield put(updateCategorySuccess(data));
-      const {data, error, status} = yield call(CategoryApi.get, null);
-      yield put(fetchCategoriesSuccess(data));
+      // const {data, error, status} = yield call(CategoryApi.get, null);
+      // yield put(fetchCategoriesSuccess(data));
     }else{
       yield put(setNotification(error, status));
     }

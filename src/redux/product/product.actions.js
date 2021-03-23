@@ -71,8 +71,9 @@ export const setProduct = (product) => ({
 });
 
 // additions
-export const fetchAdditions = () => ({
+export const fetchAdditions = (query) => ({
   type: FETCH_ADDITIONS,
+  query
 });
 
 export const fetchAdditionsSuccess = (additions = []) => ({
