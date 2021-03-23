@@ -85,7 +85,7 @@ const BrandListPage = ({
 
   const handleOpenBrandDialog = () => {
     setBrand(DEFAULT_BRAND);
-    history.push('/brands/new')
+    history.push('/brands/new');
   }
 
   const handleEditRow = (row) => {

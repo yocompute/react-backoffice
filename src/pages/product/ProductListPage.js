@@ -12,8 +12,6 @@ import ListTable from "../../components/table/ListTable";
 import {
   setProduct,
   fetchProducts,
-  // createProduct,
-  // updateProduct,
   fetchAdditions
 } from "../../redux/product/product.actions";
 import { selectAuthRoles } from "../../redux/auth/auth.selectors";

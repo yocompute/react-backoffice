@@ -15,8 +15,9 @@ export const SET_PAYMENT = 'payment/SET_PAYMENT';
 
 
 // action creators
-export const fetchPayments = () => ({
-    type: FETCH_PAYMENTS
+export const fetchPayments = (query) => ({
+    type: FETCH_PAYMENTS,
+    query
 })
 
 export const fetchPaymentsSuccess = (payments = []) => ({
