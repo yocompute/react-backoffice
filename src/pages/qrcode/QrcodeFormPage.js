@@ -83,7 +83,7 @@ function QrcodeFormPage({
 
   useEffect(() => {
     if (qrcode && qrcode._id && qrcode.brand) {
-      setValue(`${CLIENT_HOST}/?brandId=${qrcode.brand}&qrcode=${qrcode._id}`);
+      setValue(`${CLIENT_HOST}/?brandId=${qrcode.brand._id}&qrcode=${qrcode._id}`);
     }
   }, [qrcode]);
 
