@@ -17,7 +17,7 @@ import {Role} from "../../const";
 
 const columns = [
   { field: "createUTC", label: "Created Date", type: "date" },
-  { field: "not", label: "Note"},
+  // { field: "note", label: "Note"},
   { field: "total", label: "Total" },
   // { field: "description", label: "Description" },
   { field: "status", label: "Status" },

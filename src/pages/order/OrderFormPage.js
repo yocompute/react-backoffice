@@ -20,7 +20,9 @@ import { setOrder, createOrder, updateOrder } from "../../redux/order/order.acti
 import { fetchUsers } from "../../redux/user/user.actions";
 import { fetchProducts } from "../../redux/product/product.actions";
 
-import OrderItemEditor from "../../components/order/OrderItemEditor";
+import OrderItems from "../../components/order/OrderItems";
+
+import OrderEditor from "../../components/order/OrderEditor";
 import { selectAuthRoles } from "../../redux/auth/auth.selectors";
 import { Role } from "../../const";
 
@@ -168,7 +170,40 @@ function OrderFormPage({
                 }
               />
             </Grid>
+            <Grid item xs={3}>
+              <Controller
+                control={control}
+                name="subTotal"
+                defaultValue={order.subTotal}
 
+                as={
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    label="SubTotal"
+                    type="number"
+                    fullWidth
+                  />
+                }
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Controller
+                control={control}
+                name="saleTax"
+                defaultValue={order.saleTax}
+
+                as={
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    label="Tax"
+                    type="number"
+                    fullWidth
+                  />
+                }
+              />
+            </Grid>
             <Grid item xs={3}>
               <Controller
                 control={control}
@@ -208,12 +243,13 @@ function OrderFormPage({
 
           {/* <GridItem xs={12} lg={12}> */}
               <Box pb={2}>
-                <OrderItemEditor
+                {/* <OrderEditor
                     items={order.items}
                     products={products}
-                  merchantId={order.brand}
-                  onUpdateItemMap={handleUpdateItemMap}
-                />
+                    merchantId={order.brand}
+                    onUpdateItemMap={handleUpdateItemMap}
+                /> */}
+                <OrderItems items={order.items} />
               </Box>
             {/* </GridItem> */}
 
