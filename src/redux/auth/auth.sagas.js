@@ -6,10 +6,9 @@ import { AppMode } from '../../const';
 
 import { FETCH_AUTH, LOGIN, SIGNUP, LOGOUT,
     setAuth, fetchAuthSuccess, loginSuccess, signupSuccess, logoutSuccess } from './auth.actions';
-// import { setUser } from '../user/user.actions';
+
 import { setLoading } from '../page/page.actions';
 
-// import { selectACL } from '../ACL/ACL.selectors'
 import {JWT_COOKIE, JWT_EXPIRY} from '../../const';
 import { setNotification } from '../notification/notification.actions';
 import { httpSuccess } from '../notification/notification.sagas';

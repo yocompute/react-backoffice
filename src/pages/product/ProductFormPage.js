@@ -63,7 +63,7 @@ function ProductFormPage({
   createProduct,
   setProduct,
   fetchCategories,
-  // fetchAdditions,
+  fetchAdditions,
   product,
 }) {
   const classes = useStyles();
@@ -385,7 +385,7 @@ function ProductFormPage({
               <Additions data={additions} onChange={handleAdditionsChange} />
             }
 
-            <Specs productSpecs={product.specs} onChange={handleSpecsChange} />
+            {/* <Specs productSpecs={product.specs} onChange={handleSpecsChange} /> */}
           </DialogContent>
 
           <DialogActions>
