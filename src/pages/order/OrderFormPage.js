@@ -131,6 +131,9 @@ function OrderFormPage({
               </FormControl>
             </Grid>
 
+{
+  roles.indexOf(Role.Super) !== -1 &&
+
             <Grid item xs={3}>
               <FormControl className={classes.formCtrl}>
                 <InputLabel id="order-client-select-label">Client</InputLabel>
@@ -151,6 +154,24 @@ function OrderFormPage({
                   }
                 />
               </FormControl>
+            </Grid>
+}
+            <Grid item xs={3}>
+              <Controller
+                control={control}
+                name="Table"
+                defaultValue={order.qrcode? order.qrcode.name: ''}
+
+                as={
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    label="Table"
+                    type="text"
+                    fullWidth
+                  />
+                }
+              />
             </Grid>
 
             <Grid item xs={12}>

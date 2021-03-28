@@ -27,6 +27,12 @@ const columns = [
     type: "object",
     property: "username",
   },
+  {
+    field: "qrcode",
+    label: "Table",
+    type: "object",
+    property: "name",
+  },
   { field: "actions", label: "Actions" },
 ];
 
