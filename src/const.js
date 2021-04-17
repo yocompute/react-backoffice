@@ -10,9 +10,14 @@ export const CART_PAGE = 'page/cart';
 export const PAYMENT_PAGE = 'pay/payment';
 export const ORDER_PAGE = 'page/order';
 
+export const OrderStatus = {
+    NEW: 'N',
+    PAID: 'P'
+}
 
 export const PaymentStatus = {
-    NEW: 'N'
+    NEW: 'N',
+    PAID: 'P'
 }
 
 export const PaymentMethod = {
