@@ -1,4 +1,3 @@
-import { QrcodeTag } from "../../const";
 import {
   FETCH_QRCODES_SUCCESS,
   CREATE_QRCODE_SUCCESS,
@@ -30,7 +29,7 @@ export const qrcodeReducer = (state = null, action) => {
   return state;
 };
 
-export const qrcodeTagReducer = (state = QrcodeTag.Dine, action) => {
+export const qrcodeTagReducer = (state = null, action) => {
   if (action && action.type === SET_QRCODE_TAG) {
     return action.tag;
   }
