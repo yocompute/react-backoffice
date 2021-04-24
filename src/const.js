@@ -34,8 +34,6 @@ export const Role = {
 
 export const Roles = ["Super", "Admin", "Customer Service", "Driver"];
 
-
-
 export const Path = {
     Home: '/',
     Brands: '/brands',
@@ -56,7 +54,7 @@ export const Permissions = {
     [Path.Roles]: ["Super"],
     "/roles/new": ["Super"],
     "/roles/:id": ["Super"],
-    [Path.Payments]: ["Super"],
+    [Path.Payments]: ["Super", "Admin"],
     [Path.Orders]: ["Super", "Admin"],
     [Path.Categories]: ["Super", "Admin"],
     [Path.Products]: ["Super", "Admin"],
@@ -68,4 +66,9 @@ export const Permissions = {
 export const AppMode = {
     DEV: 'dev',
     PROD: 'prod'
+}
+
+export const QrcodeTag = {
+    Dine: 'dine',
+    Takeaway: 'takeaway'
 }
