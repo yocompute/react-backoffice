@@ -2,12 +2,10 @@ import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { fetchBrands } from "../../redux/brand/brand.actions";
 
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -16,6 +14,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import { updateCategory, createCategory} from "../../redux/category/category.actions";
+import {Role} from "../../const";
+import { selectAuthUser, selectAuthRoles } from "../../redux/auth/auth.selectors";
 
 const useStyles = makeStyles(() => ({
   formCtrl: {
@@ -23,51 +24,71 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CategoryDialog = ({ category, brands, fetchBrands, opened, onClose, onSubmit }) => {
+const CategoryFormPage = ({ user, roles, category, brands, fetchBrands, updateCategory, createCategory }) => {
   const { control, handleSubmit } = useForm();
   const classes = useStyles();
+  const history = useHistory();
 
   const handleClose = () => {
-    onClose(false);
+    history.push('/categories');
   };
 
+  const handleSave = (data, id) => {
+    if (id) {
+      updateCategory(data, id);
+    } else {
+      createCategory(data);
+    }
+  };
+  
   const handleOk = (d) => {
-    onSubmit(d, category._id);
-    onClose(false);
+    handleSave(d, category._id);
+    history.push('/categories');
   };
 
   useEffect(() => {
-    fetchBrands();
+    if(!roles){
+      return;
+    }
+    if(roles.indexOf(Role.Super) !== -1){
+      fetchBrands();
+    }else if(roles.indexOf(Role.Admin) !== -1){
+      fetchBrands({owner: user._id});
+    }else{
+      
+    }
   }, [fetchBrands]);
 
   return (
-    <Dialog
-      open={opened}
-      onClose={handleClose}
-      aria-labelledby="form-dialog-title"
-    >
-      <DialogTitle id="form-dialog-title">Add New Category</DialogTitle>
+    <div className={classes.root}>
+      <h3 id="form-dialog-title">Add New Category</h3>
       {category && (
         <form onSubmit={handleSubmit(handleOk)}>
-          <DialogContent>
-            <DialogContentText>
+          <Grid container spacing={5}>
+          <Grid item xs={12}>
+            <h4>
               To add a category, please enter the name and description here.
-            </DialogContentText>
+            </h4>
+            </Grid>
+            <Grid item xs={3}>
+
             <Controller
               control={control}
               name="name"
               defaultValue={category.name}
               as={
                 <TextField
-                  autoFocus
-                  margin="dense"
-                  label="Name"
-                  type="text"
-                  fullWidth
+                autoFocus
+                margin="dense"
+                label="Name"
+                type="text"
+                fullWidth
                 />
               }
-            />
+              />
+            </Grid>
 
+            <Grid item xs={12}>
             <Controller
               control={control}
               name="description"
@@ -82,7 +103,8 @@ const CategoryDialog = ({ category, brands, fetchBrands, opened, onClose, onSubm
                 />
               }
             />
-
+            </Grid>
+            <Grid item xs={3}>
             <FormControl className={classes.formCtrl}>
               <InputLabel id="category-status-select-label">Status</InputLabel>
               <Controller
@@ -102,7 +124,8 @@ const CategoryDialog = ({ category, brands, fetchBrands, opened, onClose, onSubm
                 }
               />
             </FormControl>
-
+            </Grid>
+            <Grid item xs={3}>
             <FormControl className={classes.formCtrl}>
               <InputLabel id="category-brand-select-label">Brand</InputLabel>
               <Controller
@@ -122,7 +145,8 @@ const CategoryDialog = ({ category, brands, fetchBrands, opened, onClose, onSubm
                 }
               />
             </FormControl>
-          </DialogContent>
+            </Grid>
+          </Grid>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Cancel
@@ -133,11 +157,11 @@ const CategoryDialog = ({ category, brands, fetchBrands, opened, onClose, onSubm
           </DialogActions>
         </form>
       )}
-    </Dialog>
+    </div>
   );
 };
 
-CategoryDialog.propTypes = {
+CategoryFormPage.propTypes = {
   brands: PropTypes.shape({
     map: PropTypes.func
   }),
@@ -157,8 +181,10 @@ CategoryDialog.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
+  user: selectAuthUser(state),
+  roles: selectAuthRoles(state),
   category: state.category,
   brands: state.brands,
 });
 
-export default connect(mapStateToProps, { fetchBrands })(CategoryDialog);
+export default connect(mapStateToProps, { fetchBrands, updateCategory, createCategory })(CategoryFormPage);

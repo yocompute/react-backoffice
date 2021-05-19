@@ -33,8 +33,8 @@ export function* createOrder(action) {
     const {data, error, status} = yield call(OrderApi.create, action.data);
     yield put(createOrderSuccess(data));
     if(httpSuccess(status)){
-      const {data, error, status} = yield call(OrderApi.get, null);
-      yield put(fetchOrdersSuccess(data));
+      // const {data, error, status} = yield call(OrderApi.get, null);
+      // yield put(fetchOrdersSuccess(data));
     }else{
       yield put(setNotification(error, status));
     }
@@ -51,8 +51,8 @@ export function* updateOrder(action) {
     const {data, error, status} = yield call(OrderApi.update, action.data, action.id);
     yield put(updateOrderSuccess(data));
     if(httpSuccess(status)){
-      const {data, error, status} = yield call(OrderApi.get, null);
-      yield put(fetchOrdersSuccess(data));
+      // const {data, error, status} = yield call(OrderApi.get, null);
+      // yield put(fetchOrdersSuccess(data));
     }else{
       yield put(setNotification(error, status));
     }

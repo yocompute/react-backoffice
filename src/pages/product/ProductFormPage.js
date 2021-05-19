@@ -25,7 +25,8 @@ import { fetchCategories } from "../../redux/category/category.actions";
 import { fetchAdditions, setProduct, updateProduct, createProduct } from "../../redux/product/product.actions";
 import Additions from "../../components/product/Additions";
 import { selectAdditions } from "../../redux/product/product.selectors";
-
+import { selectAuthRoles, selectAuthUser } from "../../redux/auth/auth.selectors";
+import { Role } from "../../const";
 const useStyles = makeStyles(() => ({
   root:{
     height: "100%"
@@ -53,15 +54,16 @@ const useStyles = makeStyles(() => ({
 }));
 
 function ProductFormPage({
+  brand,
+  roles,
   brands,
   categories,
   additions,
   updateProduct,
   createProduct,
   setProduct,
-  fetchBrands,
   fetchCategories,
-  // fetchAdditions,
+  fetchAdditions,
   product,
 }) {
   const classes = useStyles();
@@ -167,12 +169,21 @@ function ProductFormPage({
   }
 
   useEffect(() => {
-    fetchCategories();
+    if(roles.indexOf(Role.Super) !== -1){
+      fetchCategories();
+    }else if(roles.indexOf(Role.Admin) !== -1){
+      fetchCategories({brand: brand._id});
+    }
   }, [fetchCategories]);
 
+
   useEffect(() => {
-    fetchBrands();
-  }, []);
+    if(roles.indexOf(Role.Super) !== -1){
+      fetchAdditions();
+    }else if(roles.indexOf(Role.Admin) !== -1){
+      fetchAdditions({brand: brand._id});
+    }
+  }, [fetchAdditions]);
 
   return (
     <div className={classes.root}>
@@ -283,7 +294,7 @@ function ProductFormPage({
             />
             <FormControl className={classes.formCtrl}>
               <InputLabel id="product-type-select-label">Type</InputLabel>
-              {/* <Controller
+              {/* <ControllerfetchCategoriesSuccess
                 control={control}
                 name="type"
                 defaultValue={product.type ? product.type : 'S'}
@@ -374,7 +385,7 @@ function ProductFormPage({
               <Additions data={additions} onChange={handleAdditionsChange} />
             }
 
-            <Specs productSpecs={product.specs} onChange={handleSpecsChange} />
+            {/* <Specs productSpecs={product.specs} onChange={handleSpecsChange} /> */}
           </DialogContent>
 
           <DialogActions>
@@ -454,6 +465,8 @@ ProductFormPage.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
+  brand: state.brand,
+  roles: selectAuthRoles(state),
   brands: state.brands,
   categories: state.categories,
   product: state.product,

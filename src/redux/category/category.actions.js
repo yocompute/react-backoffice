@@ -12,8 +12,9 @@ export const setCategory = (category) => ({
   category,
 });
 
-export const fetchCategories = () => ({
+export const fetchCategories = (query) => ({
   type: FETCH_CATEGORIES,
+  query
 });
 
 export const fetchCategoriesSuccess = (categories) => ({

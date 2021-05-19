@@ -1,5 +1,5 @@
 import { put, call, select, takeLatest } from 'redux-saga/effects'
-import UserApi from '../../services/UserApi'
+import UserApi from '../../services/UserApi';
 import {
     FETCH_USERS, CREATE_USER, UPDATE_USER,
     fetchUsersSuccess, createUserSuccess, updateUserSuccess
@@ -30,8 +30,8 @@ export function* createUser(action) {
         yield put(createUserSuccess(data));
 
         if (httpSuccess(status)) {
-            const { data, error, status } = yield call(UserApi.get, null);
-            yield put(fetchUsersSuccess(data));
+            // const { data, error, status } = yield call(UserApi.get, null);
+            // yield put(fetchUsersSuccess(data));
         } else {
             yield put(setNotification(error, status));
         }
@@ -45,8 +45,8 @@ export function* updateUser(action) {
         const { data, error, status } = yield call(UserApi.update, action.data, action.id);
         yield put(updateUserSuccess(data));
         if (httpSuccess(status)) {
-            const { data, error, status } = yield call(UserApi.get, null);
-            yield put(fetchUsersSuccess(data));
+            // const { data, error, status } = yield call(UserApi.get, null);
+            // yield put(fetchUsersSuccess(data));
         } else {
             yield put(setNotification(error, status));
         }

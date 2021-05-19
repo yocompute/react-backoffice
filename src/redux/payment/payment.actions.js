@@ -15,8 +15,9 @@ export const SET_PAYMENT = 'payment/SET_PAYMENT';
 
 
 // action creators
-export const fetchPayments = () => ({
-    type: FETCH_PAYMENTS
+export const fetchPayments = (query) => ({
+    type: FETCH_PAYMENTS,
+    query
 })
 
 export const fetchPaymentsSuccess = (payments = []) => ({
@@ -45,9 +46,10 @@ export const createPaymentFail = error => ({
     error
 })
 
-export const updatePayment = (data) => ({
+export const updatePayment = (data, id) => ({
     type: UPDATE_PAYMENT,
-    data
+    data,
+    id
 })
 
 export const updatePaymentSuccess = (payment) => ({

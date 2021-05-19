@@ -4,12 +4,10 @@ import PropTypes from "prop-types";
 
 import Button from '@material-ui/core/Button';
 
-// import Header from '../../components/common/Header';
 import ListTable from '../../components/table/ListTable';
-import PaymentDialog from './PaymentDialog';
-
-import { fetchPayments, createPayment, updatePayment } from '../../redux/payment/payment.actions';
+import { fetchPayments, setPayment } from '../../redux/payment/payment.actions';
 import { selectPopulatedPayments } from '../../redux/payment/payment.selectors';
+import { useHistory } from 'react-router-dom';
 const columns = [
     { field: "createUTC", label: "Created Date", type: "date" },
     { field: "user", label: "User", type: 'object', property:'username' },
@@ -32,11 +30,8 @@ const DEFAULT_BRAND = {
     actions:'',
 }
 
-const PaymentListPage = ({ fetchPayments, createPayment, updatePayment, payments }) => {
-
-    const [dialogOpened, setDialogOpen] = useState(false);
-    const [data, setData] = useState(DEFAULT_BRAND);
-
+const PaymentListPage = ({ fetchPayments, setPayment, payments }) => {
+    const history = useHistory();
 
     useEffect(() => {
         fetchPayments();
@@ -44,32 +39,20 @@ const PaymentListPage = ({ fetchPayments, createPayment, updatePayment, payments
 
 
     const handleOpenPaymentDialog = () => {
-        setData(DEFAULT_BRAND);
-        setDialogOpen(true);
-    }
-
-    const handleSave = (data) => {
-        if(data && data._id){
-            updatePayment(data);
-        }else{
-            createPayment(data);
-        }
+        setPayment(DEFAULT_BRAND);
+        history.push('/payments/new')
     }
 
     const handleEditRow = (row) => {
-        setData(row);
-        setDialogOpen(true);
+        setPayment(row);
+        setTimeout(() => {
+            history.push(`/payments/${row._id}`);
+          }, 100)
     }
 
     return (
         <div>
             <Button variant="contained" color="primary" onClick={handleOpenPaymentDialog}>Add</Button>
-            <PaymentDialog
-                data={data}
-                opened={dialogOpened}
-                onClose={setDialogOpen}
-                onSubmit={handleSave}
-            />
             {
                 payments &&
                 <ListTable
@@ -85,10 +68,8 @@ const PaymentListPage = ({ fetchPayments, createPayment, updatePayment, payments
 }
 
 PaymentListPage.propTypes = {
-  createPayment: PropTypes.func,
   fetchPayments: PropTypes.func,
   payments: PropTypes.any,
-  updatePayment: PropTypes.func
 }
 
 const mapStateToProps = state => ({
@@ -99,7 +80,6 @@ export default connect(
     mapStateToProps,
     { 
         fetchPayments,
-        createPayment,
-        updatePayment
+        setPayment,
     }
 )(PaymentListPage);

@@ -1,18 +1,16 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import CategoryDialog from "./CategoryDialog";
 import ListTable from "../../components/table/ListTable";
 import {
   setCategory,
   fetchCategories,
-  createCategory,
-  updateCategory,
 } from "../../redux/category/category.actions";
 import Button from "@material-ui/core/Button";
 
-import { selectAuthRoles } from "../../redux/auth/auth.selectors";
+import { selectAuthRoles, selectAuthUser } from "../../redux/auth/auth.selectors";
 import { Role } from "../../const";
+import { useHistory } from "react-router-dom";
 
 const DEFAULT_CATEGORY = {
   _id: "",
@@ -48,10 +46,8 @@ const CategoryListPage = ({
   categories,
   setCategory,
   fetchCategories,
-  createCategory,
-  updateCategory,
 }) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     setCategory(DEFAULT_CATEGORY);
@@ -65,22 +61,16 @@ const CategoryListPage = ({
     }
   }, [fetchCategories]);
 
-  const handleOpenCategsoryDialog = () => {
+  const handleOpenCategoryForm = () => {
     setCategory(DEFAULT_CATEGORY);
-    setDialogOpen(true);
-  };
-
-  const handleSave = (data, id) => {
-    if (id) {
-      updateCategory(data, id);
-    } else {
-      createCategory(data);
-    }
+    history.push('/categories/new');
   };
 
   const handleEditRow = (row) => {
     setCategory(row);
-    setDialogOpen(true);
+    setTimeout(() => {
+      history.push(`/categories/${row._id}`);
+    }, 100)
   };
 
   return (
@@ -88,15 +78,10 @@ const CategoryListPage = ({
       <Button
         variant="contained"
         color="primary"
-        onClick={handleOpenCategsoryDialog}
+        onClick={handleOpenCategoryForm}
       >
         Add
       </Button>
-      <CategoryDialog
-        opened={dialogOpen}
-        onClose={setDialogOpen}
-        onSubmit={handleSave}
-      />
       {categories && (
         <ListTable
           lable="category"
@@ -112,10 +97,8 @@ const CategoryListPage = ({
 
 CategoryListPage.propTypes = {
   categories: PropTypes.any,
-  createCategory: PropTypes.func,
   fetchCategories: PropTypes.func,
   setCategory: PropTypes.func,
-  updateCategory: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({
@@ -127,6 +110,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setCategory,
   fetchCategories,
-  createCategory,
-  updateCategory,
 })(CategoryListPage);

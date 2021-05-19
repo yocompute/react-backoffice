@@ -3,6 +3,7 @@ import {
   CREATE_QRCODE_SUCCESS,
   UPDATE_QRCODE_SUCCESS,
   SET_QRCODE,
+  SET_QRCODE_TAG,
 } from "./qrcode.actions";
 
 export const qrcodesReducer = (state = null, action) => {
@@ -25,5 +26,12 @@ export const qrcodeReducer = (state = null, action) => {
     return { ...action.qrcode };
   }
 
+  return state;
+};
+
+export const qrcodeTagReducer = (state = null, action) => {
+  if (action && action.type === SET_QRCODE_TAG) {
+    return action.tag;
+  }
   return state;
 };

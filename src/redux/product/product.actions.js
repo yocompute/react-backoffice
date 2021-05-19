@@ -19,8 +19,9 @@ export const FETCH_ADDITIONS_FAIL = "product/FETCH_ADDITIONS_FAIL";
 export const SET_ADDITIONS = "product/SET_ADDITIONS";
 
 // action creators
-export const fetchProducts = () => ({
+export const fetchProducts = (query) => ({
   type: FETCH_PRODUCTS,
+  query
 });
 
 export const fetchProductsSuccess = (products = []) => ({
@@ -70,8 +71,9 @@ export const setProduct = (product) => ({
 });
 
 // additions
-export const fetchAdditions = () => ({
+export const fetchAdditions = (query) => ({
   type: FETCH_ADDITIONS,
+  query
 });
 
 export const fetchAdditionsSuccess = (additions = []) => ({

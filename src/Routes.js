@@ -1,10 +1,14 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom';
 
+// import {cfg} from './config';
+// import {AppMode} from './const';
+
 import HomePage from './pages/HomePage';
 import VerificationCodePage from './pages/auth/VerificationCodePage';
 import CreditCardPage from './pages/payment/CreditCardPage';
 import PaymentListPage from './pages/payment/PaymentListPage';
+import PaymentFormPage from './pages/payment/PaymentFormPage';
 import LoginSelectPage from './pages/auth/LoginSelectPage';
 import LocalLoginPage from './pages/auth/LocalLoginPage';
 import LocalSignupPage from './pages/auth/LocalSignupPage';
@@ -15,12 +19,14 @@ import UserListPage from './pages/user/UserListPage';
 import userFormPage from './pages/user/userFormPage';
 import BrandListPage from './pages/brand/BrandListPage';
 import BrandFormPage from './pages/brand/BrandFormPage';
+import CategoryFormPage from './pages/category/CategoryFormPage';
 import CategoryListPage from './pages/category/CategoryListPage';
 import ProductListPage from './pages/product/ProductListPage';
 import ProductFormPage from './pages/product/ProductFormPage';
 import OrderListPage from './pages/order/OrderListPage';
 import OrderFormPage from './pages/order/OrderFormPage';
 import QrcodeListPage from './pages/qrcode/QrcodeListPage';
+import QrcodeFormPage from './pages/qrcode/QrcodeFormPage';
 import SpecListPage from './pages/spec/SpecListPage';
 import SpecFormPage from './pages/spec/SpecFormPage';
 
@@ -34,6 +40,7 @@ const Routes = () => {
             <Route path="/local-login" component={LocalLoginPage} />
             <Route path="/local-signup" component={LocalSignupPage} />
             <Route path="/verify-code" component={VerificationCodePage} />
+            <Route path="/payments/:id" component={WithAuthorize(PaymentFormPage, "/payments")} />
             <Route path="/payments" component={WithAuthorize(PaymentListPage, "/payments")} />
             <Route path="/roles/new" component={WithAuthorize(RoleFormPage, "/roles/new")} />
             <Route path="/roles/:id" component={WithAuthorize(RoleFormPage, "/roles/:id")} />
@@ -43,7 +50,9 @@ const Routes = () => {
             <Route path="/brands/new" component={WithAuthorize(BrandFormPage, "/brands/new")} />
             <Route path="/brands/:id" component={BrandFormPage} />
             <Route path="/brands" component={BrandListPage} />
+            <Route path="/categories/:id" component={CategoryFormPage} />
             <Route path="/categories" component={CategoryListPage} />
+            <Route path="/qrcodes/:id" component={QrcodeFormPage} />
             <Route path="/qrcodes" component={QrcodeListPage} />
             <Route path="/products/:id" component={ProductFormPage} />
             <Route path="/products" component={ProductListPage} />

@@ -10,9 +10,14 @@ export const CART_PAGE = 'page/cart';
 export const PAYMENT_PAGE = 'pay/payment';
 export const ORDER_PAGE = 'page/order';
 
+export const OrderStatus = {
+    NEW: 'N',
+    PAID: 'P'
+}
 
 export const PaymentStatus = {
-    NEW: 'N'
+    NEW: 'N',
+    PAID: 'P'
 }
 
 export const PaymentMethod = {
@@ -21,15 +26,13 @@ export const PaymentMethod = {
 }
 
 export const Role = {
-    "Super": "Super",
-    "Admin": "Admin",
-    "CustomerService": "Customer Service",
-    "Driver": "Driver"
+    Super: "Super",
+    Admin: "Admin",
+    CustomerService: "Customer Service",
+    Driver: "Driver"
 }
 
 export const Roles = ["Super", "Admin", "Customer Service", "Driver"];
-
-
 
 export const Path = {
     Home: '/',
@@ -51,11 +54,21 @@ export const Permissions = {
     [Path.Roles]: ["Super"],
     "/roles/new": ["Super"],
     "/roles/:id": ["Super"],
-    [Path.Payments]: ["Super"],
+    [Path.Payments]: ["Super", "Admin"],
     [Path.Orders]: ["Super", "Admin"],
     [Path.Categories]: ["Super", "Admin"],
     [Path.Products]: ["Super", "Admin"],
     [Path.Qrcodes]: ["Super", "Admin"],
     [Path.Specs]: ["Super", "Admin"],
     [Path.Users]: ["Super"],
+}
+
+export const AppMode = {
+    DEV: 'dev',
+    PROD: 'prod'
+}
+
+export const QrcodeTag = {
+    Dine: 'dine',
+    Takeaway: 'takeaway'
 }

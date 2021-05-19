@@ -18,7 +18,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 // import ApiProductService from "services/api/ApiProductService";
 
 // item --- {productId, productName, quantity}
-const OrderItem = ({
+const OrderItemEditor = ({
   products,
   item,
   onChangeProduct,
@@ -51,15 +51,6 @@ const OrderItem = ({
   return (
     <TableRow>
       <TableCell>
-        {/* <ProductSearch 
-          label={t("Product")}
-          placeholder={t("Search Product Name")}
-          name={model.productName}
-          id={model.productId}
-          onSelect={handleSelectProduct}
-        /> */}
-
-        {/* <GridItem xs={12} lg={6}> */}
           <Box pb={2}>
             <FormControl>
               <InputLabel id="product-label">{t("Product")}</InputLabel>
@@ -96,85 +87,6 @@ const OrderItem = ({
         </IconButton>
       </TableCell>
     </TableRow>
-  );
-};
-
-const OrderItemEditor = ({ items, products, onUpdateItemMap }) => {
-//   const [itemMap, setItemMap] = useState({});
-//   const [products, setProducts] = useState([]);
-
-//   useEffect(() => {
-//     ApiProductService.getProducts({ merchantId, status: "A" }).then(
-//       ({ data }) => {
-//         setProducts(data.data);
-//       }
-//     );
-//   }, [merchantId]);
-
-  const handelAddOrderItem = () => {
-    // const itMap = { ...itemMap };
-    // itMap["new"] = { productId: "new", productName: "", quantity: 0 };
-    // setItemMap(itMap);
-    // fix me
-    // if (merchantId) {
-    //   ApiProductService.getProducts({ merchantId, status: "A" }).then(
-    //     ({ data }) => {
-    //       setProducts(data.data);
-    //     }
-    //   );
-    // }
-  };
-
-  // item -- {productId, productName, quantity}
-  const handleDelete = item => {
-    // const itMap = { ...itemMap };
-    // delete itMap[item.productId];
-    // setItemMap(itMap);
-    // onUpdateItemMap(itMap);
-  };
-
-  // product - {_id, name}
-  const handleChangeProduct = product => {
-    // const itMap = { ...itemMap };
-    // itMap[product._id] = {
-    //   productId: product._id,
-    //   productName: product.name,
-    //   price: product.price,
-    //   cost: product.cost,
-    //   taxRate: product.taxRate,
-    //   quantity: 1
-    // };
-    // delete itMap["new"];
-    // setItemMap(itMap);
-    // onUpdateItemMap(itMap);
-  };
-
-  const handleChangeQuantity = (productId, quantity) => {
-    // const itMap = { ...itemMap };
-    // itMap[productId] = { ...itMap[productId], quantity };
-    // setItemMap(itMap);
-    // onUpdateItemMap(itMap);
-  };
-
-  return (
-    <div>
-      <IconButton onClick={() => handelAddOrderItem()}>
-        <AddCircleOutlineIcon />
-      </IconButton>
-      {
-        items && items.length > 0 &&
-        items.map(it => (
-          <div key={it.product._id}>
-            <OrderItem
-              products={products}
-              item={it}
-              onChangeProduct={handleChangeProduct}
-              onChangeQuantity={handleChangeQuantity}
-              onDelete={handleDelete}
-            />
-          </div>
-        ))}
-    </div>
   );
 };
 

@@ -75,10 +75,6 @@ function SpecFormPage({
     setOptions(list);
   }
 
-  useEffect(() => {
-    fetchBrands();
-  }, [fetchBrands]);
-
   return (
     <div
       onClose={handleClose}

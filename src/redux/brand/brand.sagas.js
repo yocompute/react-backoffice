@@ -33,8 +33,8 @@ export function* createBrand(action) {
     const {data, error, status} = yield call(BrandApi.create, action.data);
     yield put(createBrandSuccess(data));
     if(httpSuccess(status)){
-      const {data, error, status} = yield call(BrandApi.get, null);
-      yield put(fetchBrandsSuccess(data));
+      // const {data, error, status} = yield call(BrandApi.get, null);
+      // yield put(fetchBrandsSuccess(data));
     }else{
       yield put(setNotification(error, status));
     }
@@ -51,8 +51,8 @@ export function* updateBrand(action) {
     const {data, error, status} = yield call(BrandApi.update, action.data, action.id);
     yield put(updateBrandSuccess(data));
     if(httpSuccess(status)){
-      const {data, error, status} = yield call(BrandApi.get, null);
-      yield put(fetchBrandsSuccess(data));
+      // const {data, error, status} = yield call(BrandApi.get, null);
+      // yield put(fetchBrandsSuccess(data));
     }else{
       yield put(setNotification(error, status));
     }

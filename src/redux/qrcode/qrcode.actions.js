@@ -13,10 +13,12 @@ export const UPDATE_QRCODE_FAIL = 'qrcode/UPDATE_QRCODE_FAIL';
 
 export const SET_QRCODE = 'qrcode/SET_QRCODE';
 
+export const SET_QRCODE_TAG = 'qrcode/SET_QRCODE_TAG';
 
 // action creators
-export const fetchQrcodes = () => ({
-    type: FETCH_QRCODES
+export const fetchQrcodes = (query) => ({
+    type: FETCH_QRCODES,
+    query
 })
 
 export const fetchQrcodesSuccess = (qrcodes = []) => ({
@@ -64,4 +66,9 @@ export const updateQrcodeFail = error => ({
 export const setQrcode = (qrcode) => ({
     type: SET_QRCODE,
     qrcode
+})
+
+export const setQrcodeTag = (tag) => ({
+    type: SET_QRCODE_TAG,
+    tag
 })
