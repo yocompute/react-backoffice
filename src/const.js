@@ -11,18 +11,20 @@ export const PAYMENT_PAGE = 'pay/payment';
 export const ORDER_PAGE = 'page/order';
 
 export const OrderStatus = {
-    NEW: 'N',
-    PAID: 'P'
+    New: 'N',
+    Paid: 'P',
+    Cancelled: 'C' 
 }
 
 export const PaymentStatus = {
-    NEW: 'N',
-    PAID: 'P'
+    New: 'N',
+    Paid: 'P',
+    Cancelled: 'C'
 }
 
 export const PaymentMethod = {
-    CREDIT_CARD: 'CC',
-    WECHAT: 'W'
+    CreditCard: 'CC',
+    Wechat: 'W'
 }
 
 export const Role = {
@@ -30,6 +32,12 @@ export const Role = {
     Admin: "Admin",
     CustomerService: "Customer Service",
     Driver: "Driver"
+}
+
+export const ProductType = {
+    Combo: "C",
+    Single: "S",
+    Addition: "A"
 }
 
 export const Roles = ["Super", "Admin", "Customer Service", "Driver"];
